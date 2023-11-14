@@ -43,13 +43,13 @@ In Day-1 we learn about how to create a dotnet project, create classes, the body
     // Contructor
     public Cat(someparameter)
     {
-        Your code to be auto executed first when u create an object
+        // Your code to be auto executed first when u create an object
     }
 
     // Void Method
     public void Meow() 
     {
-        Your code to be executed when it is called
+        // Your code to be executed when it is called
     }
 
     // Return Method
