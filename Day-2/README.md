@@ -85,7 +85,7 @@ We Explore more about how to create a sln and a project folder also about OOP li
    }
    ```
 
-> [!NOTE]
+> [!IMPORTANT]
 > namespace name cannot be the same as class name
 
 4. How to use variable in string (idk how to say lol, but like string interpolation)
