@@ -29,6 +29,8 @@ class Program
         Cat tompel = new Cat();
         tompel.colour = "grey";
         Console.WriteLine(tompel.colour);
+
+        Pokari p = new Pokari();
     }
 }
 
