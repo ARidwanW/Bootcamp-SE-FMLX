@@ -94,4 +94,58 @@ In this extend version, there're 2 folder: Day 2 and Day 2v2. U can read what we
 
 > [!NOTE]
 > use `PascalCase` for naming class & methods. also use `camelCase` for naming variable
+
+4. Whattt?? Object that have another object inside it, yeah it's `Composition`
+    * basically if u want to create example `Car Project`, U have to spesify what `Composition` or `Component` that a car has.
+    * so it's like this:
+
+        - Car Project --> Solution
+          - Program.cs --> entry point
+          - Car.cs --> blueprint of a car that have constructor parameter of (Engine, Exhaust, Wiper, Tire)
+          - Engine.cs --> blueprint of engine that will be put in a car
+          - Exhaust.cs --> same like another parameter for a car
+          - Wiper.cs
+          - Tire.cs
+
+    * in car parameter like Engine u can implement what u want
+    * in Car.cs u can code like this:
+
+      ```
+      namespace Car_Project;
+
+      public class Car
+      {
+        public Engine engine;
+        public Exhaust exhaust;
+        public Wiper wiper;
+        public Tire tire;
+
+        public Car(Engine en, Exhaust ex, Wiper wp, Tire tr)
+        {
+          engine = en;
+          exhaust = ex;
+          wiper = wp;
+          tire = tr;
+        }
+      }
+      ```
+
+    * in Program.cs u can code like this:
+
+      ```
+      using Car_Project;
+
+      class Program
+      {
+        static void Main()
+        {
+          Engine engine = new Engine();
+          Exhaust exhaust = new Exhaust();
+          Wiper wiper = new Wiper();
+          Tire tire = new Tire();
+
+          Car honda = new Car(engine, exhaust, wiper, tire);
+        }
+      }
+      ```
    
