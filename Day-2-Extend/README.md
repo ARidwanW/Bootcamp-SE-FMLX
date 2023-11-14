@@ -8,7 +8,5 @@ In this extend version, we learn params, overloading, contructor, and etc
 </picture>
 
 ## In Detail
-1. Parameter
-   * if u want to infinite params u can use
-   * > public Addition( params int[] input)
+
    
