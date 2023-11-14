@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Day-1", "Day-1\Day-1.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day-2", "Day-2\Day-2.csproj", "{C59E6B35-357B-4FF3-823D-3ABE9E99EB81}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Week-1", "Week-1", "{5F4B7BEF-036A-4BB3-9235-CEA9587F7ABD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,5 +29,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {353819D9-AA91-457A-BE78-66031E29F0C8}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C59E6B35-357B-4FF3-823D-3ABE9E99EB81} = {5F4B7BEF-036A-4BB3-9235-CEA9587F7ABD}
+		{F5D92578-E1BE-4C9B-AF78-7970E6022E6F} = {5F4B7BEF-036A-4BB3-9235-CEA9587F7ABD}
 	EndGlobalSection
 EndGlobal
