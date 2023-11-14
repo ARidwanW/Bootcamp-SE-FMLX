@@ -1,5 +1,5 @@
 # What is Day 2 - Extend
-In this extend version, there're 2 folder: Day 2 and Day 2v2. U can read what we learn in Day 2 in [this readme](..\Day-2\README.md)
+In this extend version, there're 2 folder: Day 2 and Day 2v2. U can read what we learn in Day 2 in [this readme](https://github.com/ARidwanW/Bootcamp-SE-FMLX/tree/main/Day-2/README.md)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/25423296/163456776-7f95b81a-f1ed-45f7-b7ab-8fa810d529fa.png">
