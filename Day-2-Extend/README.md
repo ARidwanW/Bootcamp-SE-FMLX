@@ -24,7 +24,7 @@ In this extend version, there're 2 folder: Day 2 and Day 2v2. U can read what we
 2. `Overload` (not Overlord hehe)
     *  you can go to In Detail Parameter at Day 2 README.md [here](https://github.com/ARidwanW/Bootcamp-SE-FMLX/tree/main/Day-2#:~:text=in%20sln%20file.-,Parameter%20Stuff,-example%20you%20have)
 
-3. Whatt??? Object that have another Object inside it, yeah its `Composition`
+3. Many Option to create constructor parameter and create object
     * when u create a class with empty construtor like
 
       ```
