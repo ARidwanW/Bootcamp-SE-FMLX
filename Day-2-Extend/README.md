@@ -53,35 +53,34 @@ In this extend version, there're 2 folder: Day 2 and Day 2v2. U can read what we
         };
       ```
 
-      * if there's overloading like
+    * if there's overloading like
 
-        ```
-          public Car(string brand, int tire)
-          {
-            this.brand = brand;
-            tire = totalTire;
-          }
-        ```
+      ```
+        public Car(string brand, int tire)
+        {
+          this.brand = brand;
+          tire = totalTire;
+        }
+      ```
 
-      * u can create object like:
+    * u can create object like:
 
-        ```
-          // create with ordered arguments
-          Car toyota = new Car("Toyota", 4);
+      ```
+        // create with ordered arguments
+        Car toyota = new Car("Toyota", 4);
+        // create with unordered arguments
+        Car toyota = new Car(tire : 4, brand : "Toyota);
+      ```
 
-          // create with unordered arguments
-          Car toyota = new Car(tire : 4, brand : "Toyota);
-        ```
+    * and also u can use default parameter
 
-      * and also u can use default parameter
-
-        ```
-          public Car(string brand = "no brand", string engine = "idk")
-          {
-            this.brand = brand;
-            engineName = engine;
-          }
-        ```
+      ```
+        public Car(string brand = "no brand", string engine = "idk")
+        {
+          this.brand = brand;
+          engineName = engine;
+        }
+      ```
 
 > [!IMPORTANT]
 > if parameter name same with variable name, recommended to use `this.variableName`
