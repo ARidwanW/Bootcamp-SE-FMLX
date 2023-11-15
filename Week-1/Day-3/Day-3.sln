@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E_Inheritance_Parent=Child"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F_ConstAndReadOnly", "F_ConstAndReadOnly\F_ConstAndReadOnly.csproj", "{618C3DA2-42AD-433A-839C-1B3473DD1628}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "G_EncapsulationTutorial", "G_EncapsulationTutorial\G_EncapsulationTutorial.csproj", "{75E9F0F8-50B5-455E-8E5C-30C4D8783D28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +50,9 @@ Global
 		{618C3DA2-42AD-433A-839C-1B3473DD1628}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{618C3DA2-42AD-433A-839C-1B3473DD1628}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{618C3DA2-42AD-433A-839C-1B3473DD1628}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75E9F0F8-50B5-455E-8E5C-30C4D8783D28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75E9F0F8-50B5-455E-8E5C-30C4D8783D28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75E9F0F8-50B5-455E-8E5C-30C4D8783D28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75E9F0F8-50B5-455E-8E5C-30C4D8783D28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
