@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 /* 
     Encapsulation or Access Modifier
     * in Formulatrix we always private the variable
@@ -65,9 +65,10 @@
     // public and protected Access Modifier will be inherit to this class
     public int GetWiper()
     {
+        Console.WriteLine();
         return wiper;
     }
-   /*  public string GetBrand()    // this will error cause brand is not inherit
+   /*  public string GetBrand()    // !this will error cause brand is not inherit
     {
         return _brand;
     } */
