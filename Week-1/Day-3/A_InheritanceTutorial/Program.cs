@@ -1,7 +1,4 @@
-﻿using Internal;
-using System;
-// See https://aka.ms/new-console-template for more information
-class Program
+﻿class Program
 {
     static void Main()
     {
@@ -13,5 +10,31 @@ class Program
 
         Console.WriteLine(cat.colour);
         Console.WriteLine(cat.age);
+    }
+}
+
+class Animal
+{
+    public string colour;
+    public int age;
+    public Animal() // Constructor
+    {
+        Console.WriteLine("Animal Created");
+    }
+    public void Eat()
+    {
+        Console.WriteLine("Animal Eat");
+    }
+}
+
+class Cat : Animal
+{
+    public Cat()
+    {
+        Console.WriteLine("Cat Created");
+    }
+    public void Meow()
+    {
+        Console.WriteLine("Meow...");
     }
 }
