@@ -35,7 +35,7 @@ class Child : Parent
 		this.c = c;
 		this.d = d;
 	}
-    public Child(int a, int b)
+    public Child(int a, int b) : base(a, b)
     {
 
     }
