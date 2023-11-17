@@ -15,6 +15,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E_StringBuilder", "E_String
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F_Example_StackOverflowException", "F_Example_StackOverflowException\F_Example_StackOverflowException.csproj", "{136EEBC3-7D55-4B27-935E-32C7BFD96377}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "G_UpcastDowncastExplicitImplicit", "G_UpcastDowncastExplicitImplicit\G_UpcastDowncastExplicitImplicit.csproj", "{685CD93A-7A0C-4ACD-A1B3-B9A730A07F42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "H_ChildParentChild", "H_ChildParentChild\H_ChildParentChild.csproj", "{EBCF031E-43A7-4C21-A23B-53064E5E8BA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "I_ExampleOfGameController", "I_ExampleOfGameController\I_ExampleOfGameController.csproj", "{CF02E2FE-13CD-44A3-97D5-A18E81A49892}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "J_ExampleOfGameController2", "J_ExampleOfGameController2\J_ExampleOfGameController2.csproj", "{52708B26-D5E0-4559-9DD6-CCBCE6E6DADA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +56,21 @@ Global
 		{136EEBC3-7D55-4B27-935E-32C7BFD96377}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{136EEBC3-7D55-4B27-935E-32C7BFD96377}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{136EEBC3-7D55-4B27-935E-32C7BFD96377}.Release|Any CPU.Build.0 = Release|Any CPU
+		{685CD93A-7A0C-4ACD-A1B3-B9A730A07F42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{685CD93A-7A0C-4ACD-A1B3-B9A730A07F42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{685CD93A-7A0C-4ACD-A1B3-B9A730A07F42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{685CD93A-7A0C-4ACD-A1B3-B9A730A07F42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBCF031E-43A7-4C21-A23B-53064E5E8BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBCF031E-43A7-4C21-A23B-53064E5E8BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBCF031E-43A7-4C21-A23B-53064E5E8BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBCF031E-43A7-4C21-A23B-53064E5E8BA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF02E2FE-13CD-44A3-97D5-A18E81A49892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF02E2FE-13CD-44A3-97D5-A18E81A49892}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF02E2FE-13CD-44A3-97D5-A18E81A49892}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF02E2FE-13CD-44A3-97D5-A18E81A49892}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52708B26-D5E0-4559-9DD6-CCBCE6E6DADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52708B26-D5E0-4559-9DD6-CCBCE6E6DADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52708B26-D5E0-4559-9DD6-CCBCE6E6DADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52708B26-D5E0-4559-9DD6-CCBCE6E6DADA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
