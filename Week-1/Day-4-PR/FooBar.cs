@@ -41,7 +41,7 @@ public class FooBar
         }
 
         // * add ", " to the msg if the iteration is not the end
-        if (iteration < end)
+        if (iteration != end)
         {
             msg += ", ";
         }
