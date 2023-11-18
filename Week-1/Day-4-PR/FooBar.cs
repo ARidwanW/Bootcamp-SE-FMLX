@@ -63,7 +63,7 @@ public class FooBar
 
     public string Next(int end)
     {
-        if (_startNext < end)
+        if (_startNext <= end)
         {
             string msg = FooBarPrint(_startNext, end);
             
