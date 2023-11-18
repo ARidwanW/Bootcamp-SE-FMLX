@@ -63,9 +63,14 @@ public class FooBar
 
     public string Next(int end)
     {
-        string msg = FooBarPrint(_startNext, end);
+        if (_startNext < end)
+        {
+            string msg = FooBarPrint(_startNext, end);
+            
+            return msg + Next(_startNext + 1, end);
+        }
 
-        return msg + Next(_startNext + 1, end);
+        return "";
     }
 
 }
