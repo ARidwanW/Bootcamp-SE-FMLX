@@ -1,35 +1,14 @@
-﻿class Program
+﻿using Day_4_PR;
+class Program
 {
     static void Main()
     {
-        Console.Write("Input Number: ");
-        int inputUser = Convert.ToInt32(Console.ReadLine());
+        Console.Write("Please input a number: ");
+        int userInput = Convert.ToInt32(Console.ReadLine());
+        FooBar foobar = new FooBar();
 
-        for (int i = 0; i <= inputUser; i++)
-        {
-            if (i == 0)
-            {
-                Console.Write(i + " ");
-            }
-            else if (i % 3 == 0)
-            {
-                if (i % 5 == 0)
-                {
-                    Console.Write("foobar ");
-                }
-                else
-                {
-                    Console.Write("foo ");
-                }
-            }
-            else if (i % 5 == 0)
-            {
-                Console.Write("bar ");
-            }
-            else
-            {
-                Console.Write(i + " ");
-            }
-        }
+        string msg = foobar.Next(userInput);
+        Console.WriteLine(msg);
+
     }
 }
