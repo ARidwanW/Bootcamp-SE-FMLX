@@ -1,0 +1,4 @@
+- Using StringBuilder
+- CRUD, using dictionary
+- parameter for CRUD can manual add or using dictionary
+- flexsible change is safety?
