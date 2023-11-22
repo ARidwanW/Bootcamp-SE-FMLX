@@ -1,20 +1,24 @@
-using System.ComponentModel;
 using System.Numerics;
 using System.Text;
 
 namespace Day_4_FooBarV2;
+
+/* 
+    This Foobar class can do:
+    1. Add condition to number iteration (e.g. 3 as "foo", 5 as "bar")
+    2. Iterate left or right (default: from 0)
+    3. Add iterator condition (default: +1 or -1)
+    4. Changed condition implement IConvertible
+    5. Changing condition implement INumber
+ */
 
 public class FooBarV2<TKey, TValue>
         where TKey : INumber<TKey>
         where TValue : IConvertible
 {
     private int _startNext = 0;
-    private Dictionary<TKey, TValue> _conditions = new Dictionary<TKey, TValue>();
-
-    public FooBarV2(TKey key, TValue value)
-    {
-        AddCondition(key, value);
-    }
+    private Dictionary<TKey, TValue> _conditions;
+    private List<TKey> _iterator;
 
     public bool AddCondition(TKey key, TValue value)
     {
