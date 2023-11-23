@@ -1,4 +1,4 @@
-﻿using FooBarLib;
+﻿// using FooBarLib;
 
 
 class Program
@@ -23,21 +23,21 @@ class Program
 
 
         // * ###### Foobar v2
-        FooBarV2<int, string> foobarv2 = new FooBarV2<int, string>();
+        // FooBarV2<int, string> foobarv2 = new FooBarV2<int, string>();
 
         Dictionary<int, string> condition = new Dictionary<int, string>() {
             {3, "foo"},
             {5, "bar"}
         };
 
-        Console.WriteLine( foobarv2.AddCondition(3, "foo"));    // ?? output: True
-        foobarv2.AddCondition(5, "bar");
-        foobarv2.AddCondition(7, "roo");
-        foobarv2.UpdateCondition(5, "roo");
-        Console.WriteLine(foobarv2.AddCondition(7, "kiwkiw"));  // ?? output: False
-        foobarv2.DeleteCondition(5);
+        // Console.WriteLine( foobarv2.AddCondition(3, "foo"));    // ?? output: True
+        // foobarv2.AddCondition(5, "bar");
+        // foobarv2.AddCondition(7, "roo");
+        // foobarv2.UpdateCondition(5, "roo");
+        // Console.WriteLine(foobarv2.AddCondition(7, "kiwkiw"));  // ?? output: False
+        // foobarv2.DeleteCondition(5);
         
-        Console.WriteLine(foobarv2.GetCondition());             // ?? output 3 => foo\n 7 => roo
+        // Console.WriteLine(foobarv2.GetCondition());             // ?? output 3 => foo\n 7 => roo
 
     }
 }
