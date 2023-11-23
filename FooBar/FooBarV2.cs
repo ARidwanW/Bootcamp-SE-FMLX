@@ -1,4 +1,5 @@
 using System.Collections.Specialized;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace FooBarLib;
@@ -51,7 +52,7 @@ public class FooBarV2<TValue>
     //             msg = _secondString;
     //         }
     //     }
-        
+
     //     if (iteration != end)
     //     {
     //         msg += ", ";
@@ -70,7 +71,7 @@ public class FooBarV2<TValue>
     public bool AddCondition(Dictionary<int, TValue> dict)
     {
         bool keyStatus = false;
-        foreach(var item in dict)
+        foreach (var item in dict)
         {
             keyStatus = _conditions.TryAdd(item.Key, item.Value);
         }
@@ -86,7 +87,7 @@ public class FooBarV2<TValue>
 
         foreach (var iterator in iterators)
         {
-            if(iterator == 0)
+            if (iterator == 0)
             {
                 return false;
             }
@@ -104,22 +105,62 @@ public class FooBarV2<TValue>
             return msg;
         }
 
-        foreach (var condition in _conditions)
+        if (_conditions != null)
         {
-            msg.AppendLine($"{condition.Key} => {condition.Value}");
+            foreach (var condition in _conditions)
+            {
+                msg.AppendLine($"{condition.Key} => {condition.Value}");
+            }
+            msg.Append("Iterator is ");
+            foreach (var iterator in _iterator) 
+            {
+                msg.Append($"{iterator} ");
+            }
+        }
+        else
+        {
+            foreach (var condition in _defaultConditions)
+            {
+                msg.AppendLine($"{condition.Key} => {condition.Value}");
+            }
         }
 
         return msg;
     }
 
-    public void UpdateCondition(int key, TValue value)
+    public bool UpdateCondition(int key, TValue value)
     {
+        if(!_conditions.ContainsKey(key))
+        {
+            return false;
+        }
         _conditions[key] = value;
+        return true;
     }
 
-    public void DeleteCondition(int key)
+    public bool UpdateOperator(int value, int changeValue)
     {
+        if(!_iterator.Contains(value))
+        {
+            return false;
+        }
+        _iterator[value] = changeValue;
+        return true;
+    }
+
+    public bool DeleteCondition(int key)
+    {
+        if(!_conditions.ContainsKey(key))
+        {
+            return false;
+        }
         _conditions.Remove(key);
+        return true;
+    }
+
+    public void DeleteOperator(int value)
+    {
+
     }
 
 
