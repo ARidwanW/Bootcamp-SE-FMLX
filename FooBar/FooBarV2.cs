@@ -18,48 +18,65 @@ public class FooBarV2<TValue>
                 where TValue : IConvertible
 {
     private int _startNext = 0;
-    private Dictionary<int, TValue> _conditions = new Dictionary<int, TValue>();
-    private List<int> _iterator = new List<int>();
-    private Dictionary<int, string> _defaultConditions;
+    private int _indexIterator = 0;
+    private SortedDictionary<int, TValue> _conditions;
+    private List<int> _iterator;
+    private SortedDictionary<int, string> _defaultConditions;
 
     public FooBarV2()
     {
-        _defaultConditions = new Dictionary<int, string>();
+        _conditions = new SortedDictionary<int, TValue>();
+        _iterator = new List<int>();
+        _defaultConditions = new SortedDictionary<int, string>();
         _defaultConditions.Add(3, "foo");
         _defaultConditions.Add(5, "bar");
         _iterator.Add(1);
     }
 
-    // private StringBuilder FooBarPrint(int iteration, int end)
-    // {
-    //     StringBuilder msg = new StringBuilder();
-    //     msg.Append(iteration.ToString());
+    private StringBuilder FooBarPrint()
+    {
+        StringBuilder msg = new StringBuilder();
+        return msg;
+    }
 
-    //     if(_conditions == null)
+    public StringBuilder Next(int start, int end)
+    {
+        StringBuilder msg = new StringBuilder();
+        if (_conditions.Count > 0)
+        {
+            if (start == 0)
+            {
+                msg.Append(start);
+            }
 
-    //     if (iteration != 0)
-    //     {
-    //         if (iteration % _firstNumber == 0 && iteration % _secondNumber == 0)
-    //         {
-    //             msg = _firstString + _secondString;
-    //         }
-    //         else if (iteration % _firstNumber == 0)
-    //         {
-    //             msg = _firstString;
-    //         }
-    //         else if (iteration % _secondNumber == 0)
-    //         {
-    //             msg = _secondString;
-    //         }
-    //     }
+            if (start <= end)
+            {
+                if (start != end)
+                {
+                    foreach (var condition in _conditions)
+                    {
+                        if (start == condition.Key)
+                        {
+                            msg.Append(condition.Value);
+                        }
+                        else
+                        {
+                            msg.Append(start);
+                        }
+                    }
+                    msg.Append(Next(start + _iterator[_indexIterator], end));
+                    if (_indexIterator >= _iterator.Count)
+                    {
+                        _indexIterator = 0;
+                    }
+                    _indexIterator++;
+                }
+            }
+            return msg;
+        }
 
-    //     if (iteration != end)
-    //     {
-    //         msg += ", ";
-    //     }
-
-    //     return msg;
-    // }
+        return msg;
+    }
 
 
     public bool AddCondition(int key, TValue value)
@@ -100,21 +117,19 @@ public class FooBarV2<TValue>
     public StringBuilder GetCondition()
     {
         StringBuilder msg = new StringBuilder();
+
         if (_conditions == null)
         {
             return msg;
         }
 
-        if (_conditions != null)
+        // * if there's custom condition we use the custom
+        // * if not we use the default condition
+        if (_conditions.Count > 0)
         {
             foreach (var condition in _conditions)
             {
                 msg.AppendLine($"{condition.Key} => {condition.Value}");
-            }
-            msg.Append("Iterator is ");
-            foreach (var iterator in _iterator) 
-            {
-                msg.Append($"{iterator} ");
             }
         }
         else
@@ -125,12 +140,18 @@ public class FooBarV2<TValue>
             }
         }
 
+        msg.Append("Iterator is ");
+        foreach (var iterator in _iterator)
+        {
+            msg.Append($"{iterator} ");
+        }
+
         return msg;
     }
 
-    public bool UpdateCondition(int key, TValue value)
+    public bool UpdateCondition(int key, TValue value) //! overloading nanti
     {
-        if(!_conditions.ContainsKey(key))
+        if (!_conditions.ContainsKey(key))
         {
             return false;
         }
@@ -138,19 +159,19 @@ public class FooBarV2<TValue>
         return true;
     }
 
-    public bool UpdateOperator(int value, int changeValue)
+    public bool UpdateIterator(int index, int changeValue)
     {
-        if(!_iterator.Contains(value))
+        if ((index + 1) > _iterator.Count)
         {
             return false;
         }
-        _iterator[value] = changeValue;
+        _iterator[index] = changeValue;
         return true;
     }
 
-    public bool DeleteCondition(int key)
+    public bool RemoveCondition(int key)
     {
-        if(!_conditions.ContainsKey(key))
+        if (!_conditions.ContainsKey(key))
         {
             return false;
         }
@@ -158,9 +179,14 @@ public class FooBarV2<TValue>
         return true;
     }
 
-    public void DeleteOperator(int value)
+    public bool RemoveIterator(int index)
     {
-
+        if ((index + 1) > _iterator.Count)
+        {
+            return false;
+        }
+        _iterator.RemoveAt(index);
+        return true;
     }
 
 
