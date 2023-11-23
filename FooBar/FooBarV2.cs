@@ -1,3 +1,4 @@
+using System.Collections.Specialized;
 using System.Text;
 
 namespace FooBarLib;
@@ -25,6 +26,7 @@ public class FooBarV2<TValue>
         _defaultConditions = new Dictionary<int, string>();
         _defaultConditions.Add(3, "foo");
         _defaultConditions.Add(5, "bar");
+        _iterator.Add(1);
     }
 
     // private StringBuilder FooBarPrint(int iteration, int end)
@@ -62,6 +64,16 @@ public class FooBarV2<TValue>
     public bool AddCondition(int key, TValue value)
     {
         bool keyStatus = _conditions.TryAdd(key, value);
+        return keyStatus;
+    }
+
+    public bool AddCondition(Dictionary<int, TValue> dict)
+    {
+        bool keyStatus = false;
+        foreach(var item in dict)
+        {
+            keyStatus = _conditions.TryAdd(item.Key, item.Value);
+        }
         return keyStatus;
     }
 
