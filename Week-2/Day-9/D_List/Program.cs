@@ -21,6 +21,8 @@ class Program
 			new Player(2, "Yusuf"),
 			new Player(3, "tanto")
 		};
+		Console.WriteLine(players[0]);
+		//1, Kinara
 	}
 }
 class Player 
@@ -32,4 +34,8 @@ class Player
 		Id = id;
 		Name = name;	
 	}
+    public override string ToString()
+    {
+		return $"{Id}, {Name}";
+    }
 }
