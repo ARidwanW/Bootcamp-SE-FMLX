@@ -38,18 +38,6 @@ public class FooBarV2<TValue>
         StringBuilder stringBuilder = new StringBuilder();
         if (_conditions.Count > 0)
         {
-            // if (start <= end)
-            // {
-            //     stringBuilder.Append(CheckNumber(start, end));
-            //     stringBuilder.Append(Next(start + _iterator[_indexIterator], end));
-
-            //     if (_indexIterator >= _iterator.Count)
-            //     {
-            //         _indexIterator = 0;
-            //     }
-            //     _indexIterator++;
-            // }
-            // return stringBuilder.ToString();
             if (start <= end)
             {
                 stringBuilder.Append(NextRight(start, end, false));
@@ -110,7 +98,7 @@ public class FooBarV2<TValue>
                 }
                 _indexIterator++;
 
-                stringBuilder.Append(NextRight(start - _iterator[_indexIterator], end, defaultCondition));
+                stringBuilder.Append(NextLeft(start - _iterator[_indexIterator], end, defaultCondition));
             }
         }
         return stringBuilder.ToString();
@@ -150,7 +138,6 @@ public class FooBarV2<TValue>
             }
         }
 
-        //! bug here
         if (onCondition < 1)
         {
             stringBuilder.Append(iteration);
