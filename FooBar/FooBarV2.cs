@@ -36,6 +36,8 @@ public class FooBarV2<TValue>
     public string Next(int start, int end)
     {
         StringBuilder stringBuilder = new StringBuilder();
+
+        // * Using custom condition if there's a custom condition
         if (_conditions.Count > 0)
         {
             if (start <= end)
@@ -60,6 +62,11 @@ public class FooBarV2<TValue>
             }
         }
         return stringBuilder.ToString();
+    }
+
+    public string Next(int end)
+    {
+        return Next(_startNext, end);
     }
 
     private string NextRight(int start, int end, bool defaultCondition)
@@ -221,7 +228,7 @@ public class FooBarV2<TValue>
         return msg.ToString();
     }
 
-    public bool UpdateCondition(int key, TValue value) //! overloading nanti
+    public bool UpdateCondition(int key, TValue value) //! bisa overloading
     {
         if (!_conditions.ContainsKey(key))
         {
@@ -231,7 +238,7 @@ public class FooBarV2<TValue>
         return true;
     }
 
-    public bool UpdateIterator(int index, int changeValue)
+    public bool UpdateIterator(int index, int changeValue) //! bisa overloading
     {
         if ((index + 1) > _iterator.Count)
         {
@@ -241,7 +248,7 @@ public class FooBarV2<TValue>
         return true;
     }
 
-    public bool RemoveCondition(int key)
+    public bool RemoveCondition(int key)    //! bisa overloading
     {
         if (!_conditions.ContainsKey(key))
         {
@@ -251,7 +258,7 @@ public class FooBarV2<TValue>
         return true;
     }
 
-    public bool RemoveIterator(int index)
+    public bool RemoveIterator(int index)   //! bisa overloading
     {
         if ((index + 1) > _iterator.Count)
         {
