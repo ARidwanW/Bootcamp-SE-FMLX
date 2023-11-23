@@ -1,5 +1,3 @@
-using System.Collections.Specialized;
-using System.Reflection.Metadata;
 using System.Text;
 
 namespace FooBarLib;
@@ -14,14 +12,24 @@ namespace FooBarLib;
     6. Iterator must have the same type of changing condition
  */
 
+ /* 
+    Some Disadvantage:
+    1. Changed condition is typesafety (not yet test)
+    2. Remove iterators 1by1
+    3. Can remove default iterator
+    4. Limited Update method parameter
+
+ */
+
 public class FooBarV2<TValue>
                 where TValue : IConvertible
 {
     private int _startNext = 0;
     private int _indexIterator = -1;
+    private SortedDictionary<int, string> _defaultConditions;
     private SortedDictionary<int, TValue> _conditions;
     private List<int> _iterator;
-    private SortedDictionary<int, string> _defaultConditions;
+
 
     public FooBarV2()
     {
@@ -33,6 +41,8 @@ public class FooBarV2<TValue>
         _iterator.Add(1);
     }
 
+
+    // * Main method
     public string Next(int start, int end)
     {
         StringBuilder stringBuilder = new StringBuilder();
@@ -50,7 +60,8 @@ public class FooBarV2<TValue>
                 stringBuilder.Append(NextLeft(start, end, false));
             }
         }
-        else{
+        else
+        {
             if (start <= end)
             {
                 stringBuilder.Append(NextRight(start, end, true));
@@ -64,11 +75,15 @@ public class FooBarV2<TValue>
         return stringBuilder.ToString();
     }
 
+
+    // * Overloading default start parameter
     public string Next(int end)
     {
         return Next(_startNext, end);
     }
 
+
+    // * Iteration to Right
     private string NextRight(int start, int end, bool defaultCondition)
     {
         StringBuilder stringBuilder = new StringBuilder();
@@ -90,6 +105,8 @@ public class FooBarV2<TValue>
         return stringBuilder.ToString();
     }
 
+
+    // * Iteration to Left
     private string NextLeft(int start, int end, bool defaultCondition)
     {
         StringBuilder stringBuilder = new StringBuilder();
@@ -111,6 +128,8 @@ public class FooBarV2<TValue>
         return stringBuilder.ToString();
     }
 
+
+    // * Check Condition
     private string CheckNumber(int iteration, int end, bool defaultCondition)
     {
         StringBuilder stringBuilder = new StringBuilder();
@@ -159,12 +178,15 @@ public class FooBarV2<TValue>
     }
 
 
+    // * Add custom condition will replace the default condition
     public bool AddCondition(int key, TValue value)
     {
         bool keyStatus = _conditions.TryAdd(key, value);
         return keyStatus;
     }
 
+
+    // * Overloading Dictionary paramter
     public bool AddCondition(Dictionary<int, TValue> dict)
     {
         bool keyStatus = false;
@@ -175,6 +197,8 @@ public class FooBarV2<TValue>
         return keyStatus;
     }
 
+
+    // * Add iterator will add after default parameter (not replacing)
     public bool AddIterator(params int[] iterators)
     {
         if (iterators == null)
@@ -193,6 +217,8 @@ public class FooBarV2<TValue>
         return true;
     }
 
+
+    // * Get condition or default condition and iterator(s)
     public string GetCondition()
     {
         StringBuilder msg = new StringBuilder();
@@ -228,6 +254,8 @@ public class FooBarV2<TValue>
         return msg.ToString();
     }
 
+
+    // * Update custom condition
     public bool UpdateCondition(int key, TValue value) //! bisa overloading
     {
         if (!_conditions.ContainsKey(key))
@@ -238,6 +266,8 @@ public class FooBarV2<TValue>
         return true;
     }
 
+
+    // * Update an iterator based on index
     public bool UpdateIterator(int index, int changeValue) //! bisa overloading
     {
         if ((index + 1) > _iterator.Count)
@@ -248,6 +278,8 @@ public class FooBarV2<TValue>
         return true;
     }
 
+
+    // * Remove custome condition
     public bool RemoveCondition(int key)    //! bisa overloading
     {
         if (!_conditions.ContainsKey(key))
@@ -258,6 +290,7 @@ public class FooBarV2<TValue>
         return true;
     }
 
+    // * Remove iterator
     public bool RemoveIterator(int index)   //! bisa overloading
     {
         if ((index + 1) > _iterator.Count)
