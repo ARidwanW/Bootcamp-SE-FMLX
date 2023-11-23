@@ -18,7 +18,7 @@ public class FooBarV2<TValue>
                 where TValue : IConvertible
 {
     private int _startNext = 0;
-    private int _indexIterator = 0;
+    private int _indexIterator = -1;
     private SortedDictionary<int, TValue> _conditions;
     private List<int> _iterator;
     private SortedDictionary<int, string> _defaultConditions;
@@ -33,49 +33,135 @@ public class FooBarV2<TValue>
         _iterator.Add(1);
     }
 
-    private StringBuilder FooBarPrint()
+    public string Next(int start, int end)
     {
-        StringBuilder msg = new StringBuilder();
-        return msg;
-    }
-
-    public StringBuilder Next(int start, int end)
-    {
-        StringBuilder msg = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         if (_conditions.Count > 0)
         {
-            if (start == 0)
-            {
-                msg.Append(start);
-            }
+            // if (start <= end)
+            // {
+            //     stringBuilder.Append(CheckNumber(start, end));
+            //     stringBuilder.Append(Next(start + _iterator[_indexIterator], end));
 
+            //     if (_indexIterator >= _iterator.Count)
+            //     {
+            //         _indexIterator = 0;
+            //     }
+            //     _indexIterator++;
+            // }
+            // return stringBuilder.ToString();
             if (start <= end)
             {
-                if (start != end)
+                stringBuilder.Append(NextRight(start, end, false));
+            }
+
+            if (start >= end)
+            {
+                stringBuilder.Append(NextLeft(start, end, false));
+            }
+        }
+        else{
+            if (start <= end)
+            {
+                stringBuilder.Append(NextRight(start, end, true));
+            }
+
+            if (start >= end)
+            {
+                stringBuilder.Append(NextLeft(start, end, true));
+            }
+        }
+        return stringBuilder.ToString();
+    }
+
+    private string NextRight(int start, int end, bool defaultCondition)
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (start <= end)
+        {
+            stringBuilder.Append(CheckNumber(start, end, defaultCondition));
+            if (start != end)
+            {
+                if (_indexIterator > (_iterator.Count - 2))
                 {
-                    foreach (var condition in _conditions)
+                    _indexIterator = -1;
+                }
+                _indexIterator++;
+
+                stringBuilder.Append(NextRight(start + _iterator[_indexIterator], end, defaultCondition));
+            }
+        }
+        return stringBuilder.ToString();
+    }
+
+    private string NextLeft(int start, int end, bool defaultCondition)
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (start >= end)
+        {
+            stringBuilder.Append(CheckNumber(start, end, defaultCondition));
+            if (start != end)
+            {
+                if (_indexIterator > (_iterator.Count - 2))
+                {
+                    _indexIterator = -1;
+                }
+                _indexIterator++;
+
+                stringBuilder.Append(NextRight(start - _iterator[_indexIterator], end, defaultCondition));
+            }
+        }
+        return stringBuilder.ToString();
+    }
+
+    private string CheckNumber(int iteration, int end, bool defaultCondition)
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        int onCondition = 0;
+
+        if (defaultCondition)
+        {
+            if (iteration != 0)
+            {
+                foreach (var condition in _defaultConditions)
+                {
+                    if ((iteration % condition.Key) == 0)
                     {
-                        if (start == condition.Key)
-                        {
-                            msg.Append(condition.Value);
-                        }
-                        else
-                        {
-                            msg.Append(start);
-                        }
+                        stringBuilder.Append(condition.Value?.ToString());
+                        onCondition++;
                     }
-                    msg.Append(Next(start + _iterator[_indexIterator], end));
-                    if (_indexIterator >= _iterator.Count)
-                    {
-                        _indexIterator = 0;
-                    }
-                    _indexIterator++;
                 }
             }
-            return msg;
+        }
+        else
+        {
+            if (iteration != 0)
+            {
+                foreach (var condition in _conditions)
+                {
+                    if ((iteration % condition.Key) == 0)
+                    {
+                        stringBuilder.Append(condition.Value.ToString());
+                        onCondition++;
+                    }
+                }
+            }
         }
 
-        return msg;
+        //! bug here
+        if (onCondition < 1)
+        {
+            stringBuilder.Append(iteration);
+        }
+
+        if (iteration != end)
+        {
+            stringBuilder.Append(", ");
+        }
+
+        return stringBuilder.ToString();
     }
 
 
@@ -108,19 +194,18 @@ public class FooBarV2<TValue>
             {
                 return false;
             }
-
             _iterator.Add(iterator);
         }
         return true;
     }
 
-    public StringBuilder GetCondition()
+    public string GetCondition()
     {
         StringBuilder msg = new StringBuilder();
 
         if (_conditions == null)
         {
-            return msg;
+            return msg.ToString();
         }
 
         // * if there's custom condition we use the custom
@@ -146,7 +231,7 @@ public class FooBarV2<TValue>
             msg.Append($"{iterator} ");
         }
 
-        return msg;
+        return msg.ToString();
     }
 
     public bool UpdateCondition(int key, TValue value) //! overloading nanti
@@ -188,6 +273,4 @@ public class FooBarV2<TValue>
         _iterator.RemoveAt(index);
         return true;
     }
-
-
 }

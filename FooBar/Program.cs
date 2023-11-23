@@ -32,20 +32,21 @@ class Program
         };
 
         // Console.WriteLine( foobarv2.AddCondition(3, "foo"));    // ?? output: True
-        foobarv2.AddCondition(5, "bar");
+        // foobarv2.AddCondition(5, "bar");
         // foobarv2.AddCondition(7, "roo");
         // foobarv2.UpdateCondition(5, "roo");
         // Console.WriteLine(foobarv2.AddCondition(7, "kiwkiw"));  // ?? output: False
         // foobarv2.DeleteCondition(5);
         // foobarv2.AddCondition(condition);
+        // foobarv2.AddIterator(2);
         // foobarv2.AddIterator(1, 2, 3, 4);   // ?? output: 1 1 2 3 4
-        // foobarv2.UpdateIterator(0, 3);      // ?? output: 3 1 2 3 4
+        // foobarv2.UpdateIterator(0, 2);      // ?? output: 3 1 2 3 4
         // foobarv2.RemoveIterator(0);         // ?? output: 1 2 3 4
         
         Console.WriteLine(foobarv2.GetCondition());             // ?? output if no condition: 3 => foo\n 7 => roo
-        StringBuilder msg = new StringBuilder();
-        msg = foobarv2.Next(0, 15);
-        Console.WriteLine(msg);
+        // Console.WriteLine(foobarv2.Next(0, 15));
+        // Console.WriteLine(foobarv2.Next(0, 15));
+        Console.WriteLine(foobarv2.Next(15, 0));
 
     }
 }
