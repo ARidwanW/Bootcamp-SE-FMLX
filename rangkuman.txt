@@ -1,0 +1,60 @@
+# OOP
+  # Encapsulation: membuat batasan di sekitar object
+		   memisahkannya dari prilaku di luar object tersebut (public)
+		   In other word, private (access modifier) 
+
+
+# C# feature
+  # Unified Type System: share the same basic functionality
+			 e.g. an instance of any type can be converted
+				to a string by ToString() method
+  # Classes and interface: 
+		# interface: class that cannot hold data
+				it can define only behavior (dan bukan suatu keadaan)
+				allow multiple inheritance
+				pemisahan antara spesifikasi dan implementasi
+  
+  # Properties, methods, and events:
+		# properties: anggota fungsi (variable method)
+			      sebuah variable yang berperilaku seperti method
+			      biasanya digunakan pada interface
+		# event: anggota fungsi yang menyederhanakan tindakan pada 
+			 perubahan status objek
+
+  # Functional programming
+		# delegates: functions can be treated as values
+  		# Supports patterns for purity: lambda expressions, query expressions
+						records (write immutable types)
+
+
+# Type Safety : sebuah instance dari suatu type data a hanya dapat berinteraksi
+		melewati protocol yang dia define, memastikan untuk tetap konsisten
+		e.g. tidak bisa mengganti nilai variable int dengan nilai string
+
+	# static typing: memberlakukan type safety pada tingkat kompilasi dan runtime
+			 mengeliminasi banyak class error
+	# dynamic typed: via dynamic keyword (tetapi lebih baik dijauhi)
+	# strongly typed language: e.g. cannot call int parameter function with float number
+					except explicitly convert to int
+					help prevent mistake
+
+# Memory Management
+		# automatic memory management
+		# garbage colletor: reclaming memory for objects that are 
+				    no longer referenced.
+		# pointer exist: but unnecessary for most programming task
+				 can use it with "unsafe" keyword
+
+# Top level statement: write code directly at the root of a file, without wrap
+
+# Managed Laguange: compiles source code into managed code (Intermediate language; IL)
+
+# assembly: container for managed code (IL + metadata)
+
+# Lambda Expressions: var greeter = () => "Hello, world";
+		      var square = (int x) => x * x;
+		      var sqr = int (int x) => x;	(return type)
+
+# Identifier: names for classes, methods, variables, and so on (e.g. abstract, public, double, etc)
+
+
