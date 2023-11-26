@@ -179,6 +179,10 @@ Second week is coming!! no its already done lol. we learn more about object and 
     ```
 
 6. Static : own by class, you dont need to create instance to use a static method and so on. created when program run.
+    * static class must have all static method
+    * static method can only access static variable
+    * Non-static method can access static variable or non static variable
+    * cannot be inherit
 
 7. Extension Method : allows you to add new methods to an existing data type without changing the data type's source code.
     * the key is: `public` `static`
