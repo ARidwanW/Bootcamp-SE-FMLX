@@ -1,6 +1,5 @@
-# What is Day 5
-Fuuuh, friday...
-Ok, so in day 5, we explore about ValueType vs ReferenceType (must be carefull about this, yes memory management), Mutable vs Immutable, String vs StringBuilder, etc.
+# What is Day 6
+Second week is coming!! no its already done lol. we learn more about object and stuff. Let's take a look.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/25423296/163456776-7f95b81a-f1ed-45f7-b7ab-8fa810d529fa.png">
@@ -181,11 +180,34 @@ Ok, so in day 5, we explore about ValueType vs ReferenceType (must be carefull a
 
 6. Static : own by class, you dont need to create instance to use a static method and so on. created when program run.
 
-7. Extension Method : 
+7. Extension Method : allows you to add new methods to an existing data type without changing the data type's source code.
+    * the key is: `public` `static`
+    * support for Open Close Principle
+
+    ```
+        public static class IniExtensions
+        {
+            public static string Dump(this object obj)
+            {
+                Console.WriteLine(obj.ToString());
+            }
+        }
+    ```
 
 8. Property:
-    * 
+    * Instead of using the GetId or SetName method, we can use the property
+    * We define method access (getter and setter)
+    * We can called it `Variable Method`. A variable that can behave like a method.
+    
+    ```
+        public int MyProperties {get; private set;}
+    ```
 
+    * When to use property:
+        * When we want to give access to read or write the class data
+        * Want to keep data privacy
+        * usually use in interface
 
+(this we will discuss in the next day)
 9. Generic + Constraint
 10. Exception & Handling
