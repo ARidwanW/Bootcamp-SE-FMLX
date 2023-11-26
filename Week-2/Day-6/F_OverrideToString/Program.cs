@@ -22,4 +22,24 @@ class Car {
 	{
 		 return brand;
 	}
+
+	public override bool Equals(object obj)
+	{
+		// Check if the object is null or not of the same type
+		if (obj == null || GetType() != obj.GetType())
+		{
+			return false;
+		}
+
+		// Convert the object to Car type for comparison
+		Car otherCar = (Car) obj;
+
+		// Compare the 'brand' property for equality
+		return brand == otherCar.brand;
+	}
+
+	public override int GetHashCode()
+	{
+		return brand.GetHashCode();
+	}
 }
