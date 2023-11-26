@@ -1,5 +1,5 @@
 # What is Day 4
-Its more on OOP, we learn the pilar (`Inheritance`, `Encapsulate`, `Polymorphism`,(`abstraction` in the next day))
+Ok, so it's time for abstraction also interface and static.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/25423296/163456776-7f95b81a-f1ed-45f7-b7ab-8fa810d529fa.png">
@@ -8,149 +8,66 @@ Its more on OOP, we learn the pilar (`Inheritance`, `Encapsulate`, `Polymorphism
 </picture>
 
 ## In Detail
-1. What is `Inheritance`? As the name suggests, `inheritance` is when we want to pass on the parent class to its children.
+1. Abstraction: A concept where we focus on relevant or important information while **`hiding unnecessary details`** of an object or system.
+    ```
+        abstract class ClassName
+        {
+            public abstract void MethodName();
+        }
+
+        // the child Must override the method, if there's `abstract` keyword
+    ```
+
+> [!NOTE]
+> Abstraction divide into two: `abstract` and `interface`. in `abstract` there is class (base class) and method. in Interface we called it contract
+
+        * abstract class can containt:
+            * abstract method
+            * non abstract method
+            * variable
+
+        * more about abstract class:
+            * cannot build instance from itself
+            * child only override the father not grandfather
+            * grand child doesn't require to override the grandfather if the father already override it
+
+        * When to use abstract:
+            * when we want to provide default implementations for abstract methods that must be implemented by derived classes
+            * when we need general feature or a template
+            * when we need the child must be override the method
+
+2. Interface: a contract, or like a port in a computer.
+    * it cannot declaire and contain variable
+    * only method
+    * can multiple inherit
+    * the method must be override by its child
+    * interface method that is overridden by its child must be embedded with its method.
+    * best practice is using public access modifier
 
     ```
-        class Cat : Animal
+        public interface InterfaceName
         {
-            // Cat is child
-            // Animal is parent
+            void MethodName();
+            //or is the same
+            public void MethodName();
         }
     ```
 
-> [!NOTE]
-> Child is more advance than parent, so child can use parent method, but parent cannot use child method. So, it's possible to assign parent by it's child, but cannot assign child with its parent. The solution is using explisit covert.
-
-> [!NOTE]
-> It's ok if child constructor is not parameterless with parent constructor is parameterless
-
-> [!WARNING]
-> But if parent constructor is not parameterless, child must send the argument to parent using `base` so it's like:
-
     ```
-    // in Animal class parent
-    public class Animal
-    {
-        ...
-        public Animal(string name, string colour)
-        {
-            ...
-        }
-    }
+        // there's diff between
+        void MethodName();
+        
+        //with
+        void MethodName(int a);
 
-    // in child
-    public class Cat : Animal
-    {
-        ...
-        public Cat(string name, string colour) : base(name, colour)
-        {
-            ...
-        }
-    }
-
-    // or in child
-    public class Dog : Animal
-    {
-        ...
-        public Dog() : base("Jojo", "Black")
-        {
-            ...
-        }
-    }
+        // so to implement the interface, the method must be the same
     ```
 
+    * when to use interface:
+        * when overloading cannot handle parameter
+        * when class have multiple inheritance
+        * when u need a contract or future proof for classes
 
-    * but what if parent constructor is overloading, it has parameterless and not parameterless?, soo it's ok if child using `base` or not.
+3. Interface Segregation Principle ( 1 of 5 SOLID principle). It means that the interface must be spesific to a client. so the client only relies on what is needed, not on what is not needed. It also splitting a large interface into several smaller, specific interfaces helps avoid excessive dependencies.
 
-2. When we use `Inheritance`
-    * when there is a `clear relationship` between a class and its subclasses. For example, there is a more general entity (parent class) and there is a more specialized variation or specification of that entity (child class).
-    * if there is `similarity between children`, so that the similarity can become a parent
-    * if the `relationship is loose coupling`, means that doesn't need modification on parent in the future.
-
-> [!NOTE]
-> You can use composition or interface if the child need method or variable from another child
-
-3. `Const` and `Readonly`, hmmm
-    * `const` makes your variable value cannot be reassign and you must assign it when declare it. (must be assigned before compilation)
-
-    ```
-    public const int myVariable = 0;    // declare & assign
-    public const string myVariale2;     // it will error
-    ```
-
-    * `readonly` makes your variable can be read but cannot be reassign, except in a constructor. (can be assigned **via constructor ONLY**)
-
-    ```
-        class Animal
-        {
-            public readonly int age = 0;    // it's ok 
-            public readonly int leg;        // it's ok
-
-            public Animal()
-            {
-                age = 10;       // it will reassign the readonly age
-                leg = 3;        // it will assing the readonly leg
-            }
-        }
-    ```
-
-4. Imagine u have class Animal, and u have variable called `age`. You definitely don't want the age to be changed by influences outside the object. You want the age to increase according to the object itself. Then, u need to `encapsulate` it.
-    * `Encapsulate` means Creates a boundary around the object, separating it from behavior outside the object (public). In other words, `private` (`access modifier`) 
-
-    ```
-        class Car      // Default Access Modifier: Internal --> On 1 Assembly Project
-        {
-            // For private variable best practice is using underscore "_"
-            string _brand;       // Default Access Modifier: Private --> On Class Itself
-            public int tire;    // Public --> All
-            protected int wiper;    // protected --> Parent & Child
-
-            void EngineTest()   // Default Access Modifier: Private --> On Class Itself
-            {
-
-            }
-        }
-    ```
-
-    | Access Modifier | Who can access it | Inherit |
-    | :---: | :---: | :---: |
-    | `public` | All | True |
-    | `internal` | One Assembly Project | True |
-    | `protected` | Parent <-> Child | True |
-    | `private` | Class Itself | false |
-
-> [!NOTE]
-> You can use public readonly as a substitute for private.
-
-> [!NOTE]
-> Best practice to using private variabel is using underscore like: `private int _myVar;`
-
-5. Now what is `Polymorphism`? it allows an object to take many forms or appearances. Divide into two: `Overloading` and `Overriding`
-    * Overloading: `Multiple Method`, `Same Name`, `Different Parameter` (Parameter must be different)
-    
-    ```
-        public int Add (int a, int b){}
-        public int Add (string a, string b){}
-    ```
-
-    * Overriding: 
-        * `virtual` --> in Parent
-        * `override` --> in Child
-        * Method Hiding --> `new`
-
-> [!NOTE]
-> in virtual overriding, child method will replace Parent method. But if Method hiding Parent Method will still exist.
-
-    ```
-        // in Parent
-        public virtual void MakeSound(){}
-
-        // in Child
-        public override void MakeSound(){}
-
-        // in Child Method Hiding
-        public new void MakeSound(){}
-    ```
-
-> [!NOTE]
-> if you want to `override`, the Parent must be using `virtual`. but if you want to method hiding, the Parent can using `virtual` or not and u can `use new or not` for method hiding. `virtual` in Parent means child can replace or not replacing the method.
+4. Static : own by class not by instance (simple right? hehe)

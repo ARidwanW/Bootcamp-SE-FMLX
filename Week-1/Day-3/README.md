@@ -28,35 +28,35 @@ Its more on OOP, we learn the pilar (`Inheritance`, `Encapsulate`, `Polymorphism
 > But if parent constructor is not parameterless, child must send the argument to parent using `base` so it's like:
 
     ```
-    // in Animal class parent
-    public class Animal
-    {
-        ...
-        public Animal(string name, string colour)
+        // in Animal class parent
+        public class Animal
         {
             ...
+            public Animal(string name, string colour)
+            {
+                ...
+            }
         }
-    }
 
-    // in child
-    public class Cat : Animal
-    {
-        ...
-        public Cat(string name, string colour) : base(name, colour)
+        // in child
+        public class Cat : Animal
         {
             ...
+            public Cat(string name, string colour) : base(name, colour)
+            {
+                ...
+            }
         }
-    }
 
-    // or in child
-    public class Dog : Animal
-    {
-        ...
-        public Dog() : base("Jojo", "Black")
+        // or in child
+        public class Dog : Animal
         {
             ...
+            public Dog() : base("Jojo", "Black")
+            {
+                ...
+            }
         }
-    }
     ```
 
 
