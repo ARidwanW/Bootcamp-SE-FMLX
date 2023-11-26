@@ -9,7 +9,7 @@ Ok, so in day 5, we explore about ValueType vs ReferenceType (must be carefull a
 </picture>
 
 ## In Detail
-* Object
+1. Object
     * Boxing
 
         ```
@@ -85,10 +85,33 @@ Ok, so in day 5, we explore about ValueType vs ReferenceType (must be carefull a
     * Override ToString From Class Object
 
         ```
-            
+            public override string ToString()
+            {
+                return brand;
+            }
+
+            public override bool Equals(object obj)
+            {
+                // Check if the object is null or not of the same type
+                if (obj == null || GetType() != obj.GetType())
+                {
+                    return false;
+                }
+
+                // Convert the object to Car type for comparison
+                Car otherCar = (Car) obj;
+
+                // Compare the 'brand' property for equality
+                return brand == otherCar.brand;
+            }
+
+            public override int GetHashCode()
+            {
+                return brand.GetHashCode();
+            }
         ```
 
-* Dynamic
+2. Dynamic
 
     ```
         dynamic a = 3;
@@ -98,8 +121,71 @@ Ok, so in day 5, we explore about ValueType vs ReferenceType (must be carefull a
         // Dynamic will check at running time
     ```
 
-* Ref, in, out
-* Static
-* Property
-* Generic + Constraint
-* Exception & Handling
+3. ref : parameter modifier, 
+    * passing reference from variable inside the method
+    * Two-way communication, possible to change variable value passed and the changes visible outside the method
+    * before passing, variable must be assigned
+
+    ```
+        void UpdateValue(ref int x) {
+            x = 20;
+        }
+        // ...
+        int number = 10;
+        UpdateValue(ref number);
+        // Sekarang, nilai number akan menjadi 20.
+
+    ```
+
+4. in : parameter modifier,
+    * Passing a value to a method but preventing value changes inside the method
+    * Read-Only
+    * Must be assigned before passed
+
+    ```
+        void DisplayValue(in int x) {
+            // Tidak bisa mengubah nilai x di sini.
+            // ...
+            //x = x + 3; <- Error, change value not possible
+        }
+        // ...
+        int number = 10;
+        DisplayValue(in number);
+        // Nilai number tetap 10 di luar method.
+
+    ```
+
+5. out : parameter modifier,
+    * like ref, but does not require the variable to be initialized before it is passed to the method.
+    * Output Only
+
+    ```
+        void GetValues(out int x, out int y) {
+            x = 5;
+            y = 10;
+        }
+        // ...
+        int a, b;
+        GetValues(out a, out b);
+        // Sekarang, nilai a = 5 dan nilai b = 10.
+
+    ```
+
+    * tryParse
+
+    ```
+        string b = "30a";
+        int value;
+        bool status = int.TryParse(b, out value);
+    ```
+
+6. Static : own by class, you dont need to create instance to use a static method and so on. created when program run.
+
+7. Extension Method : 
+
+8. Property:
+    * 
+
+
+9. Generic + Constraint
+10. Exception & Handling
