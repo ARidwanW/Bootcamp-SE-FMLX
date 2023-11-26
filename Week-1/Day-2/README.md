@@ -45,7 +45,7 @@ We Explore more about how to create a sln and a project folder also about OOP li
          }
          ```
 
-      * if you want to add two or limited numbers with same data type, but optionally u can add different data type, you can use overloading:
+      * if you want to add two or limited numbers with same data type, but optionally u can add different data type, you can use overloading (overloading is same method name but different parameter):
 
          ```
          public int Add(int a, int b)
