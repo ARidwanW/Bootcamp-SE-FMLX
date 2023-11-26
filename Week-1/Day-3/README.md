@@ -18,14 +18,14 @@ Its more on OOP, we learn the pilar (`Inheritance`, `Encapsulate`, `Polymorphism
         }
     ```
 
-    > [!NOTE]
-    > Child is more advance than parent, so child can use parent method, but parent cannot use child method. So, it's possible to assign parent by it's child, but cannot assign child with its parent. The solution is using explisit covert.
+> [!NOTE]
+> Child is more advance than parent, so child can use parent method, but parent cannot use child method. So, it's possible to assign parent by it's child, but cannot assign child with its parent. The solution is using explisit covert.
 
-    > [!NOTE]
-    > It's ok if child constructor is not parameterless with parent constructor is parameterless
+> [!NOTE]
+> It's ok if child constructor is not parameterless with parent constructor is parameterless
 
-    > [!WARNING]
-    > But if parent constructor is not parameterless, child must send the argument to parent using `base` so it's like:
+> [!WARNING]
+> But if parent constructor is not parameterless, child must send the argument to parent using `base` so it's like:
 
     ```
     // in Animal class parent
@@ -65,8 +65,8 @@ Its more on OOP, we learn the pilar (`Inheritance`, `Encapsulate`, `Polymorphism
     * if there is `similarity between children`, so that the similarity can become a parent
     * if the `relationship is loose coupling`, means that doesn't need modification on parent in the future.
 
-    > [!NOTE]
-    > You can use composition or interface if the child need method or variable from another child
+> [!NOTE]
+> You can use composition or interface if the child need method or variable from another child
 
 3. `Const` and `Readonly`, hmmm
     * `const` makes your variable value cannot be reassign and you must assign it when declare it. (must be assigned before compilation)
