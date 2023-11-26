@@ -11,7 +11,7 @@ class Calculator {
 	}
 	// This method is conflict because same name same parameter,
 	// even the return type is different
-	//public double Add(string a, string b)
+	//public double Add(float a, float b)
 	//{
 	//	return a.Length + b.Length;
 	//}

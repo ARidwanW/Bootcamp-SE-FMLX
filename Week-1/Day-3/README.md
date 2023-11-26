@@ -59,7 +59,7 @@ Its more on OOP, we learn the pilar (`Inheritance`, `Encapsulate`, `Polymorphism
     }
     ```
 
-    
+
     * but what if parent constructor is overloading, it has parameterless and not parameterless?, soo it's ok if child using `base` or not.
 
 2. When we use `Inheritance`
@@ -96,3 +96,28 @@ Its more on OOP, we learn the pilar (`Inheritance`, `Encapsulate`, `Polymorphism
 
 4. Imagine u have class Animal, and u have variable called `age`. You definitely don't want the age to be changed by influences outside the object. You want the age to increase according to the object itself. Then, u need to `encapsulate` it.
     * `Encapsulate` means Creates a boundary around the object, separating it from behavior outside the object (public). In other words, `private` (`access modifier`) 
+
+    ```
+        class Car      // Default Access Modifier: Internal --> On 1 Assembly Project
+        {
+            // For private variable best practice is using underscore "_"
+            string _brand;       // Default Access Modifier: Private --> On Class Itself
+            public int tire;    // Public --> All
+            protected int wiper;    // protected --> Parent & Child
+
+            void EngineTest()   // Default Access Modifier: Private --> On Class Itself
+            {
+
+            }
+        }
+    ```
+
+    | Access Modifier | Who can access it | Inherit |
+    | :---: | :---: | :---: |
+    | `public` | All | True |
+    | `internal` | One Assembly Project | True |
+    | `protected` | Parent <-> Child | True |
+    | `private` | Class Itself |
+
+> [!NOTE]
+> You can use public readonly as a substitute for private
