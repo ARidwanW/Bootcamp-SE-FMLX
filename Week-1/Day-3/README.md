@@ -117,7 +117,7 @@ Its more on OOP, we learn the pilar (`Inheritance`, `Encapsulate`, `Polymorphism
     | `public` | All | True |
     | `internal` | One Assembly Project | True |
     | `protected` | Parent <-> Child | True |
-    | `private` | Class Itself |
+    | `private` | Class Itself | false |
 
 > [!NOTE]
 > You can use public readonly as a substitute for private.
