@@ -120,4 +120,37 @@ Its more on OOP, we learn the pilar (`Inheritance`, `Encapsulate`, `Polymorphism
     | `private` | Class Itself |
 
 > [!NOTE]
-> You can use public readonly as a substitute for private
+> You can use public readonly as a substitute for private.
+
+> [!NOTE]
+> Best practice to using private variabel is using underscore like: `private int _myVar;`
+
+5. Now what is `Polymorphism`? it allows an object to take many forms or appearances. Divide into two: `Overloading` and `Overriding`
+    * Overloading: `Multiple Method`, `Same Name`, `Different Parameter` (Parameter must be different)
+    
+    ```
+        public int Add (int a, int b){}
+        public int Add (string a, string b){}
+    ```
+
+    * Overriding: 
+        * `virtual` --> in Parent
+        * `override` --> in Child
+        * Method Hiding --> `new`
+
+> [!NOTE]
+> in virtual overriding, child method will replace Parent method. But if Method hiding Parent Method will still exist.
+
+    ```
+        // in Parent
+        public virtual void MakeSound(){}
+
+        // in Child
+        public override void MakeSound(){}
+
+        // in Child Method Hiding
+        public new void MakeSound(){}
+    ```
+
+> [!NOTE]
+> if you want to `override`, the Parent must be using `virtual`. but if you want to method hiding, the Parent can using `virtual` or not and u can `use new or not` for method hiding. `virtual` in Parent means child can replace or not replacing the method.
