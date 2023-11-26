@@ -58,6 +58,7 @@ Its more on OOP, we learn the pilar (`Inheritance`, `Encapsulate`, `Polymorphism
         }
     }
     ```
+    
     * but what if parent constructor is overloading, it has parameterless and not parameterless?, soo it's ok if child using `base` or not.
 
 2. When we use `Inheritance`
