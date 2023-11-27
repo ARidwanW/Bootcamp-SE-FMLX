@@ -22,7 +22,7 @@ In this extend version, there're 2 folder: Day 2 and Day 2v2. U can read what we
       ```
 
 2. `Overload` (not Overlord hehe)
-    *  you can go to In Detail Parameter at Day 2 README.md [here](https://github.com/ARidwanW/Bootcamp-SE-FMLX/tree/main/Day-2#:~:text=in%20sln%20file.-,Parameter%20Stuff,-example%20you%20have)
+    *  you can go to In Detail Parameter at Day 2 README.md [here](https://github.com/ARidwanW/Bootcamp-SE-FMLX/tree/main/Week-1/Day-2#:~:text=if%20you%20want%20to%20add%20two%20or%20limited%20numbers%20with%20same%20data%20type%2C%20but%20optionally%20u%20can%20add%20different%20data%20type%2C%20you%20can%20use%20overloading%20(overloading%20is%20same%20method%20name%20but%20different%20parameter)%3A)
 
 3. Many Option to create constructor parameter and create object
     * when u create a class with empty construtor like
