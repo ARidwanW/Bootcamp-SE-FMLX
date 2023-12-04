@@ -3,14 +3,14 @@ namespace MarvelSnapProject.Component.Player;
 public interface IPlayer
 {
     /// <summary>
-    /// Readonly property Id of player.
+    /// Readonly property Id of player
     /// </summary>
-    /// <returns>int Id of player</return>
+    /// <value>int</value>
     public int Id { get; }
 
     /// <summary>
     /// Readonly property Name of player
     /// </summary>
-    /// <returns>string Name of player</returns>
+    /// <value>string</value>
     public string Name { get; }
 }
