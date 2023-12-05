@@ -1,3 +1,5 @@
+using MarvelSnapProject.Component.Location;
+using MarvelSnapProject.Component.Player;
 using MarvelSnapProject.Enum;
 
 namespace MarvelSnapProject.Component.Card;
@@ -63,6 +65,6 @@ public abstract class AbstractCard
         CardAbility = cardAbility;
     }
 
-    public abstract bool DoAbility();
+    public abstract bool DoAbility(GameController game, IPlayer player, AbstractLocation location);
 
 }
