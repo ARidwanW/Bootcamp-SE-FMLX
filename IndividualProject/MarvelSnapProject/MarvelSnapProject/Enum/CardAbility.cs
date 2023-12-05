@@ -5,5 +5,7 @@ public enum CardAbility
     None,
     Destroy,
     Discard,
-    Move
+    Move,
+    OnGoing,
+    OnReveal
 }
