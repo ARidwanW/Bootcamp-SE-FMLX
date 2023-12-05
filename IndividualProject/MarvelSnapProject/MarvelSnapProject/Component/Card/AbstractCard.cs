@@ -37,19 +37,19 @@ public abstract class AbstractCard
     public int Power { get; private set; }
 
     /// <summary>
-    /// Readonly property CardTimeAbility of Card
+    /// Readonly property TimeAbility of Card
     /// </summary>
     /// <value>CardTimeAbility</value>
     public CardTimeAbility CardTimeAbility { get; private set; }
 
     /// <summary>
-    /// Readonly property CardAbility of Card
+    /// Readonly property Ability of Card
     /// </summary>
     /// <value>CardAbility</value>
     public CardAbility CardAbility { get; private set; }
 
     /// <summary>
-    /// Public property CardStatus of Card
+    /// Public property Status of Card
     /// </summary>
     /// <value></value>
     public CardStatus CardStatus { get; set; }
