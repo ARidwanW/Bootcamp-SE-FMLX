@@ -27,12 +27,7 @@ public abstract class AbstractLocation
     /// </summary>
     /// <value>LocationAbility</value>
     public LocationAbility LocationAbility { get; private set; }
-
-    /// <summary>
-    /// Public property Status of Location
-    /// </summary>
-    /// <value>LocationStatus</value>
-    public LocationStatus LocationStatus { get; set; }
+    private LocationStatus _locationStatus;
 
     public AbstractLocation(int id, string name, string description, LocationAbility ability, LocationStatus status = LocationStatus.Hidden)
     {
@@ -40,8 +35,18 @@ public abstract class AbstractLocation
         Name = name;
         Description = description;
         LocationAbility = ability;
-        LocationStatus = status;
+        _locationStatus = status;
     }
 
     public abstract bool DoAbility(GameController game);
+    public LocationStatus GetLocationStatus()
+    {
+        return _locationStatus;
+    }
+
+    public bool SetLocationStatus(LocationStatus status)
+    {
+        _locationStatus = status;
+        return true;
+    }
 }

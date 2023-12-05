@@ -1,12 +1,14 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using MarvelSnapProject.Component.Location;
 using MarvelSnapProject.Component.Player;
 
 public partial class Program
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
-        MSPlayer msplayer = new MSPlayer(1, "lala");
-        var name = msplayer.Name;
+        Asgard asgard = new Asgard();
+        Console.WriteLine(asgard.GetLocationStatus());
+        Console.WriteLine(asgard.SetLocationStatus(MarvelSnapProject.Enum.LocationStatus.Revealed));
+        Console.WriteLine(asgard.GetLocationStatus());
     }
 }

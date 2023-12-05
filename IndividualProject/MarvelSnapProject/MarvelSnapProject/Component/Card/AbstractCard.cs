@@ -47,12 +47,7 @@ public abstract class AbstractCard
     /// </summary>
     /// <value>CardAbility</value>
     public CardAbility CardAbility { get; private set; }
-
-    /// <summary>
-    /// Public property Status of Card
-    /// </summary>
-    /// <value></value>
-    public CardStatus CardStatus { get; set; }
+    private CardStatus _cardStatus;
 
     public AbstractCard(int id, string name, string description, int cost, int power, CardTimeAbility cardTimeAbility, CardAbility cardAbility)
     {
@@ -66,5 +61,16 @@ public abstract class AbstractCard
     }
 
     public abstract bool DoAbility(GameController game, IPlayer player, AbstractLocation location);
+
+    public CardStatus GetCardStatus()
+    {
+        return _cardStatus;
+    }
+
+    public bool SetCardStatus(CardStatus status)
+    {
+        _cardStatus = status;
+        return true;
+    }
 
 }
