@@ -123,4 +123,15 @@ public class PlayerInfo
         _maxDeck = maxDeck;
         return true;
     }
+
+    public int GetTotalWin()
+    {
+        return _totalWin;
+    }
+
+    public bool AddTotalWin()
+    {
+        _totalWin += 1;
+        return true;
+    }
 }
