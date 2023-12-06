@@ -134,4 +134,15 @@ public class PlayerInfo
         _totalWin += 1;
         return true;
     }
+
+    public PlayerStatus GetPlayerStatus()
+    {
+        return _playerStatus;
+    }
+
+    public bool SetPlayerStatus(PlayerStatus status)
+    {
+        _playerStatus = status;
+        return true;
+    }
 }
