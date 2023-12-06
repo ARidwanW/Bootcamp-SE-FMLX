@@ -4,5 +4,7 @@ public enum CardStatus
 {
     OnDeck,
     OnHand,
-    OnLocation
+    OnLocation,
+    OnGoing,
+    OnReveal
 }
