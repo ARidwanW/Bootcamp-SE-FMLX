@@ -23,6 +23,15 @@ public class PlayerInfo
         return _deck;
     }
 
+    public bool IsDeckFull()
+    {
+        if(_deck.Count < _maxDeck)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public bool AssignCardToDeck(AbstractCard card)
     {
         IsDeckFull();
@@ -154,14 +163,7 @@ public class PlayerInfo
         return true;
     }
 
-    public bool IsDeckFull()
-    {
-        if(_deck.Count < _maxDeck)
-        {
-            return false;
-        }
-        return true;
-    }
+    
 
 
 }
