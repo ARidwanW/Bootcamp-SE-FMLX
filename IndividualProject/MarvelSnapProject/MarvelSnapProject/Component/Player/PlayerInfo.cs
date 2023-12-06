@@ -8,7 +8,7 @@ public class PlayerInfo
     private List<AbstractCard> _deck;
     private List<AbstractCard> _handCards;
     private int _energy;
-    public int MaxDeck { get; private set; }
+    private int _maxDeck = 12;
     private int _totalWin;
     private PlayerStatus _playerStatus;
 
@@ -16,7 +16,6 @@ public class PlayerInfo
     {
         _deck = new List<AbstractCard>();
         _handCards = new List<AbstractCard>();
-        MaxDeck = 12;
     }
 
     public List<AbstractCard> GetDeck()
@@ -144,9 +143,20 @@ public class PlayerInfo
         return true;
     }
 
+    public int GetMaxDeck()
+    {
+        return _maxDeck;
+    }
+
+    public bool SetMaxDeck(int maxDeck)
+    {
+        _maxDeck = maxDeck;
+        return true;
+    }
+
     public bool IsDeckFull()
     {
-        if(_deck.Count < MaxDeck)
+        if(_deck.Count < _maxDeck)
         {
             return false;
         }
