@@ -25,7 +25,7 @@ public class PlayerInfo
 
     public bool IsDeckFull()
     {
-        if(_deck.Count < _maxDeck)
+        if (_deck.Count < _maxDeck)
         {
             return false;
         }
@@ -34,19 +34,22 @@ public class PlayerInfo
 
     public bool AssignCardToDeck(params AbstractCard[] cards)
     {
-        IsDeckFull();
         int status = 0;
         foreach (var card in cards)
         {
+            if (IsDeckFull())
+            {
+                return false;
+            }
+
             if (_deck.Contains(card))
             {
+                status++;
                 continue;
             }
-            status++;
-            _deck.Add(card);
-            IsDeckFull();
+            _deck.Add(card);            
         }
-        return (status > 0) ? true : false;
+        return (status > 0) ? false : true;     // ?? if deck contain any card in cards, it will continue to the next card, but return false (means one or more card cannot be assign)
     }
 
     public bool RetrieveCardFromDeck(params AbstractCard[] cards)
@@ -56,12 +59,12 @@ public class PlayerInfo
         {
             if (!_deck.Contains(card))
             {
+                status++;
                 continue;
             }
-            status++;
             _deck.Remove(card);
         }
-        return (status > 0) ? true : false;
+        return (status > 0) ? false : true;
     }
 
     public List<AbstractCard> GetHandCards()
@@ -76,12 +79,12 @@ public class PlayerInfo
         {
             if (_handCards.Contains(card))
             {
+                status++;
                 continue;
             }
-            status++;
             _handCards.Add(card);
         }
-        return (status > 0) ? true : false;
+        return (status > 0) ? false : true;
     }
 
     public bool RetrieveCardFromHand(params AbstractCard[] cards)
@@ -91,12 +94,12 @@ public class PlayerInfo
         {
             if (!_handCards.Contains(card))
             {
+                status++;
                 continue;
             }
-            status++;
             _handCards.Remove(card);
         }
-        return (status > 0) ? true : false;
+        return (status > 0) ? false : true;
     }
 
     public int GetEnergy()
@@ -120,8 +123,4 @@ public class PlayerInfo
         _maxDeck = maxDeck;
         return true;
     }
-
-    
-
-
 }
