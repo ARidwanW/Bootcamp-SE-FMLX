@@ -1,1 +1,14 @@
 note for marvel snap
+
+- action untuk update card <AbstractCard string>
+- action <location power>
+- action <abstractCard CardStatus>
+
+- enum status on deck 
+
+dalam class card
+2 method - on reveal
+            - on going
+
+method specialability ongoing
+                        onreveal
