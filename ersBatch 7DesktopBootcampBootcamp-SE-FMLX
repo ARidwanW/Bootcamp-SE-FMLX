@@ -1,0 +1,133 @@
+* [31m1edbbd4[m -[33m (HEAD -> main, origin/main)[m Add: Miro additional material [32m(12 seconds ago) [1;34m<ARidwanW>[m
+* [31m906d2c9[m -[33m[m Add: Week-4 Day-3 (Day18) material [32m(10 minutes ago) [1;34m<ARidwanW>[m
+* [31md764ba1[m -[33m[m Update: add ongoing onreveal [32m(3 hours ago) [1;34m<ARidwanW>[m
+* [31m83a7607[m -[33m[m Update: implementation of PlayerInfo [32m(3 hours ago) [1;34m<ARidwanW>[m
+* [31m682651d[m -[33m[m Add: example location Asgard [32m(4 hours ago) [1;34m<ARidwanW>[m
+* [31m2f35d11[m -[33m[m Update: property status to private var [32m(4 hours ago) [1;34m<ARidwanW>[m
+* [31me4b0915[m -[33m[m Update: add property & abstract method [32m(15 hours ago) [1;34m<ARidwanW>[m
+* [31m2ff2a3a[m -[33m[m Format: summary property [32m(15 hours ago) [1;34m<ARidwanW>[m
+* [31m7b78aaa[m -[33m[m Add: AbstractLocation [32m(15 hours ago) [1;34m<ARidwanW>[m
+* [31md6a9ae7[m -[33m[m Update: add parameter abstract method [32m(15 hours ago) [1;34m<ARidwanW>[m
+* [31mc4365a3[m -[33m[m Update: property & DoAbility() [32m(16 hours ago) [1;34m<ARidwanW>[m
+* [31m0b0f82f[m -[33m[m Add: enum CardTimeAbility [32m(17 hours ago) [1;34m<ARidwanW>[m
+* [31m9994ede[m -[33m[m Add: enum CardAbility [32m(17 hours ago) [1;34m<ARidwanW>[m
+* [31m486250c[m -[33m[m Format: Reveal to Revealed [32m(17 hours ago) [1;34m<ARidwanW>[m
+* [31m5ea945e[m -[33m[m Update: enum value [32m(18 hours ago) [1;34m<ARidwanW>[m
+* [31m01d5924[m -[33m[m Add: init AbstractCard [32m(18 hours ago) [1;34m<ARidwanW>[m
+* [31m47a8a32[m -[33m[m Add: Notes.txt [32m(22 hours ago) [1;34m<ARidwanW>[m
+* [31m4d1bc7f[m -[33m[m Add: additional material pdf [32m(22 hours ago) [1;34m<ARidwanW>[m
+* [31m13188c3[m -[33m[m Add: init DB [32m(24 hours ago) [1;34m<ARidwanW>[m
+* [31m4f8aeb2[m -[33m[m Add: Week-4 day2 [32m(24 hours ago) [1;34m<ARidwanW>[m
+* [31mbbd3405[m -[33m[m Add: enum LocationAbility [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31m30d23bb[m -[33m[m Add: enum LocationStatus [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31mb7d08f9[m -[33m[m Add: enum CardStatus [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31m53fa9e6[m -[33m[m Add: enum PlayerStatus [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31m010518c[m -[33m[m Add: enum GameStatus [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31m662d834[m -[33m[m Add: interface ILocation [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31m0dc6758[m -[33m[m Add: interface ICard [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31mbf16482[m -[33m[m Format: syntax [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31m328c861[m -[33m[m Add: class PlayerInfo [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31mb1ce22b[m -[33m[m Add: class MSPlayer [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31m824d2e5[m -[33m[m Update: documentation Id & Name property [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31m7e3ed75[m -[33m[m Add: init IPlayer [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31m0b7022d[m -[33m[m Add: init GameController [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31m968217d[m -[33m[m Add: old class diagram [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31m7dbc9eb[m -[33m[m Add: project folder [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31m336aa66[m -[33m[m Add: gitignore [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31ma65b383[m -[33m[m Add: MarvelSnapProject folder sln [32m(2 days ago) [1;34m<ARidwanW>[m
+* [31mf9601a5[m -[33m[m Add: linked list [32m(8 days ago) [1;34m<ARidwanW>[m
+* [31m3bfb5a9[m -[33m[m Add: tambahan class diagram [32m(8 days ago) [1;34m<ARidwanW>[m
+* [31mef072d2[m -[33m[m Add: class diagram [32m(8 days ago) [1;34m<ARidwanW>[m
+* [31me142b32[m -[33m[m Update: link overloading day-2 [32m(9 days ago) [1;34m<ARidwanW>[m
+* [31m9d6fc0b[m -[33m[m Add: day-9 readme finish [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31maadafd3[m -[33m[m Update: Finish Day-8 readme [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m5d9c09c[m -[33m[m Add: Day-7 readme [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m668692b[m -[33m[m Update: static detail [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m4487db1[m -[33m[m Update: Finish Day-6 [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m57805a6[m -[33m[m Update: static material [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m2c3d350[m -[33m[m Update: detail material object [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m5e3f303[m -[33m[m Update: override method from Class Object [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31mc03cf9e[m -[33m[m Add: Day-5 readme [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31maf9a103[m -[33m[m Update: Day-4 readme finish [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m6e15003[m -[33m[m Add: Readme Day-4 [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m9e14472[m -[33m[m Update: false inherit private table AM [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m60d6ceb[m -[33m[m Update: Readme finish & Method Hiding [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m9f95bd2[m -[33m[m Update: material & comment overloading [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m02bf914[m -[33m[m Update: list format [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m240fc12[m -[33m[m Update: format code base [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m9c06e17[m -[33m[m Update: Note and warning [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m0dde8ec[m -[33m[m Add: Readme Day-3 [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m5a5b1c9[m -[33m[m Update: overloading definition [32m(10 days ago) [1;34m<ARidwanW>[m
+* [31m7457895[m -[33m[m Add: rangkuman.txt [32m(12 days ago) [1;34m<ARidwanW>[m
+* [31m6b5185a[m -[33m[m Update: some comment [32m(12 days ago) [1;34m<ARidwanW>[m
+* [31m99a5312[m -[33m[m Update: some test [32m(12 days ago) [1;34m<ARidwanW>[m
+* [31mc270d84[m -[33m[m Update: overloading Next [32m(12 days ago) [1;34m<ARidwanW>[m
+* [31m60c0d47[m -[33m[m Fix: bug NextLine recursive [32m(12 days ago) [1;34m<ARidwanW>[m
+* [31m33de860[m -[33m[m Bug: CheckNumber if NextLeft [32m(13 days ago) [1;34m<ARidwanW>[m
+* [31m182f44f[m -[33m[m Update: foobar Next [32m(13 days ago) [1;34m<ARidwanW>[m
+* [31m1df24e4[m -[33m[m Update: Day-9 [32m(13 days ago) [1;34m<ARidwanW>[m
+* [31mac74acc[m -[33m[m Add: Day-9 [32m(13 days ago) [1;34m<ARidwanW>[m
+* [31mc06622e[m -[33m[m Update: overloading AddCondition for dict [32m(13 days ago) [1;34m<ARidwanW>[m
+* [31m04d4e74[m -[33m[m Add: new Foobar-working [32m(13 days ago) [1;34m<ARidwanW>[m
+* [31m9430ed6[m -[33m[m Update: Foobar v2 [32m(13 days ago) [1;34m<ARidwanW>[m
+* [31mdc6f5a1[m -[33m[m Add: Day-8-Extend [32m(13 days ago) [1;34m<ARidwanW>[m
+* [31m8701dae[m -[33m[m Add: Day-8 [32m(2 weeks ago) [1;34m<ARidwanW>[m
+* [31mbc2f9e4[m -[33m[m Add: Day-8 [32m(2 weeks ago) [1;34m<ARidwanW>[m
+* [31mc82b22d[m -[33m[m Update: Day-7 [32m(2 weeks ago) [1;34m<ARidwanW>[m
+* [31meb5632c[m -[33m[m Add: day 7 & Update: Foobar [32m(2 weeks ago) [1;34m<ARidwanW>[m
+* [31mf8a8794[m -[33m[m Add: Week 2 (day6) [32m(2 weeks ago) [1;34m<ARidwanW>[m
+* [31me2c4d77[m -[33m[m Add: a object problem [32m(2 weeks ago) [1;34m<ARidwanW>[m
+* [31m0f1606f[m -[33m[m Update: material object [32m(2 weeks ago) [1;34m<ARidwanW>[m
+* [31m8a1ea28[m -[33m[m Delete duplicate, Add Week 2 [32m(2 weeks ago) [1;34m<ARidwanW>[m
+* [31m832377d[m -[33m[m Experiment: start end input [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m3933bb8[m -[33m[m Update: cleaning code [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m998e8fa[m -[33m[m Update: logic FooBarPrint [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31mc753704[m -[33m[m Update: foobar to class library [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31ma9b7943[m -[33m[m Add: Day5-Extend [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m54c4d49[m -[33m[m Add: new material [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m8c35a1f[m -[33m[m Update: Example stackoverflowexception [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m070abf2[m -[33m[m Add: Day-5 [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31mb3bc0ab[m -[33m[m Update: cleaning code tab [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31mf3cbad2[m -[33m[m Add: Homework Day 4 [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m9a61a63[m -[33m[m Add & Update: Day-4 [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m906f113[m -[33m[m Add: Day-4 [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m23a10b1[m -[33m[m Rename: Day3-Extend to J_Day3_Extend [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m719aba8[m -[33m[m Add: Day 3 Extended [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31md2e7233[m -[33m[m Update: overloading child contructor [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31mf3c94f7[m -[33m[m Clean: init overriding material [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31md552982[m -[33m[m Add: Polymorphism Overriding & MethodHiding [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m2491d5f[m -[33m[m Update: error comment GetBrand [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31mc538ec7[m -[33m[m Add: Encapsulation Tutorial [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31mbed029a[m -[33m[m Update: output comment [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31md729fca[m -[33m[m Update: all material in Day 3 [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31mdd9c2dc[m -[33m[m Add: Day-3 Project [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m5be74af[m -[33m[m Clean: Directory [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31mb9ac137[m -[33m[m Add: In Detail Composition [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m1125833[m -[33m[m Fix: nested list number 3 [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m5599728[m -[33m[m Fix: number 3 In Detail title [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m9da81cc[m -[33m[m Update: all In Detail Day 2v2 [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m6e698fa[m -[33m[m Update: NOTE to IMPORTANT in namespace name [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31mca31de8[m -[33m[m Fix: this readme link for Day 2 [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31ma98dc14[m -[33m[m Update: introduction [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m890b3e8[m -[33m[m Update: commented statement [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m54e5ab8[m -[33m[m Update: all In Detail README.md day2 [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31mbaf89cf[m -[33m[m Update: In Detail structure & parameter [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m180d3ee[m -[33m[m Add: day2 v2 [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m9c40196[m -[33m[m Update: Initiate instance comment [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m4c6e5d1[m -[33m[m Update: In Detail Parameter [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m044ad1b[m -[33m[m Add: README.md day 2 extend [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31md4daa97[m -[33m[m Update: constructor, overloading, create object [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31mf11f0be[m -[33m[m Add: README.md Day 2 [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31ma6dd727[m -[33m[m Add: README.md day 1 [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m182ff11[m -[33m[m Add: Day-2-Extend Material [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31mb429c79[m -[33m[m Delete Day-2/obj directory [32m(3 weeks ago) [1;34m<Alwandia Ridwan Wadiska>[m
+* [31m77bc2b1[m -[33m[m Delete Day-2/bin directory [32m(3 weeks ago) [1;34m<Alwandia Ridwan Wadiska>[m
+* [31m2dd81a2[m -[33m[m Delete Day-1/obj directory [32m(3 weeks ago) [1;34m<Alwandia Ridwan Wadiska>[m
+* [31m4325e61[m -[33m[m Delete Day-1/bin directory [32m(3 weeks ago) [1;34m<Alwandia Ridwan Wadiska>[m
+* [31m1d9d7b4[m -[33m[m Add: gitignore [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m6d63828[m -[33m[m Update: variable Cat [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m3ee4a1a[m -[33m[m Update: namespace & using [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31mab3fde5[m -[33m[m Add: Day-2 Project [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31mfebffc0[m -[33m[m Update: test pok nari [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31mbe97378[m -[33m[m Update: variable class & variable instance [32m(3 weeks ago) [1;34m<ARidwanW>[m
+* [31m46e09ec[m -[33m[m init [32m(3 weeks ago) [1;34m<ARidwanW>[m
