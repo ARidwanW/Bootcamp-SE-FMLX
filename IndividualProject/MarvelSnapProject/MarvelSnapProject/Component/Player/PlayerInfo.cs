@@ -5,8 +5,8 @@ namespace MarvelSnapProject.Component.Player;
 
 public class PlayerInfo
 {
-    private List<AbstractCard>? _deck;
-    private List<AbstractCard>? _handCards;
+    private List<AbstractCard> _deck;
+    private List<AbstractCard> _handCards;
     private int _energy;
     public int MaxDeck { get; private set; }
     private int _totalWin;
@@ -26,6 +26,7 @@ public class PlayerInfo
 
     public bool AssignCardToDeck(AbstractCard card)
     {
+        IsDeckFull();
         if (_deck.Contains(card))
         {
             return false;
@@ -37,6 +38,7 @@ public class PlayerInfo
 
     public bool AssignCardToDeck(params AbstractCard[] cards)
     {
+        IsDeckFull();
         int status = 0;
         foreach (var card in cards)
         {
@@ -46,6 +48,7 @@ public class PlayerInfo
             }
             status++;
             _deck.Add(card);
+            IsDeckFull();
         }
         return (status > 0) ? true : false;
     }
@@ -141,7 +144,14 @@ public class PlayerInfo
         return true;
     }
 
-
+    public bool IsDeckFull()
+    {
+        if(_deck.Count < MaxDeck)
+        {
+            return false;
+        }
+        return true;
+    }
 
 
 }
