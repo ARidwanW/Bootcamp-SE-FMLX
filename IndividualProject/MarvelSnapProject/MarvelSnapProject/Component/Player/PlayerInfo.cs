@@ -32,18 +32,6 @@ public class PlayerInfo
         return true;
     }
 
-    public bool AssignCardToDeck(AbstractCard card)
-    {
-        IsDeckFull();
-        if (_deck.Contains(card))
-        {
-            return false;
-        }
-
-        _deck.Add(card);
-        return true;
-    }
-
     public bool AssignCardToDeck(params AbstractCard[] cards)
     {
         IsDeckFull();
@@ -59,16 +47,6 @@ public class PlayerInfo
             IsDeckFull();
         }
         return (status > 0) ? true : false;
-    }
-
-    public bool RetrieveCardFromDeck(AbstractCard card)
-    {
-        if (!_deck.Contains(card))
-        {
-            return false;
-        }
-        _deck.Remove(card);
-        return true;
     }
 
     public bool RetrieveCardFromDeck(params AbstractCard[] cards)
@@ -91,16 +69,6 @@ public class PlayerInfo
         return _handCards;
     }
 
-    public bool AssignCardToHand(AbstractCard card)
-    {
-        if (_handCards.Contains(card))
-        {
-            return false;
-        }
-        _handCards.Add(card);
-        return true;
-    }
-
     public bool AssignCardToHand(params AbstractCard[] cards)
     {
         int status = 0;
@@ -114,16 +82,6 @@ public class PlayerInfo
             _handCards.Add(card);
         }
         return (status > 0) ? true : false;
-    }
-
-    public bool RetrieveCardFromHand(AbstractCard card)
-    {
-        if (!_handCards.Contains(card))
-        {
-            return false;
-        }
-        _handCards.Remove(card);
-        return true;
     }
 
     public bool RetrieveCardFromHand(params AbstractCard[] cards)
