@@ -48,6 +48,11 @@ public class GameController
         return players;
     }
 
+    public int CheckCurrentRound()
+    {
+        return _round;
+    }
+
 
 
 
