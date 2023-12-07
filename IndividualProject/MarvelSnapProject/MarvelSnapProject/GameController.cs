@@ -16,6 +16,10 @@ public class GameController
     private List<AbstractLocation> _allLocations;
     private List<AbstractCard> _allCards;
     private IPlayer _winner;
+    private Action<AbstractCard, CardStatus> onCardStatusUpdate;
+    private Action<AbstractLocation, LocationInfo> onLocationUpdate;
+    private Action<IPlayer, PlayerInfo> onPlayerUpdate;
+
 
     public GameController(Logger log)
     {
