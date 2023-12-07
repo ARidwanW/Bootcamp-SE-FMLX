@@ -1,3 +1,4 @@
+using System.IO.IsolatedStorage;
 using MarvelSnapProject.Enum;
 
 namespace MarvelSnapProject.Component.Location;
@@ -28,17 +29,38 @@ public abstract class AbstractLocation
     /// <value>LocationAbility</value>
     public LocationAbility LocationAbility { get; private set; }
     private LocationStatus _locationStatus;
+    public bool _isOnGoing { get; private set; }
+    public bool _isOnReveal { get; private set; }
 
-    public AbstractLocation(int id, string name, string description, LocationAbility ability, LocationStatus status = LocationStatus.Hidden)
+    /// <summary>
+    /// Abstract Class of Location
+    /// </summary>
+    /// <param name="id">Id of Location</param>
+    /// <param name="name">Name of Location</param>
+    /// <param name="description">Description of Location</param>
+    /// <param name="ability">Ability (or Name) of Location</param>
+    /// <param name="locationStatus">Status (Hidden, Revealed) of Location</param>
+    /// <param name="isOnGoing">Boolean: true if ability is OnGoing type</param>
+    /// <param name="isOnReveal">Boolean: true if ability is OnReveal type</param>
+    public AbstractLocation(int id, string name, string description, LocationAbility ability, LocationStatus locationStatus = LocationStatus.Hidden, bool isOnGoing = false, bool isOnReveal = false)
     {
         Id = id;
         Name = name;
         Description = description;
         LocationAbility = ability;
-        _locationStatus = status;
+        _locationStatus = locationStatus;
+        _isOnGoing = isOnGoing;
+        _isOnReveal = isOnReveal;
     }
 
-    public abstract bool DoAbility(GameController game);
+    /// <summary>
+    /// Abstrac
+    /// </summary>
+    /// <param name="game"></param>
+    /// <returns></returns>
+    public abstract bool SpecialAbilityOnGoing(GameController game);
+
+    public abstract bool SpecialAbilityOnReveal(GameController game);
     public LocationStatus GetLocationStatus()
     {
         return _locationStatus;

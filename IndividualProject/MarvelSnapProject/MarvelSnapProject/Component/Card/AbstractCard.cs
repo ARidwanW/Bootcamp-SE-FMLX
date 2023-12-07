@@ -72,6 +72,7 @@ public abstract class AbstractCard
     /// <param name="isOnReveal">Boolean: true if ability is OnReveal type</param>
     public AbstractCard(int id, string name, string description,
                         int cost, int power, CardAbility cardAbility,
+                        CardStatus cardStatus = CardStatus.OnDeck,
                         bool isOnGoing = false, bool isOnReveal = false)
     {
         Id = id;

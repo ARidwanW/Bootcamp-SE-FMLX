@@ -12,3 +12,9 @@ dalam class card
 
 method specialability ongoing
                         onreveal
+
+kartu yang onreveal, ditambah variable tambahan pada class nya. bukan abstractCard
+variabelnya round deployed,
+kalau belum
+
+dlam method round check, apakah roundnya memenuhi untuk dieksekusi, jjika sudha dideploy baru daftar
