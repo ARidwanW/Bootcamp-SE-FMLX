@@ -68,6 +68,16 @@ public class GameController
         return _allLocations;
     }
 
+    public List<AbstractCard> GetAllCards()
+    {
+        return _allCards;
+    }
+
+    public IPlayer GetWinner()
+    {
+        return _winner;
+    }
+
 
 
 
