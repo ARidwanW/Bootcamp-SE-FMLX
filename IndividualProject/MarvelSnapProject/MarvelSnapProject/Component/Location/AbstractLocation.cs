@@ -54,13 +54,19 @@ public abstract class AbstractLocation
     }
 
     /// <summary>
-    /// Abstrac
+    /// Abstract method for special ability on going
     /// </summary>
-    /// <param name="game"></param>
-    /// <returns></returns>
+    /// <param name="game">GameController</param>
+    /// <returns>true: if card successfully doing its ability on going</returns>
     public abstract bool SpecialAbilityOnGoing(GameController game);
 
+    /// <summary>
+    /// Abstract method for special ability on reveal
+    /// </summary>
+    /// <param name="game">GameController</param>
+    /// <returns>true: if card successfully doing its ability on reveal</returns>
     public abstract bool SpecialAbilityOnReveal(GameController game);
+    
     public LocationStatus GetLocationStatus()
     {
         return _locationStatus;

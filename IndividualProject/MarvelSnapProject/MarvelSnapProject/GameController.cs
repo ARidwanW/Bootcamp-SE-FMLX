@@ -19,7 +19,7 @@ public class GameController
     private Action<AbstractCard, CardStatus> OnCardStatusUpdate;
     private Action<AbstractLocation, LocationInfo> OnLocationUpdate;
     private Action<IPlayer, PlayerInfo> OnPlayerUpdate;
-    private Action<AbstractCard > FutureCall;        // invoke every round, chek apakah ada sub, jika iya bakal di invoke dan chek apakah roundnya sudah selanjutnya
+    private Action<AbstractCard> FutureCall;        // invoke every round, chek apakah ada sub, jika iya bakal di invoke dan chek apakah roundnya sudah selanjutnya
 
 
     public GameController(Logger log)

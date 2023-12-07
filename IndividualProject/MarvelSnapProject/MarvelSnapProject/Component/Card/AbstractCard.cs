@@ -91,7 +91,7 @@ public abstract class AbstractCard
     /// <param name="game">Game Controller</param>
     /// <param name="player">IPlayer implementation of players</param>
     /// <param name="location">AbstractLocation implementation of locations</param>
-    /// <returns>true: if card has on going special ability</returns>
+    /// <returns>true: if card successfully doing its ability on going</returns>
     public abstract bool SpecialAbilityOnGoing(GameController game, IPlayer player, AbstractLocation location);
 
 
