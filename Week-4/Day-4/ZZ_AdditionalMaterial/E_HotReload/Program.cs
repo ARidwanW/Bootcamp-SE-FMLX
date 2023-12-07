@@ -1,4 +1,4 @@
-﻿//Use HotReload on Debugger
+﻿//Use HotReload on Debugger --> dotnet watch
 
 while (true)
 {
