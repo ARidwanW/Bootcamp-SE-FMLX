@@ -33,7 +33,20 @@ public class GameController
         return true;
     }
 
-    
+    public bool RemovePlayer(params IPlayer[] players)
+    {
+        return true;
+    }
+
+    public List<IPlayer> GetPlayers()
+    {
+        List<IPlayer> players = new List<IPlayer>();
+        foreach(var player in _players)
+        {
+            players.Add(player.Key);
+        }
+        return players;
+    }
 
 
 }
