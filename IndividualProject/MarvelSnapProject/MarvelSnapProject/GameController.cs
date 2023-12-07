@@ -28,6 +28,11 @@ public class GameController
         _round = 0;
     }
 
+    public GameStatus GetCurrentGameStatus()
+    {
+        return _gameStatus;
+    }
+
     public bool AssignPlayer(params IPlayer[] player)
     {
         return true;
