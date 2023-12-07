@@ -33,6 +33,11 @@ public class GameController
         return _gameStatus;
     }
 
+    public int CheckCurrentRound()
+    {
+        return _round;
+    }
+
     public bool AssignPlayer(params IPlayer[] player)
     {
         return true;
@@ -53,10 +58,7 @@ public class GameController
         return players;
     }
 
-    public int CheckCurrentRound()
-    {
-        return _round;
-    }
+    
 
 
 
