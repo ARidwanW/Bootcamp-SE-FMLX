@@ -28,8 +28,22 @@ public abstract class AbstractLocation
     /// </summary>
     /// <value>LocationAbility</value>
     public LocationAbility LocationAbility { get; private set; }
+
+    /// <summary>
+    /// Private variable Status of Location
+    /// </summary>
     private LocationStatus _locationStatus;
+
+    /// <summary>
+    /// Readonly Property OnGoing ability of Location
+    /// </summary>
+    /// <value>bool</value>
     public bool _isOnGoing { get; private set; }
+
+    /// <summary>
+    /// Readonly Property OnGoing ability of Location
+    /// </summary>
+    /// <value>bool</value>
     public bool _isOnReveal { get; private set; }
 
     /// <summary>
@@ -66,7 +80,7 @@ public abstract class AbstractLocation
     /// <param name="game">GameController</param>
     /// <returns>true: if card successfully doing its ability on reveal</returns>
     public abstract bool SpecialAbilityOnReveal(GameController game);
-    
+
     public LocationStatus GetLocationStatus()
     {
         return _locationStatus;
