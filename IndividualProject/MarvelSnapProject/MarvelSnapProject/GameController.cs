@@ -38,6 +38,11 @@ public class GameController
         return _round;
     }
 
+    public bool NextRound()
+    {
+        return true;
+    }
+
     public bool AssignPlayer(params IPlayer[] player)
     {
         return true;
