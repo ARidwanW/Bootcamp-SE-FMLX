@@ -63,7 +63,12 @@ public class GameController
         return players;
     }
 
-    
+    public List<AbstractLocation> GetAllLocations()
+    {
+        return _allLocations;
+    }
+
+
 
 
 
