@@ -28,5 +28,12 @@ public class GameController
         _round = 0;
     }
 
+    public bool AddPlayer(IPlayer player)
+    {
+        return true;
+    }
+
+    
+
 
 }
