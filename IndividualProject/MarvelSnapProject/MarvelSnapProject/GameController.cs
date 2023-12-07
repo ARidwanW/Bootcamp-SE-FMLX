@@ -28,7 +28,7 @@ public class GameController
         _round = 0;
     }
 
-    public bool AddPlayer(IPlayer player)
+    public bool AssignPlayer(params IPlayer[] player)
     {
         return true;
     }
