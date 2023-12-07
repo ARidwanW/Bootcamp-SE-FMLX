@@ -38,7 +38,7 @@ public class GameController
         return true;
     }
 
-    public List<IPlayer> GetPlayers()
+    public List<IPlayer> GetAllPlayers()
     {
         List<IPlayer> players = new List<IPlayer>();
         foreach(var player in _players)
@@ -47,6 +47,8 @@ public class GameController
         }
         return players;
     }
+
+
 
 
 }
