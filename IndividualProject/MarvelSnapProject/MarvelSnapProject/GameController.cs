@@ -12,13 +12,12 @@ public class GameController
     private GameStatus _gameStatus;
     private int _round;
     private Dictionary<IPlayer, PlayerInfo>? _players;
-    private Dictionary<AbstractLocation, LocationInfo>? _locations;
-    private List<AbstractLocation>? _allLocations;
+    private List<AbstractLocation>? _locations;
     private List<AbstractCard>? _allCards;
     private IPlayer? _winner;
     private Action<AbstractCard, CardStatus>? OnCardStatusUpdate;
     private Action<AbstractLocation, LocationStatus>? OnLocationStatusUpdate;
-    private Action<AbstractLocation, LocationInfo>? OnLocationUpdate;
+    private Action<AbstractLocation>? OnLocationUpdate;
     private Action<IPlayer, PlayerStatus>? OnPlayerStatusUpdate;
     private Action<IPlayer, PlayerInfo>? OnPlayerUpdate;
     private Action<GameController, IPlayer, AbstractLocation>? OnRevealCardAbilityCall;        // invoke every round, chek apakah ada sub, jika iya bakal di invoke dan chek apakah roundnya sudah selanjutnya
@@ -32,8 +31,7 @@ public class GameController
         _logger = log;
         _gameStatus = GameStatus.None;
         _players = new Dictionary<IPlayer, PlayerInfo>();
-        _locations = new Dictionary<AbstractLocation, LocationInfo>();
-        _allLocations = new List<AbstractLocation>();
+        _locations = new List<AbstractLocation>();
         _allCards = new List<AbstractCard>();
         _round = 0;
     }
