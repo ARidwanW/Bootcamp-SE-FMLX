@@ -76,7 +76,7 @@ public class GameController
 
     public List<AbstractLocation> GetAllLocations()
     {
-        return _allLocations;
+        return _locations;
     }
 
     public List<AbstractCard> GetAllCards()
