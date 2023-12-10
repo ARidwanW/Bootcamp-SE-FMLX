@@ -11,12 +11,17 @@ public class ThePunisher : AbstractCard
     {
     }
 
-    public override bool SpecialAbilityOnGoing(GameController game, IPlayer player, AbstractLocation location)
+    public override AbstractCard Clone()
+    {
+        return new ThePunisher();
+    }
+
+    public override bool SpecialAbilityOnGoing(GameController game)
     {
         return true;
     }
 
-    public override bool SpecialAbilityOnReveal(GameController game, IPlayer player, AbstractLocation location)
+    public override bool SpecialAbilityOnReveal(GameController game)
     {
         return false;
     }

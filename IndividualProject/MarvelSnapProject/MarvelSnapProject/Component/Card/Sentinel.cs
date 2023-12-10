@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using MarvelSnapProject.Component.Location;
 using MarvelSnapProject.Component.Player;
 using MarvelSnapProject.Enum;
@@ -11,13 +12,17 @@ public class Sentinel : AbstractCard
     {
     }
 
+    public override AbstractCard Clone()
+    {
+        return new Sentinel();
+    }
 
-    public override bool SpecialAbilityOnGoing(GameController game, IPlayer player, AbstractLocation location)
+    public override bool SpecialAbilityOnGoing(GameController game)
     {
         return false;
     }
 
-    public override bool SpecialAbilityOnReveal(GameController game, IPlayer player, AbstractLocation location)
+    public override bool SpecialAbilityOnReveal(GameController game)
     {
         return true;
     }

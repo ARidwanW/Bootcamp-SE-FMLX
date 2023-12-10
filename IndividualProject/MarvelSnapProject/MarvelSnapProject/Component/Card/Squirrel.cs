@@ -10,13 +10,17 @@ public class Squirrel : AbstractCard
     {
     }
 
+    public override AbstractCard Clone()
+    {
+        return new Squirrel();
+    }
 
-    public override bool SpecialAbilityOnGoing(GameController game, IPlayer player, AbstractLocation location)
+    public override bool SpecialAbilityOnGoing(GameController game)
     {
         return false;
     }
 
-    public override bool SpecialAbilityOnReveal(GameController game, IPlayer player, AbstractLocation location)
+    public override bool SpecialAbilityOnReveal(GameController game)
     {
         return false;
     }

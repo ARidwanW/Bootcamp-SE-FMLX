@@ -85,6 +85,8 @@ public abstract class AbstractCard
         _isOnReveal = isOnReveal;
     }
 
+    public abstract AbstractCard Clone();
+
     /// <summary>
     /// Abstract method for special ability on going.
     /// </summary>

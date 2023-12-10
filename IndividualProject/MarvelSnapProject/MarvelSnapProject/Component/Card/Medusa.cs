@@ -11,12 +11,17 @@ public class Medusa : AbstractCard
     {
     }
 
-    public override bool SpecialAbilityOnGoing(GameController game, IPlayer player, AbstractLocation location)
+    public override AbstractCard Clone()
+    {
+        return new Medusa();
+    }
+
+    public override bool SpecialAbilityOnGoing(GameController game)
     {
         return false;
     }
 
-    public override bool SpecialAbilityOnReveal(GameController game, IPlayer player, AbstractLocation location)
+    public override bool SpecialAbilityOnReveal(GameController game)
     {
         return true;
     }

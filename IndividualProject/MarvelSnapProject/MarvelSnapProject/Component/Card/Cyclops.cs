@@ -11,12 +11,17 @@ public class Cyclops : AbstractCard
     {
     }
 
-    public override bool SpecialAbilityOnGoing(GameController game, IPlayer player, AbstractLocation location)
+    public override AbstractCard Clone()
+    {
+        return new Cyclops();
+    }
+
+    public override bool SpecialAbilityOnGoing(GameController game)
     {
         return false;
     }
 
-    public override bool SpecialAbilityOnReveal(GameController game, IPlayer player, AbstractLocation location)
+    public override bool SpecialAbilityOnReveal(GameController game)
     {
         return false;
     }
