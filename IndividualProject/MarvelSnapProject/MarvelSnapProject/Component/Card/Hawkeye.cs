@@ -71,6 +71,7 @@ public class Hawkeye : AbstractCard
             SetRoundDeployed(game.GetCurrentRound());
             SetDeployer(player);
             SetLocationDeployed(location);
+            RegisterSpecialAbilityOnReveal(game);
             return true;
         }
 

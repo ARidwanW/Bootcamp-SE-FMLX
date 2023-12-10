@@ -32,10 +32,10 @@ dlam method round check, apakah roundnya memenuhi untuk dieksekusi, jjika sudha 
 - assign card to player hand
     card.setcardstatus(ondeck)
 - assign player card to location (player, location, card)
-    location.AssignPlayerCardToLocation(player, card) -- if(ongoing or onreveal) card.deploycard()
+    location.AssignPlayerCardToLocation(player, card) -- if(ongoing or onreveal) card.deploycard() --> register ability
     //card.DeployCard(GameController, location)
-    card.registerspecialabilityonreveal(GameController)
-    card.registerspecialabilityongoing(GameController)
+                                                                        card.registerspecialabilityonreveal(GameController)
+                                                                        card.registerspecialabilityongoing(GameController)
 
 - kartu harus punya clone
 - virtual deploy card di abstract card
