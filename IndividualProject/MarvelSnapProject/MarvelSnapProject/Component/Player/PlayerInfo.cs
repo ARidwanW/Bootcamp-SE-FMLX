@@ -123,24 +123,24 @@ public class PlayerInfo
 
     /// <summary>
     /// A Method to assign card to player hand.
-    /// if player hand contain any card in cards, it will continue to the next card, 
-    /// but return false (means one or more card(s) cannot be assign)
+    /// player hand can have a duplicate cards
     /// </summary>
     /// <param name="cards">can be one or more card(s) of AbstractCard</param>
     /// <returns>true: if all card is successfully assigned to player hand; otherwise, false</returns>
     public bool AssignCardToHand(params AbstractCard[] cards)
     {
-        int status = 0;
+        // int status = 0;
         foreach (var card in cards)
         {
-            if (_handCards.Contains(card))
-            {
-                status++;
-                continue;
-            }
+            // if (_handCards.Contains(card))
+            // {
+            //     status++;
+            //     continue;
+            // }
             _handCards.Add(card);
         }
-        return (status > 0) ? false : true;
+        // return (status > 0) ? false : true;
+        return true;
     }
 
     /// <summary>
