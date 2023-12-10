@@ -172,4 +172,6 @@ public abstract class AbstractCard
         }
         return false;
     }
+
+    public abstract bool DeployCard(GameController game, IPlayer player, AbstractLocation location);
 }
