@@ -1,0 +1,15 @@
+Abomination = 1
+Cyclops = 2
+Howkeye = 3
+Hulk = 4
+IronMan = 5
+JessicaJones = 6
+Medusa = 7
+MisterFantastic = 8
+MistyKnight = 9
+QuickSilver = 10
+Spectrum = 11
+StarLord = 12
+ThePunisher = 13
+Thing = 14
+WhiteTiger = 15
