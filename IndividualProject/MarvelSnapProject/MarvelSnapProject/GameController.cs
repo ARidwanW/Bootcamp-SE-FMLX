@@ -47,7 +47,7 @@ public class GameController
         return true;
     }
 
-    public int CheckCurrentRound()
+    public int GetCurrentRound()
     {
         return _round;
     }
