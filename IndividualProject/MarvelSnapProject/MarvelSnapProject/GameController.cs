@@ -15,15 +15,15 @@ public class GameController
     private List<AbstractLocation>? _locations;
     private List<AbstractCard>? _allCards;
     private IPlayer? _winner;
-    private Action<AbstractCard, CardStatus>? OnCardStatusUpdate;
-    private Action<AbstractLocation, LocationStatus>? OnLocationStatusUpdate;
-    private Action<AbstractLocation>? OnLocationUpdate;
-    private Action<IPlayer, PlayerStatus>? OnPlayerStatusUpdate;
-    private Action<IPlayer, PlayerInfo>? OnPlayerUpdate;
-    private Action<GameController, IPlayer, AbstractLocation>? OnRevealCardAbilityCall;        // invoke every round, chek apakah ada sub, jika iya bakal di invoke dan chek apakah roundnya sudah selanjutnya
-    private Action<GameController>? OnRevealLocationAbilityCall;
-    private Action<GameController, IPlayer, AbstractLocation>? OnGoingCardAbilityCall;
-    private Action<GameController>? OnGoingLocationAbilityCall;
+    public Action<AbstractCard, CardStatus>? OnCardStatusUpdate;
+    public Action<AbstractLocation, LocationStatus>? OnLocationStatusUpdate;
+    public Action<AbstractLocation>? OnLocationUpdate;
+    public Action<IPlayer, PlayerStatus>? OnPlayerStatusUpdate;
+    public Action<IPlayer, PlayerInfo>? OnPlayerUpdate;
+    public Action<GameController, IPlayer, AbstractLocation>? OnRevealCardAbilityCall;        // invoke every round, chek apakah ada sub, jika iya bakal di invoke dan chek apakah roundnya sudah selanjutnya
+    public Action<GameController>? OnRevealLocationAbilityCall;
+    public Action<GameController, IPlayer, AbstractLocation>? OnGoingCardAbilityCall;
+    public Action<GameController>? OnGoingLocationAbilityCall;
 
 
     public GameController(Logger? log = null)
