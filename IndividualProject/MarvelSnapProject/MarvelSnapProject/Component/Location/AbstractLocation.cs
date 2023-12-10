@@ -43,7 +43,7 @@ public abstract class AbstractLocation
     public bool _isOnGoing { get; private set; }
 
     /// <summary>
-    /// Readonly Property OnGoing ability of Location
+    /// Readonly Property OnReveal ability of Location
     /// </summary>
     /// <value>bool</value>
     public bool _isOnReveal { get; private set; }
