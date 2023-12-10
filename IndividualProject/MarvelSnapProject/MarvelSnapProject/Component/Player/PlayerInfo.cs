@@ -137,7 +137,10 @@ public class PlayerInfo
             //     status++;
             //     continue;
             // }
-            _handCards.Add(card);
+            if(_deck.Contains(card))
+            {
+                _handCards.Add(card);
+            }
         }
         // return (status > 0) ? false : true;
         return true;
