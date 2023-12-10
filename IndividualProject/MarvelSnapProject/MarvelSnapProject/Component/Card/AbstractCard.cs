@@ -92,7 +92,7 @@ public abstract class AbstractCard
     /// <param name="player">IPlayer implementation of players</param>
     /// <param name="location">AbstractLocation implementation of locations</param>
     /// <returns>true: if card successfully doing its ability on going</returns>
-    public abstract bool SpecialAbilityOnGoing(GameController game, IPlayer player, AbstractLocation location);
+    public abstract bool SpecialAbilityOnGoing(GameController game);
 
 
     /// <summary>
@@ -102,7 +102,6 @@ public abstract class AbstractCard
     /// <param name="player">IPlayer implementation of players</param>
     /// <param name="location">AbstractLocation implementation of locations</param>
     /// <returns>true: if card has on reveal special ability</returns>
-    public abstract bool SpecialAbilityOnReveal(GameController game, IPlayer player, AbstractLocation location);
     public abstract bool SpecialAbilityOnReveal(GameController game);
 
     /// <summary>
