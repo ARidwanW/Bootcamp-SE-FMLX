@@ -6,7 +6,8 @@ namespace MarvelSnapProject.Component.Card;
 
 public class Cyclops : AbstractCard
 {
-    public Cyclops() : base(2, "Cyclops", "Lets move, X-men.", 3, 4, CardAbility.None, CardStatus.None, false, false)
+    public Cyclops() : base(2, "Cyclops", "Lets move, X-men.", 
+                            3, 4, CardAbility.None, CardStatus.None, false, false)
     {
     }
 
