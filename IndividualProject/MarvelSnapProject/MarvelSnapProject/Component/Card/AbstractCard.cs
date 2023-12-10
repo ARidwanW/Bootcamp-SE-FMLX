@@ -25,16 +25,16 @@ public abstract class AbstractCard
     public string Description { get; private set; }
 
     /// <summary>
-    /// Readonly property Cost of Card
+    /// Private variable Cost of Card
     /// </summary>
     /// <value>int</value>
-    public int Cost { get; private set; }
+    private int _cost;
 
     /// <summary>
-    /// Readonly property Power of Card
+    /// Private variable Power of Card
     /// </summary>
     /// <value>int</value>
-    public int Power { get; private set; }
+    private int _power;
 
     /// <summary>
     /// Readonly property Ability of Card
@@ -72,14 +72,14 @@ public abstract class AbstractCard
     /// <param name="isOnReveal">Boolean: true if ability is OnReveal type</param>
     public AbstractCard(int id, string name, string description,
                         int cost, int power, CardAbility cardAbility,
-                        CardStatus cardStatus = CardStatus.OnDeck,
+                        CardStatus cardStatus = CardStatus.None,
                         bool isOnGoing = false, bool isOnReveal = false)
     {
         Id = id;
         Name = name;
         Description = description;
-        Cost = cost;
-        Power = power;
+        _cost = cost;
+        _power = power;
         CardAbility = cardAbility;
         _isOnGoing = isOnGoing;
         _isOnReveal = isOnReveal;
@@ -121,6 +121,46 @@ public abstract class AbstractCard
     public bool SetCardStatus(CardStatus status)
     {
         _cardStatus = status;
+        return true;
+    }
+
+    /// <summary>
+    /// Getter cost of Card
+    /// </summary>
+    /// <returns>Integer</returns>
+    public int GetCost()
+    {
+        return _cost;
+    }
+    
+    /// <summary>
+    /// Setter cost of Card
+    /// </summary>
+    /// <param name="cost">cost of the card</param>
+    /// <returns>true: if successfully set the cost</returns>
+    public bool SetCost(int cost)
+    {
+        _cost = cost;
+        return true;
+    }
+
+    /// <summary>
+    /// Getter power of Card
+    /// </summary>
+    /// <returns>Integer</returns>
+    public int GetPower()
+    {
+        return _power;
+    }
+
+    /// <summary>
+    /// Setter power of Card
+    /// </summary>
+    /// <param name="power">power of the card</param>
+    /// <returns>true: if successfully set the power</returns>
+    public bool SetPower(int power)
+    {
+        _power = power;
         return true;
     }
 }
