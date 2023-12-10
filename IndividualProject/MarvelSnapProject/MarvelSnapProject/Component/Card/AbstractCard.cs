@@ -172,4 +172,9 @@ public abstract class AbstractCard
         }
         return false;
     }
+
+    public virtual bool DeployCard(GameController game, AbstractLocation location)
+    {
+        return true;
+    }
 }
