@@ -163,4 +163,13 @@ public abstract class AbstractCard
         _power = power;
         return true;
     }
+
+    public bool IsDeployed(GameController game)
+    {
+        if (GetCardStatus() == CardStatus.OnLocation)
+        {
+            return true;
+        }
+        return false;
+    }
 }
