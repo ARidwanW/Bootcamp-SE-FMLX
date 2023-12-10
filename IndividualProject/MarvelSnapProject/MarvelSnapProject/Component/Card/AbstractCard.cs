@@ -164,7 +164,7 @@ public abstract class AbstractCard
         return true;
     }
 
-    public bool IsDeployed(GameController game)
+    public bool IsDeployed()
     {
         if (GetCardStatus() == CardStatus.OnLocation)
         {
@@ -172,6 +172,4 @@ public abstract class AbstractCard
         }
         return false;
     }
-
-    public abstract bool DeployCard(GameController game, IPlayer player, AbstractLocation location);
 }
