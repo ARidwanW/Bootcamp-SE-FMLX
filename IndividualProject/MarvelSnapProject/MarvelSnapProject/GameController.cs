@@ -3,6 +3,7 @@ using MarvelSnapProject.Component.Location;
 using MarvelSnapProject.Component.Player;
 using MarvelSnapProject.Enum;
 using NLog;
+using NLog.Config;
 
 namespace MarvelSnapProject;
 
@@ -14,16 +15,17 @@ public class GameController
     private Dictionary<IPlayer, PlayerInfo>? _players;
     private List<AbstractLocation>? _locations;
     private List<AbstractCard>? _allCards;
+    private IPlayer _currentTurn;
     private IPlayer? _winner;
     public Action<AbstractCard, CardStatus>? OnCardStatusUpdate;
     public Action<AbstractLocation, LocationStatus>? OnLocationStatusUpdate;
     public Action<AbstractLocation>? OnLocationUpdate;
     public Action<IPlayer, PlayerStatus>? OnPlayerStatusUpdate;
     public Action<IPlayer, PlayerInfo>? OnPlayerUpdate;
-    public Action<GameController, IPlayer, AbstractLocation>? OnRevealCardAbilityCall;        // invoke every round, chek apakah ada sub, jika iya bakal di invoke dan chek apakah roundnya sudah selanjutnya
-    public Action<GameController>? OnRevealLocationAbilityCall;
-    public Action<GameController, IPlayer, AbstractLocation>? OnGoingCardAbilityCall;
-    public Action<GameController>? OnGoingLocationAbilityCall;
+    public event Func<GameController, bool>? OnRevealCardAbilityCall;        // invoke every round, chek apakah ada sub, jika iya bakal di invoke dan chek apakah roundnya sudah selanjutnya
+    public event Func<GameController, bool>? OnRevealLocationAbilityCall;
+    public event Func<GameController, bool>? OnGoingCardAbilityCall;
+    public event Func<GameController, bool>? OnGoingLocationAbilityCall;
 
 
     public GameController(Logger? log = null)
@@ -58,9 +60,19 @@ public class GameController
         return true;
     }
 
-    public bool AssignPlayer(params IPlayer[] player)
+    public bool AssignPlayer(params IPlayer[] players)
     {
-        return true;
+        int status = 0;
+        foreach (IPlayer player in players)
+        {
+            if (_players.ContainsKey(player))
+            {
+                status++;
+                continue;
+            }
+            _players.Add(player, new PlayerInfo());
+        }
+        return (status > 0) ? false : true;
     }
 
     public bool RemovePlayer(params IPlayer[] players)
@@ -74,14 +86,97 @@ public class GameController
         return players;
     }
 
+    public List<AbstractCard> GetPlayerDeck(IPlayer player)
+    {
+        return _players[player].GetDeck();
+    }
+
+    public List<AbstractCard> GetPlayerHand(IPlayer player)
+    {
+        return _players[player].GetHandCards();
+    }
+
     public List<AbstractLocation> GetAllLocations()
     {
         return _locations;
     }
 
+    public AbstractLocation GetLocation(AbstractLocation location)
+    {
+        return _locations.Find(loc => loc == location);
+    }
+
+    public bool AssignLocation(params AbstractLocation[] locations)
+    {
+        foreach (var location in locations)
+        {
+            if (!_locations.Contains(location))
+            {
+                _locations.Add(location);
+            }
+        }
+        return true;
+    }
+
     public List<AbstractCard> GetAllCards()
     {
         return _allCards;
+    }
+
+    public bool AssignCardToPlayerDeck(IPlayer player, params AbstractCard[] cards)
+    {
+        bool status = false;
+        if (!_players.ContainsKey(player))
+        {
+            return false;
+        }
+
+        foreach(var card in cards)
+        {
+            var cloneCard = card.Clone();
+            status = _players[player].AssignCardToDeck(cloneCard);
+            _players[player].GetDeck().Find(card => card == cloneCard).SetCardStatus(CardStatus.OnDeck);
+        }
+
+        return status;
+    }
+
+    public bool AssignCardToPlayerHand(IPlayer player, params AbstractCard[] cards)
+    {
+        // int status = 0;
+        if (!_players.ContainsKey(player))
+        {
+            return false;
+        }
+
+        foreach(var card in cards)
+        {
+            //* player hand can have same card
+            // var cloneCard = card.Clone();
+            // if(_players[player].GetHandCards().Contains(card))
+            // {
+            //     status++;
+            //     continue;
+            // }
+            _players[player].AssignCardToHand(card);
+            _players[player].GetDeck().Find(card => card == card).SetCardStatus(CardStatus.OnHand);
+        }
+
+        // return (status > 0) ? false : true;
+        return true;
+    }
+
+
+
+    public IPlayer GetCurrentTurn()
+    {
+        return _currentTurn;
+    }
+
+    public bool SetTurn(IPlayer player)
+    {
+        _currentTurn = player;
+        return true;
     }
 
     public IPlayer GetWinner()
