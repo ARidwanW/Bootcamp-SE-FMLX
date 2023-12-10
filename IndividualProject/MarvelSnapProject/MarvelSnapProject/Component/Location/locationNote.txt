@@ -1,0 +1,9 @@
+Asgard = 1
+Atlantis = 2
+Attilan = 3
+AvengerCompound = 4
+CentralPark = 5
+Flooded = 6
+KunLun = 7
+NegativeZone = 8
+Ruins = 9
