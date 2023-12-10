@@ -103,6 +103,7 @@ public abstract class AbstractCard
     /// <param name="location">AbstractLocation implementation of locations</param>
     /// <returns>true: if card has on reveal special ability</returns>
     public abstract bool SpecialAbilityOnReveal(GameController game, IPlayer player, AbstractLocation location);
+    public abstract bool SpecialAbilityOnReveal(GameController game);
 
     /// <summary>
     /// Getter status of Card
@@ -173,7 +174,7 @@ public abstract class AbstractCard
         return false;
     }
 
-    public virtual bool DeployCard(GameController game, AbstractLocation location)
+    public virtual bool DeployCard(GameController game, IPlayer player, AbstractLocation location)
     {
         return true;
     }
