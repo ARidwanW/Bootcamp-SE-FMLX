@@ -47,6 +47,7 @@ public abstract class AbstractLocation
     /// </summary>
     /// <value>bool</value>
     public bool _isOnReveal { get; private set; }
+    private bool _isValid;
     private List<AbstractCard> _allCards;
     private Dictionary<IPlayer, List<AbstractCard>> _playersCards;
     private Dictionary<IPlayer, int> _playersPower;
@@ -61,7 +62,7 @@ public abstract class AbstractLocation
     /// <param name="locationStatus">Status (Hidden, Revealed) of Location</param>
     /// <param name="isOnGoing">Boolean: true if ability is OnGoing type</param>
     /// <param name="isOnReveal">Boolean: true if ability is OnReveal type</param>
-    public AbstractLocation(int id, string name, string description, LocationAbility ability, LocationStatus locationStatus = LocationStatus.Hidden, bool isOnGoing = false, bool isOnReveal = false)
+    public AbstractLocation(int id, string name, string description, LocationAbility ability, LocationStatus locationStatus = LocationStatus.Hidden, bool isOnGoing = false, bool isOnReveal = false, bool isValid = true)
     {
         Id = id;
         Name = name;
@@ -70,6 +71,7 @@ public abstract class AbstractLocation
         _locationStatus = locationStatus;
         _isOnGoing = isOnGoing;
         _isOnReveal = isOnReveal;
+        _isValid = isValid;
         _allCards = new List<AbstractCard>();
         _playersCards = new Dictionary<IPlayer, List<AbstractCard>>();
         _playersPower = new Dictionary<IPlayer, int>();
@@ -97,6 +99,17 @@ public abstract class AbstractLocation
     public bool SetLocationStatus(LocationStatus status)
     {
         _locationStatus = status;
+        return true;
+    }
+
+    public bool IsLocationValid()
+    {
+        return _isValid;
+    }
+
+    public bool SetLocationValid(bool valid)
+    {
+        _isValid = valid;
         return true;
     }
 
