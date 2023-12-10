@@ -129,7 +129,7 @@ public class PlayerInfo
     /// <returns>true: if all card is successfully assigned to player hand; otherwise, false</returns>
     public bool AssignCardToHand(params AbstractCard[] cards)
     {
-        // int status = 0;
+        int status = 0;
         foreach (var card in cards)
         {
             // if (_handCards.Contains(card))
@@ -139,11 +139,12 @@ public class PlayerInfo
             // }
             if(_deck.Contains(card))
             {
+                status++;
                 _handCards.Add(card);
             }
         }
-        // return (status > 0) ? false : true;
-        return true;
+        return (status > 0) ? true : false;
+        // return true;
     }
 
     /// <summary>
