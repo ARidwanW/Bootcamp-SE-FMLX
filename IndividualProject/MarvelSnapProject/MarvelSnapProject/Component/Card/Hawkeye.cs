@@ -65,7 +65,7 @@ public class Hawkeye : AbstractCard
 
     public override bool DeployCard(GameController game, IPlayer player, AbstractLocation location)
     {
-        if (GetCardStatus() != CardStatus.OnLocation)
+        if (GetCardStatus() != CardStatus.OnLocation && GetCardStatus() == CardStatus.OnHand)
         {
             SetCardStatus(CardStatus.OnLocation);
             SetRoundDeployed(game.GetCurrentRound());
