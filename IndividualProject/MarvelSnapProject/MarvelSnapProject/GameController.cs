@@ -131,11 +131,14 @@ public class GameController
             return false;
         }
 
-        foreach(var card in cards)
+        foreach (var card in cards)
         {
-            var cloneCard = card.Clone();
-            status = _players[player].AssignCardToDeck(cloneCard);
-            _players[player].GetDeck().Find(card => card == cloneCard).SetCardStatus(CardStatus.OnDeck);
+            // var cloneCard = card.Clone();
+            status = _players[player].AssignCardToDeck(card);
+            if (status)
+            {
+                _players[player].GetDeck().Find(card => card == card).SetCardStatus(CardStatus.OnDeck);
+            }   
         }
 
         return status;
@@ -144,12 +147,13 @@ public class GameController
     public bool AssignCardToPlayerHand(IPlayer player, params AbstractCard[] cards)
     {
         // int status = 0;
+        bool status = false;
         if (!_players.ContainsKey(player))
         {
             return false;
         }
 
-        foreach(var card in cards)
+        foreach (var card in cards)
         {
             //* player hand can have same card
             // var cloneCard = card.Clone();
@@ -158,12 +162,16 @@ public class GameController
             //     status++;
             //     continue;
             // }
-            _players[player].AssignCardToHand(card);
-            _players[player].GetDeck().Find(card => card == card).SetCardStatus(CardStatus.OnHand);
+            status = _players[player].AssignCardToHand(card);
+            if (status)
+            {
+                _players[player].GetHandCards().Find(card => card == card).SetCardStatus(CardStatus.OnHand);
+            }
+
         }
 
         // return (status > 0) ? false : true;
-        return true;
+        return status;
     }
 
 
