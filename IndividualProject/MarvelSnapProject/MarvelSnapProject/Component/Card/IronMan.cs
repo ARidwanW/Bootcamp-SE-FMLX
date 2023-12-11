@@ -24,7 +24,7 @@ public class IronMan : AbstractCard
     {
         if(IsDeployed())
         {
-            if(GetRoundDeployed() != _roundDeployed)
+            if(game.GetCurrentRound() != _roundDeployed)
             {
                 return false;
             }
