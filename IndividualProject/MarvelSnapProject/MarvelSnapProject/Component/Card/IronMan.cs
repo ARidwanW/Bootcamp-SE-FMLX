@@ -6,7 +6,6 @@ namespace MarvelSnapProject.Component.Card;
 
 public class IronMan : AbstractCard
 {
-    private int _roundDeployed;
     private AbstractLocation _locationDeployed;
     private IPlayer _deployer;
 
@@ -41,24 +40,12 @@ public class IronMan : AbstractCard
         if (!IsDeployed() && GetCardStatus() == CardStatus.OnHand)
         {
             SetCardStatus(CardStatus.OnLocation);
-            SetRoundDeployed(game.GetCurrentRound());
             SetDeployer(player);
             SetLocationDeployed(location);
             RegisterSpecialAbilityOnGoing(game);
             return true;
         }
         return false;
-    }
-
-    public int GetRoundDeployed()
-    {
-        return _roundDeployed;
-    }
-
-    public bool SetRoundDeployed(int round)
-    {
-        _roundDeployed = round;
-        return true;
     }
 
     public AbstractLocation GetLocationDeployed()
