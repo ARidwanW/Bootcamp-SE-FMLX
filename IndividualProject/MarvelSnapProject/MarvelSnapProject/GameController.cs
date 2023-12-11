@@ -134,10 +134,12 @@ public class GameController
         foreach (var card in cards)
         {
             // var cloneCard = card.Clone();
-            status = _players[player].AssignCardToDeck(card);
+            status = _players[player].AssignCardToDeck(card.Clone());
+            // status = _players[player].AssignCardToDeck(card);
             if (status)
             {
-                _players[player].GetDeck().Find(card => card == card).SetCardStatus(CardStatus.OnDeck);
+                _players[player].GetDeck().Find(c => c.Name == card.Name).SetCardStatus(CardStatus.OnDeck);
+                // _players[player].GetDeck().Find(card => card == card).SetCardStatus(CardStatus.OnDeck);
             }   
         }
 
@@ -162,10 +164,13 @@ public class GameController
             //     status++;
             //     continue;
             // }
-            status = _players[player].AssignCardToHand(card);
+            var cardInDeck = _players[player].GetDeck().Find(c => c.Name == card.Name);
+            status = _players[player].AssignCardToHand(cardInDeck);
+            // status = _players[player].AssignCardToHand(card);
             if (status)
             {
-                _players[player].GetHandCards().Find(card => card == card).SetCardStatus(CardStatus.OnHand);
+                _players[player].GetHandCards().Find(c => c.Name == card.Name).SetCardStatus(CardStatus.OnHand);
+                // _players[player].GetHandCards().Find(card => card == card).SetCardStatus(CardStatus.OnHand);
             }
 
         }
