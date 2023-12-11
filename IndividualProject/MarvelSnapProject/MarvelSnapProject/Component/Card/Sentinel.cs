@@ -7,7 +7,9 @@ namespace MarvelSnapProject.Component.Card;
 
 public class Sentinel : AbstractCard
 {
-    public Sentinel() : base(11, "Sentinel", "On Reveal: Add another Sentinel to your hand.", 
+    private int _roundDeployed;
+    private IPlayer _deployer;
+    public Sentinel() : base(11, "Sentinel", "On Reveal: Add another Sentinel to your hand.",
                             2, 3, CardAbility.OnReveal, CardStatus.None, false, true)
     {
     }
@@ -24,7 +26,57 @@ public class Sentinel : AbstractCard
 
     public override bool SpecialAbilityOnReveal(GameController game)
     {
+        if (IsDeployed())
+        {
+            //* NextRound --> invoke --> round + 1
+            if (game.GetCurrentRound() != _roundDeployed + 1)
+            {
+                return false;
+            }
+            return game.AssignCardToPlayerHand(_deployer, new Sentinel());
+        }
+        return false;
+    }
+
+    public override bool DeployCard(GameController game, IPlayer player, AbstractLocation location)
+    {
+        if (!IsDeployed() && GetCardStatus() == CardStatus.OnHand)
+        {
+            SetCardStatus(CardStatus.OnLocation);
+            SetRoundDeployed(game.GetCurrentRound());
+            RegisterSpecialAbilityOnReveal(game);
+            return true;
+        }
+        return false;
+    }
+
+    public int GetRoundDeployed()
+    {
+        return _roundDeployed;
+    }
+
+    public bool SetRoundDeployed(int round)
+    {
+        _roundDeployed = round;
         return true;
     }
 
+    public IPlayer GetDeployer()
+    {
+        return _deployer;
+    }
+
+    public bool SetDeployer(IPlayer player)
+    {
+        _deployer = player;
+        return true;
+    }
+
+    public void RegisterSpecialAbilityOnReveal(GameController game)
+    {
+        if (IsDeployed())
+        {
+            game.OnRevealCardAbilityCall += SpecialAbilityOnReveal;
+        }
+    }
 }
