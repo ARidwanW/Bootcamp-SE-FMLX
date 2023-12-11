@@ -26,18 +26,37 @@ public class JessicaJones : AbstractCard
 
     public override bool SpecialAbilityOnReveal(GameController game)
     {
+        //if player 1:
+        //  card deploy --> end turn --> player 2 turn --> invoke --> false
+        //  end turn --> player 1 --> invoke --> false
+        //  next round --> invoke --> false (still player 1)
+        //  no card deploy --> end turn --> player 2 turn --> invoke --> true 9
+        //  end turn --> player 1 --> invoke --> false
+        //  card deploy --> end turn --> player 2 --> invoke --> true 5
+        // if player 1 deploy next round:
+        //  card deploy --> end turn --> player 2 turn --> invoke --> false
+        //  end turn --> player 1 --> invoke --> false
+        //  next round --> invoke --> false (still player 1)
+        //  card deploy --> end turn --> player 2 turn --> invoke --> true 5
         if (IsDeployed())
         {
-            if (game.GetCurrentRound() != _roundDeployed + 1)
+            if (game.GetCurrentRound() < _roundDeployed + 1)
             {
                 return false;
             }
 
-            AbstractLocation location = game.GetLocation(_locationDeployed);
-            bool anotherCard = location.GetPlayerCards(_deployer).Count == 1;
-            if (anotherCard)
+            if (game.GetCurrentTurn() != _deployer)
             {
-                return SetPower(GetPower() + 4);
+                AbstractLocation location = game.GetLocation(_locationDeployed);
+                int countCardInLocation = location.GetPlayerCards(_deployer).Count;
+                if (countCardInLocation == 1)
+                {
+                    return SetPower(9);
+                } else if (countCardInLocation > 1)
+                {
+                    _roundDeployed = 7;
+                    return SetPower(5);
+                }
             }
         }
         return false;
