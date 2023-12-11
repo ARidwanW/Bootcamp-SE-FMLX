@@ -46,11 +46,16 @@ public class Hawkeye : AbstractCard
                 return false;
             }
 
-            bool anotherCard = game.GetLocation(_locationDeployed).GetPlayerCards(_deployer).Count > 1;
-            if (anotherCard)
+            if (game.GetCurrentTurn() != _deployer)
             {
-                return SetPower(GetPower() + 3);
+                var location = game.GetLocation(_locationDeployed);
+                bool anotherCard = location.GetPlayerCards(_deployer).Count > 1;
+                if (anotherCard)
+                {
+                    return SetPower(GetPower() + 3);
+                }
             }
+
 
         }
         return false;
