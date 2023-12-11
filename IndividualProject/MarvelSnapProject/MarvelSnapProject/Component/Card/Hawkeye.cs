@@ -7,7 +7,7 @@ namespace MarvelSnapProject.Component.Card;
 public class Hawkeye : AbstractCard
 {
     private int _roundDeployed;
-    private AbstractLocation? _locationDeployed;
+    private AbstractLocation _locationDeployed;
     private IPlayer _deployer;
     // private IPlayer _deployer;
     public Hawkeye() : base(3, "Hawkeye", "On Reveal: if you play a card at this location next turn, +3 power.",
