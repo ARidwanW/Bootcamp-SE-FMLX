@@ -48,7 +48,7 @@ public class Medusa : AbstractCard
 
             if (isLocationMid)
             {
-                return SetPower(GetPower() + 3);
+                return this.SetPower(this.GetPower() + 3);
             }
         }
         return false;
