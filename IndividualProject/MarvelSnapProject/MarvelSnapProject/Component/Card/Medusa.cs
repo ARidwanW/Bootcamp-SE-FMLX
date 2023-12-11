@@ -64,7 +64,6 @@ public class Medusa : AbstractCard
             RegisterSpecialAbilityOnReveal(game);
             return true;
         }
-
         return false;
     }
 
