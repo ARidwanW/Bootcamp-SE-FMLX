@@ -28,31 +28,28 @@ public class Medusa : AbstractCard
     {
         if (IsDeployed())
         {
+            //* NextRound --> invoke --> round + 1
             if (game.GetCurrentRound() != _roundDeployed + 1)
             {
                 return false;
             }
 
-            if (game.GetCurrentTurn() != _deployer)
+            var allLocations = game.GetAllLocations();
+            int locationIndex = allLocations.IndexOf(_locationDeployed);
+            bool isLocationMid;
+            if (allLocations.Count % 2 == 0)
             {
-                var allLocations = game.GetAllLocations();
-                int locationIndex = allLocations.IndexOf(_locationDeployed);
-                bool isLocationMid;
-                if (allLocations.Count % 2 == 0)
-                {
-                    isLocationMid = locationIndex == (allLocations.Count / 2) - 1;
-                }
-                else
-                {
-                    isLocationMid = locationIndex == (allLocations.Count / 2);
-                }
-                if (isLocationMid)
-                {
-                    return SetPower(GetPower() + 3);
-                }
+                isLocationMid = locationIndex == (allLocations.Count / 2) - 1;
+            }
+            else
+            {
+                isLocationMid = locationIndex == (allLocations.Count / 2);
             }
 
-
+            if (isLocationMid)
+            {
+                return SetPower(GetPower() + 3);
+            }
         }
         return false;
     }
