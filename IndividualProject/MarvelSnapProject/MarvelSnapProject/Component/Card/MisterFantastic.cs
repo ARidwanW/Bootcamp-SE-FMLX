@@ -22,7 +22,7 @@ public class MisterFantastic : AbstractCard
     public override bool SpecialAbilityOnGoing(GameController game)
     {
         int status = 0;
-        var allLocations = game.GetAllLocations();
+        var allLocations = game.GetAllDeployedLocations();
         int cardLocationIndex = allLocations.IndexOf(_locationDeployed);
         // AbstractLocation adjacentLocationLeft;
         // AbstractLocation adjacentLocationRight;
