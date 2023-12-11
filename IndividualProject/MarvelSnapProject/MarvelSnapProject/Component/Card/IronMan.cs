@@ -9,8 +9,8 @@ public class IronMan : AbstractCard
     private int _roundDeployed;
     private AbstractLocation _locationDeployed;
     private IPlayer _deployer;
-    
-    public IronMan() : base(5, "Iron Man", "On Going: Your total Power is doubled at this location.", 
+
+    public IronMan() : base(5, "Iron Man", "On Going: Your total Power is doubled at this location.",
                             5, 0, CardAbility.OnGoing, CardStatus.None, true, false)
     {
     }
@@ -22,19 +22,11 @@ public class IronMan : AbstractCard
 
     public override bool SpecialAbilityOnGoing(GameController game)
     {
-        if(IsDeployed())
+        if (IsDeployed())
         {
-            if(game.GetCurrentRound() != _roundDeployed)
-            {
-                return false;
-            }
-
-            if(game.GetCurrentTurn() != _deployer)  // when enemy turn, this invoke will true
-            {
-                AbstractLocation cardLocation = game.GetLocation(_locationDeployed);
-                int totalPower = cardLocation.GetPlayerPower(_deployer);
-                return cardLocation.AssignPlayerPower(_deployer, totalPower * 2);;
-            }
+            AbstractLocation cardLocation = game.GetLocation(_locationDeployed);
+            int totalPower = cardLocation.GetPlayerPower(_deployer);
+            return cardLocation.AssignPlayerPower(_deployer, totalPower * 2); ;
         }
         return false;
     }
@@ -46,7 +38,7 @@ public class IronMan : AbstractCard
 
     public override bool DeployCard(GameController game, IPlayer player, AbstractLocation location)
     {
-        if(!IsDeployed() && GetCardStatus() == CardStatus.OnHand)
+        if (!IsDeployed() && GetCardStatus() == CardStatus.OnHand)
         {
             SetCardStatus(CardStatus.OnLocation);
             SetRoundDeployed(game.GetCurrentRound());
@@ -69,7 +61,7 @@ public class IronMan : AbstractCard
         return true;
     }
 
-     public AbstractLocation GetLocationDeployed()
+    public AbstractLocation GetLocationDeployed()
     {
         return _locationDeployed;
     }
