@@ -49,18 +49,11 @@ public class Hawkeye : AbstractCard
             bool anotherCard = game.GetLocation(_locationDeployed).GetPlayerCards(_deployer).Count > 1;
             if (anotherCard)
             {
-                return AddPower(3);
+                return SetPower(GetPower() + 3);
             }
 
         }
-
         return false;
-    }
-
-    public bool AddPower(int addPower)
-    {
-        var power = GetPower();
-        return SetPower(power + addPower);
     }
 
     public override bool DeployCard(GameController game, IPlayer player, AbstractLocation location)
