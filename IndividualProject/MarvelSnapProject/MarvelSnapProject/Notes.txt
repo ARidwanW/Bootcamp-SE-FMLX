@@ -28,25 +28,31 @@ dlam method round check, apakah roundnya memenuhi untuk dieksekusi, jjika sudha 
 - generate allcard
 - assign card to player deck
     card.setcardstatus(ondeck)
+- next round --> round 1 --> set round status: start
 - playerA turn
 - assign card to player hand
     card.setcardstatus(ondeck)
 - assign player card to location (player, location, card)
     location.AssignPlayerCardToLocation(player, card) -- if(ongoing or onreveal) card.deploycard() --> register ability
-    //card.DeployCard(GameController, location)
+    //card.DeployCard(GameController, player, location)
                                                                         card.registerspecialabilityonreveal(GameController)
                                                                         card.registerspecialabilityongoing(GameController)
+- next turn --> is round status is end --> invoke
+- playerB turn
+- assign card to player hand
+    card.setcardstatus(ondeck)
+- assign player card to location (player, location, card)
+    location.AssignPlayerCardToLocation(player, card)
+- next turn --> if playerB is last player --> set round status: end
+
 
 - kartu harus punya clone
 - virtual deploy card di abstract card
 
-- next turn must be called before next round
-- in next turn:
-    index + 1;
-    - if index >= listplayer.count {nextround()}
-
-- or in next round must invoke before adding the round
+//!! after thinking about it, just do invoke every next round method called
+- NextRound --> invoke --> round + 1
 
 //!!! Dont miss this logic
 ---> On Going: means that this card possible to change the game flow round by round
 ---> On Reveal: means that this card only use ability in first time deployed or just one time, can be now or next round.
+---> both ability type invoke in next turn and next round;
