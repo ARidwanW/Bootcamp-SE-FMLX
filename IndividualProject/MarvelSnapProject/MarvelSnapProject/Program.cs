@@ -46,19 +46,38 @@ public partial class Program
         // Console.WriteLine(location.Name);
 
         //* simple test
+        // GameController game = new();
+        // MSPlayer Wawan = new(1, "Wawan");
+        // Hawkeye hawkeye = new();
+        // var hawkeyeCard = hawkeye.Clone();
+        // Abomination abomination = new();
+        // game.AssignPlayer(Wawan);
+        // game.AssignCardToPlayerDeck(Wawan,hawkeyeCard);
+        // var wawanDeck = game.GetPlayerDeck(Wawan);
+        // foreach(var card in wawanDeck)
+        // {
+        //     Console.WriteLine(card.Name + card.GetCardStatus());
+        // }
+        // var assignCardToWawan = game.AssignCardToPlayerHand(Wawan, hawkeyeCard);
+        // Console.WriteLine(assignCardToWawan);
+        // foreach(var card in game.GetPlayerHand(Wawan))
+        // {
+        //     Console.WriteLine(card.Name + card.GetCardStatus());
+        // }
+
+        //* simple test 2
         GameController game = new();
         MSPlayer Wawan = new(1, "Wawan");
         Hawkeye hawkeye = new();
-        var hawkeyeCard = hawkeye.Clone();
         Abomination abomination = new();
         game.AssignPlayer(Wawan);
-        game.AssignCardToPlayerDeck(Wawan,hawkeyeCard);
+        game.AssignCardToPlayerDeck(Wawan, hawkeye, abomination);
         var wawanDeck = game.GetPlayerDeck(Wawan);
         foreach(var card in wawanDeck)
         {
             Console.WriteLine(card.Name + card.GetCardStatus());
         }
-        var assignCardToWawan = game.AssignCardToPlayerHand(Wawan, hawkeyeCard);
+        var assignCardToWawan = game.AssignCardToPlayerHand(Wawan, hawkeye, abomination);
         Console.WriteLine(assignCardToWawan);
         foreach(var card in game.GetPlayerHand(Wawan))
         {
