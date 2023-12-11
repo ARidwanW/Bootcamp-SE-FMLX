@@ -34,7 +34,7 @@ public class Medusa : AbstractCard
                 return false;
             }
 
-            var allLocations = game.GetAllLocations();
+            var allLocations = game.GetAllDeployedLocations();
             int locationIndex = allLocations.IndexOf(_locationDeployed);
             bool isLocationMid;
             if (allLocations.Count % 2 == 0)
