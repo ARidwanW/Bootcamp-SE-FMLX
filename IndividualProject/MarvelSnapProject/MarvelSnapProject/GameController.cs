@@ -9,14 +9,15 @@ namespace MarvelSnapProject;
 
 public class GameController
 {
-    private readonly Logger? _logger;
+    private readonly Logger _logger;
     private GameStatus _gameStatus;
     private int _round;
-    private Dictionary<IPlayer, PlayerInfo>? _players;
-    private List<AbstractLocation>? _locations;
-    private List<AbstractCard>? _allCards;
+    private Dictionary<IPlayer, PlayerInfo> _players;
+    private List<AbstractLocation> _locations;
+    private List<AbstractLocation> _allLocations;
+    private List<AbstractCard> _allCards;
     private IPlayer _currentTurn;
-    private IPlayer? _winner;
+    private IPlayer _winner;
     public Action<AbstractCard, CardStatus>? OnCardStatusUpdate;
     public Action<AbstractLocation, LocationStatus>? OnLocationStatusUpdate;
     public Action<AbstractLocation>? OnLocationUpdate;
@@ -98,6 +99,11 @@ public class GameController
 
     public List<AbstractLocation> GetAllLocations()
     {
+        return _allLocations;
+    }
+
+    public List<AbstractLocation> GetAllDeployedLocations()
+    {
         return _locations;
     }
 
@@ -162,7 +168,6 @@ public class GameController
             }
 
         }
-
         // return (status > 0) ? false : true;
         return status;
     }
