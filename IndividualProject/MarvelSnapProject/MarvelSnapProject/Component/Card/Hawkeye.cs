@@ -27,36 +27,20 @@ public class Hawkeye : AbstractCard
 
     public override bool SpecialAbilityOnReveal(GameController game)
     {
-        //?? how to implemen the ability :')
-        // if player 1:
-        // - card deployed -> end turn -> invoke -> false
-        // - player 2 -> end turn -> invoke -> false
-        // - next round -> player 1 turn -> invoke -> false (another card deployed yet)
-        // - end turn -> player 2 turn -> invoke -> true (if another card is deployed)
-        // if player 2:
-        // - card deployed -> next round -> player 1 turn -> invoke -> false
-        // - end turn -> player 2 turn -> invoke -> false (another card deployed yet)
-        // - next round -> player 1 turn -> invoke -> false (coz it's round + 2)
-        //! - next turn must be called before next round
-        //! or in next round must invoke before adding the round
         if (IsDeployed())
         {
+            //* NextRound --> invoke --> round + 1
             if (game.GetCurrentRound() != _roundDeployed + 1)
             {
                 return false;
             }
 
-            if (game.GetCurrentTurn() != _deployer)
+            var location = game.GetLocation(_locationDeployed);
+            bool anotherCard = location.GetPlayerCards(_deployer).Count > 1;
+            if (anotherCard)
             {
-                var location = game.GetLocation(_locationDeployed);
-                bool anotherCard = location.GetPlayerCards(_deployer).Count > 1;
-                if (anotherCard)
-                {
-                    return SetPower(GetPower() + 3);
-                }
+                return SetPower(GetPower() + 3);
             }
-
-
         }
         return false;
     }
@@ -72,7 +56,6 @@ public class Hawkeye : AbstractCard
             RegisterSpecialAbilityOnReveal(game);
             return true;
         }
-
         return false;
     }
 
@@ -116,5 +99,4 @@ public class Hawkeye : AbstractCard
             game.OnRevealCardAbilityCall += SpecialAbilityOnReveal;
         }
     }
-
 }
