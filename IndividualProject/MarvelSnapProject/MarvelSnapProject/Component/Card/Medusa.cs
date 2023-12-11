@@ -7,8 +7,8 @@ namespace MarvelSnapProject.Component.Card;
 public class Medusa : AbstractCard
 {
     private int _roundDeployed;
-    private AbstractLocation? _locationDeployed;
-    private IPlayer _deployer;
+    private AbstractLocation _locationDeployed;
+
     public Medusa() : base(7, "Medusa", "On Reveal: if this at the middle location, +3 Power.",
                             2, 2, CardAbility.OnReveal, CardStatus.None, false, true)
     {
@@ -60,7 +60,6 @@ public class Medusa : AbstractCard
         {
             SetCardStatus(CardStatus.OnLocation);
             SetRoundDeployed(game.GetCurrentRound());
-            SetDeployer(player);
             SetLocationDeployed(location);
             RegisterSpecialAbilityOnReveal(game);
             return true;
@@ -88,17 +87,6 @@ public class Medusa : AbstractCard
     public bool SetLocationDeployed(AbstractLocation location)
     {
         _locationDeployed = location;
-        return true;
-    }
-
-    public IPlayer GetDeployer()
-    {
-        return _deployer;
-    }
-
-    public bool SetDeployer(IPlayer player)
-    {
-        _deployer = player;
         return true;
     }
 
