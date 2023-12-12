@@ -5,9 +5,9 @@ using MarvelSnapProject.Component.Player;
 
 namespace MarvelSnapProjectSimpleTest;
 
-public class SimpleTest
+public static class SimpleTest
 {
-    public void SimpleTestAssignCard1()
+    public static void SimpleTestAssignCard1()
     {
         //* simple test
         GameController game = new();
@@ -30,7 +30,7 @@ public class SimpleTest
         }
     }
 
-    public void SimpleTestAssignCard2()
+    public static void SimpleTestAssignCard2()
     {
         //* simple test 2
         GameController game = new();
@@ -52,7 +52,7 @@ public class SimpleTest
         }
     }
 
-    public void SimpleTestGetItemName()
+    public static void SimpleTestGetItemName()
     {
         //* test to get item name from list
         PlayerInfo playerInfo = new PlayerInfo();
@@ -77,7 +77,7 @@ public class SimpleTest
         }
     }
 
-    public void SimpleTestGetLocation()
+    public static void SimpleTestGetLocation()
     {
         //* test GetLocation(AbstractLocation) to get item from List<AbstractLocation> in GameController
         GameController game = new();
@@ -93,5 +93,58 @@ public class SimpleTest
             Console.WriteLine(item);
         }
         Console.WriteLine(location.Name);
+    }
+
+    public static void TestGame()
+    {
+        //* Let's Create the game
+        GameController game = new GameController();
+
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.WriteLine("==== Welcome To Wawan Snap ==== \n");
+        Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("A Marvel Snap Clone Project");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("By: Alwandia Ridwan Wadiska");
+        Console.ResetColor();
+
+        //* Assign Player
+        string? name1, name2;
+        IPlayer player1, player2;
+        do
+        {
+            Console.Write("Input First Player's Name \t: ");
+            name1 = Console.ReadLine();
+            name1 = char.ToUpper(name1[0]) + name1.Substring(1);
+            player1 = new MSPlayer(101, name1);
+        } while (name1 == "" || !game.AssignPlayer(player1));
+        game.AssignPlayer(player1);
+
+        do
+        {
+            Console.Write("Input Second Player's Name \t: ");
+            name2 = Console.ReadLine();
+            name2 = char.ToUpper(name2[0]) + name2.Substring(1);
+            player2 = new MSPlayer(102, name2);
+        }
+        while (name2 == "" || !game.AssignPlayer(player2));
+        game.AssignPlayer(player2);
+
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"\nWelcome {player1.Name} and {player2.Name} ! \nLets Play !! \n");
+        Console.ResetColor();
+
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        do
+        {
+            Console.WriteLine("\nPress Enter to start the Game");
+        }
+        while (Console.ReadKey().Key != ConsoleKey.Enter);
+        Console.ResetColor();
+
+        Console.Clear();
+        game.NextRound();
     }
 }
