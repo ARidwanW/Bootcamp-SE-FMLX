@@ -5,20 +5,31 @@ using MarvelSnapProject.Component.Player;
 using Spectre.Console;
 
 
-public partial class Program
+class Program
 {
-    private static void Main(string[] args)
+    public static void Main(string[] args)
     {
         //* Let's Create the game
         GameController game = new GameController();
-        AnsiConsole.Write(new Markup("[bold yellow]Hello[/] [red]World![/]\n"));
-        var table = new Table();
-        table.AddColumn(new TableColumn(new Markup("[yellow]Foo[/]")));
-        table.AddColumn(new TableColumn("[blue]Bar[/]"));
-        AnsiConsole.Write(table);
-        AnsiConsole.MarkupLine(":accordion:");
-        
+        var table = new Table().Centered();
+        AnsiConsole.Live(table)
+        .AutoClear(false)   // Do not remove when done
+        .Overflow(VerticalOverflow.Ellipsis) // Show ellipsis when overflowing
+        .Cropping(VerticalOverflowCropping.Top) // Crop overflow at top
+            .Start(ctx =>
+            {
+                table.AddColumn("Foo");
+                ctx.Refresh();
+                Thread.Sleep(1000);
 
+                table.AddColumn("Bar");
+                ctx.Refresh();
+                Thread.Sleep(1000);
+
+                table.AddColumn("baz");
+                ctx.Refresh();
+                Thread.Sleep(1000);
+            });
 
     }
 }
