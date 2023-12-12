@@ -120,6 +120,10 @@ public abstract class AbstractLocation
 
     public bool AssignCardToLocation(params AbstractCard[] cards)
     {
+        foreach(var card in cards)
+        {
+            _allCards.Add(card);
+        }
         return true;
     }
 
@@ -138,7 +142,8 @@ public abstract class AbstractLocation
         {
             _playersCards[player].Add(card);
         }
-        return true;
+        
+        return AssignCardToLocation(card);;
     }
 
     public int GetPlayerPower(IPlayer player)
