@@ -163,6 +163,10 @@ public static class SimpleTest
             game.AssignCardToPlayerHand(player1, cyclops, medusa, quickSilver);
             game.AssignCardToPlayerHand(player2, cyclops, medusa, quickSilver);
 
+            if(Console.ReadKey().Key != ConsoleKey.Escape)
+            {
+                game.SetGameStatus(GameStatus.Finished);
+            }
         }
     }
 }
