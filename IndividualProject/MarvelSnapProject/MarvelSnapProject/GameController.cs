@@ -59,6 +59,7 @@ public class GameController
 
     public bool NextRound()
     {
+        _gameStatus = GameStatus.Running;
         OnRevealCardAbilityCall?.Invoke(this);
         OnGoingCardAbilityCall?.Invoke(this);
         OnRevealLocationAbilityCall?.Invoke(this);
