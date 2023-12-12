@@ -132,6 +132,11 @@ public abstract class AbstractLocation
         return _playersCards[player];
     }
 
+    public Dictionary<IPlayer, List<AbstractCard>> GetAllPlayersCards()
+    {
+        return _playersCards;
+    }
+
     public bool AssignPlayerCardToLocation(IPlayer player, AbstractCard card)
     {
         if (!_playersCards.ContainsKey(player))
