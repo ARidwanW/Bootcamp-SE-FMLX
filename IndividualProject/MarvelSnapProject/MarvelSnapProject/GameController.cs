@@ -1,3 +1,4 @@
+using System.CodeDom.Compiler;
 using MarvelSnapProject.Component.Card;
 using MarvelSnapProject.Component.Location;
 using MarvelSnapProject.Component.Player;
@@ -58,6 +59,10 @@ public class GameController
 
     public bool NextRound()
     {
+        OnRevealCardAbilityCall.Invoke(this);
+        OnGoingCardAbilityCall.Invoke(this);
+        OnRevealLocationAbilityCall.Invoke(this);
+        OnGoingLocationAbilityCall.Invoke(this);
         _round += 1;
         return true;
     }
@@ -86,6 +91,16 @@ public class GameController
     {
         List<IPlayer> players = _players.Keys.ToList();
         return players;
+    }
+
+    public Dictionary<IPlayer, PlayerInfo> GetAllPlayersInfo()
+    {
+        return _players;
+    }
+
+    public PlayerInfo GetPlayerInfo(IPlayer player)
+    {
+        return _players[player];
     }
 
     public List<AbstractCard> GetPlayerDeck(IPlayer player)
@@ -151,7 +166,7 @@ public class GameController
             if (status)
             {
                 _players[player].GetDeck().Find(c => c.Name == card.Name).SetCardStatus(CardStatus.OnDeck);
-            }   
+            }
         }
 
         return status;
@@ -190,6 +205,24 @@ public class GameController
     public bool SetTurn(IPlayer player)
     {
         _currentTurn = player;
+        return true;
+    }
+
+    public bool SetTurn(int index)
+    {
+        _currentTurn = GetAllPlayers()[index];
+        return true;
+    }
+
+    public bool NextTurn()
+    {
+        var indexCurrent = GetAllPlayers().IndexOf(GetCurrentTurn());
+        var indexNext = indexCurrent + 1;
+        if (indexNext > GetAllPlayers().Count - 1)
+        {
+            indexNext = 0;
+        }
+        SetTurn(indexNext);
         return true;
     }
 
