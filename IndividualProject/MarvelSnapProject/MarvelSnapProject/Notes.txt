@@ -55,4 +55,4 @@ dlam method round check, apakah roundnya memenuhi untuk dieksekusi, jjika sudha 
 //!!! Dont miss this logic
 ---> On Going: means that this card possible to change the game flow round by round
 ---> On Reveal: means that this card only use ability in first time deployed or just one time, can be now or next round.
----> both ability type invoke in next turn and next round;
+---> both ability type invoke in next round;
