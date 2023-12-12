@@ -7,3 +7,7 @@ Flooded = 6
 KunLun = 7
 NegativeZone = 8
 Ruins = 9
+
+// Not implement:
+- Attilan
+- Central Park
