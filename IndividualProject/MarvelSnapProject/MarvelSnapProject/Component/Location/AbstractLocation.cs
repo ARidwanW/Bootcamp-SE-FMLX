@@ -151,6 +151,11 @@ public abstract class AbstractLocation
         return _playersPower[player];
     }
 
+    public Dictionary<IPlayer, int> GetAllPlayersPower()
+    {
+        return _playersPower;
+    }
+
     public bool AssignPlayerPower(IPlayer player, int power)
     {
         bool status = _playersPower.TryAdd(player, power);
