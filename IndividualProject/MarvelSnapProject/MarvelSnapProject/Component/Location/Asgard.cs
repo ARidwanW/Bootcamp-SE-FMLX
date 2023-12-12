@@ -24,16 +24,16 @@ public class Asgard : AbstractLocation
             return false;
         }
 
-        var allPlayersPower = GetAllPlayersPower();
+        // var allPlayersPower = GetAllPlayersPower();
         List<IPlayer> locationWinners = new List<IPlayer>();
         int maxPower = 0;
 
-        if (allPlayersPower.Count < 0)
+        if (GetAllPlayersPower().Count < 0)
         {
             return false;
         }
 
-        foreach (var playerPower in allPlayersPower)
+        foreach (var playerPower in GetAllPlayersPower())
         {
             if (playerPower.Value > maxPower)
             {
@@ -41,7 +41,7 @@ public class Asgard : AbstractLocation
             }
         }
 
-        foreach (var playerPower in allPlayersPower)
+        foreach (var playerPower in GetAllPlayersPower())
         {
             if (playerPower.Value == maxPower)
             {
