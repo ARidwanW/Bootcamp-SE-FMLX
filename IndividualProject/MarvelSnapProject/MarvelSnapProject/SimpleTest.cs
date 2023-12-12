@@ -2,6 +2,7 @@ using MarvelSnapProject;
 using MarvelSnapProject.Component.Card;
 using MarvelSnapProject.Component.Location;
 using MarvelSnapProject.Component.Player;
+using MarvelSnapProject.Enum;
 
 namespace MarvelSnapProjectSimpleTest;
 
@@ -146,5 +147,22 @@ public static class SimpleTest
 
         Console.Clear();
         game.NextRound();
+
+        //* Cards
+        Abomination abomination = new();
+        Cyclops cyclops = new();
+        Hawkeye hawkeye = new();
+        Hulk hulk = new();
+        Medusa medusa = new();
+        QuickSilver quickSilver = new();
+
+        while(game.GetCurrentGameStatus() == GameStatus.Running)
+        {
+            game.AssignCardToPlayerDeck(player1, abomination,cyclops,hawkeye,hulk,medusa, quickSilver);
+            game.AssignCardToPlayerDeck(player2, abomination,cyclops,hawkeye,hulk,medusa, quickSilver);
+            game.AssignCardToPlayerHand(player1, cyclops, medusa, quickSilver);
+            game.AssignCardToPlayerHand(player2, cyclops, medusa, quickSilver);
+
+        }
     }
 }
