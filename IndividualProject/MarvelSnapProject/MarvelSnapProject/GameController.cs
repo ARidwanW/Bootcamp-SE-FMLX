@@ -3,7 +3,6 @@ using MarvelSnapProject.Component.Location;
 using MarvelSnapProject.Component.Player;
 using MarvelSnapProject.Enum;
 using NLog;
-using NLog.Config;
 
 namespace MarvelSnapProject;
 
@@ -37,6 +36,8 @@ public class GameController
         _locations = new List<AbstractLocation>();
         _allCards = new List<AbstractCard>();
         _round = 0;
+
+        _logger?.Info("Game created");
     }
 
     public GameStatus GetCurrentGameStatus()
