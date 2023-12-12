@@ -191,11 +191,8 @@ public class GameController
             }
 
         }
-        // return (status > 0) ? false : true;
         return status;
     }
-
-
 
     public IPlayer GetCurrentTurn()
     {
