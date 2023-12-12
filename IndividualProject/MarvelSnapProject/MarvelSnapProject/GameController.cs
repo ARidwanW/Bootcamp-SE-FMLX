@@ -59,10 +59,10 @@ public class GameController
 
     public bool NextRound()
     {
-        OnRevealCardAbilityCall.Invoke(this);
-        OnGoingCardAbilityCall.Invoke(this);
-        OnRevealLocationAbilityCall.Invoke(this);
-        OnGoingLocationAbilityCall.Invoke(this);
+        OnRevealCardAbilityCall?.Invoke(this);
+        OnGoingCardAbilityCall?.Invoke(this);
+        OnRevealLocationAbilityCall?.Invoke(this);
+        OnGoingLocationAbilityCall?.Invoke(this);
         _round += 1;
         return true;
     }
