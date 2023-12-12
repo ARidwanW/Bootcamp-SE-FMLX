@@ -4,8 +4,12 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <!-- <NoWarn>$(NoWarn);1591;CS1591;3003;3005;3008</NoWarn> -->
+    <!-- !clear all warning, but carefull -->
+    <NoWarn>$(NoWarn);CS0067;CS0649;CS8618;CS8601;CS8602;CS8603;CS8604</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NLog" Version="5.2.7" />
+    <PackageReference Include="Spectre.Console" Version="0.48.0" />
   </ItemGroup>
 </Project>
