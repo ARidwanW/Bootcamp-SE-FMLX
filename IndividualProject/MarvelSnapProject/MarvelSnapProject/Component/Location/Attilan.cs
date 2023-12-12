@@ -2,6 +2,7 @@ using MarvelSnapProject.Enum;
 
 namespace MarvelSnapProject.Component.Location;
 
+//! not use, no time to implement
 public class Attilan : AbstractLocation
 {
     public Attilan() : base(3, "Attilan", "After turn 3, shuffle your hand into your deck. Draw cards.", LocationAbility.Attilan, LocationStatus.Hidden, true, false)
