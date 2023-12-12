@@ -158,14 +158,14 @@ public static class SimpleTest
 
         while(game.GetCurrentGameStatus() == GameStatus.Running)
         {
-            game.AssignCardToPlayerDeck(player1, abomination,cyclops,hawkeye,hulk,medusa, quickSilver);
-            game.AssignCardToPlayerDeck(player2, abomination,cyclops,hawkeye,hulk,medusa, quickSilver);
-            game.AssignCardToPlayerHand(player1, cyclops, medusa, quickSilver);
-            game.AssignCardToPlayerHand(player2, cyclops, medusa, quickSilver);
-            game.GetPlayerDeck(player1);
-            game.GetPlayerDeck(player2);
-            game.GetPlayerHand(player1);
-            game.GetPlayerHand(player2);
+            Console.WriteLine(game.AssignCardToPlayerDeck(player1, abomination,cyclops,hawkeye,hulk,medusa, quickSilver));
+            Console.WriteLine(game.AssignCardToPlayerDeck(player2, abomination,cyclops,hawkeye,hulk,medusa, quickSilver));
+            Console.WriteLine(game.AssignCardToPlayerHand(player1, cyclops, medusa, quickSilver));
+            Console.WriteLine(game.AssignCardToPlayerHand(player2, cyclops, medusa, quickSilver));
+            Console.WriteLine(game.GetPlayerDeck(player1));
+            Console.WriteLine(game.GetPlayerDeck(player2));
+            Console.WriteLine(game.GetPlayerHand(player1));
+            Console.WriteLine(game.GetPlayerHand(player2));
         }
     }
 }
