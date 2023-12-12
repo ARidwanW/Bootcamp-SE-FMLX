@@ -162,11 +162,6 @@ public static class SimpleTest
             game.AssignCardToPlayerDeck(player2, abomination,cyclops,hawkeye,hulk,medusa, quickSilver);
             game.AssignCardToPlayerHand(player1, cyclops, medusa, quickSilver);
             game.AssignCardToPlayerHand(player2, cyclops, medusa, quickSilver);
-
-            if(Console.ReadKey().Key != ConsoleKey.Escape)
-            {
-                game.SetGameStatus(GameStatus.Finished);
-            }
         }
     }
 }
