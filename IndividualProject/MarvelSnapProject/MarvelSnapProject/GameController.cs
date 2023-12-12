@@ -194,6 +194,11 @@ public class GameController
         return status;
     }
 
+    public bool assignPlayerCardToLocation(AbstractLocation location)
+    {
+        return true;
+    }
+
     public IPlayer GetCurrentTurn()
     {
         return _currentTurn;
