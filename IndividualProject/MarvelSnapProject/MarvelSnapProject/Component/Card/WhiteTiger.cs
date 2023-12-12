@@ -44,7 +44,7 @@ public class WhiteTiger : AbstractCard
                 }
                 var cloneWhiteTiger = this.Clone();
                 cloneWhiteTiger.SetPower(8);
-                return deployedLocation.AssignCardToLocation(cloneWhiteTiger);
+                return deployedLocation.AssignPlayerCardToLocation(_deployer, cloneWhiteTiger);
             }
         }
         return false;
