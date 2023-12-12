@@ -129,6 +129,13 @@ public class GameController
         return _allCards;
     }
 
+    public AbstractCard GetShuffleCard()
+    {
+        Random random = new Random();
+        var indexCard = random.Next(_allCards.Count);
+        return _allCards[indexCard];
+    }
+
     public bool AssignCardToPlayerDeck(IPlayer player, params AbstractCard[] cards)
     {
         bool status = false;
