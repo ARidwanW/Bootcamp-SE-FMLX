@@ -10,11 +10,23 @@ public class NegativeZone : AbstractLocation
 
     public override bool SpecialAbilityOnGoing(GameController game)
     {
+        foreach(var card in GetAllCards())
+        {
+            card.SetPower(card.GetPower() - 3);
+        }
         return true;
     }
 
     public override bool SpecialAbilityOnReveal(GameController game)
     {
         return false;
+    }
+
+    public void RegisterSpecialAbilityOnGoing(GameController game)
+    {
+        if (this.GetLocationStatus() == LocationStatus.Revealed)
+        {
+            game.OnGoingLocationAbilityCall += SpecialAbilityOnGoing;
+        }
     }
 }
