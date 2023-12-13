@@ -165,8 +165,22 @@ public abstract class AbstractLocation
 
     public bool AssignPlayerPower(IPlayer player, int power)
     {
-        bool status = _playersPower.TryAdd(player, power);
-        return status;
+        // bool status = _playersPower.TryAdd(player, power);
+        _playersPower[player] = power;
+        return true;
+    }
+
+    public bool AddPlayerPower(IPlayer player, int powerToAdd)
+    {
+        if (_playersPower.ContainsKey(player))
+        {
+            _playersPower[player] += powerToAdd;
+        }
+        else
+        {
+            _playersPower[player] = powerToAdd;
+        }
+        return true;
     }
 
     public bool AssignPlayerToLocation(params IPlayer[] players)

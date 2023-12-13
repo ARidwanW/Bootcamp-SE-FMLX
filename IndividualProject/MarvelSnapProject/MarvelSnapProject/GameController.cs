@@ -70,6 +70,16 @@ public class GameController
         return true;
     }
 
+    public bool NextRound(int maxRound)
+    {
+        if (_round > maxRound)
+        {
+           _gameStatus = GameStatus.Finished;
+           return false;
+        }
+        return NextRound();
+    }
+
     public bool AssignPlayer(params IPlayer[] players)
     {
         int status = 0;
@@ -413,7 +423,7 @@ public class GameController
         var playerCardInLocation = location.GetPlayerCards(player);
         foreach (var card in playerCardInLocation)
         {
-            location.AssignPlayerPower(player, card.GetPower());
+            location.AddPlayerPower(player, card.GetPower());
         }
         return true;
     }

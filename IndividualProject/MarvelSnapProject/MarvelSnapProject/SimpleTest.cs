@@ -141,7 +141,7 @@ public static class SimpleTest
         game.AssignPlayer(player2);
 
         //* list player
-        List<IPlayer> listPlayer = game.GetAllPlayers();
+        List<IPlayer> listPlayers = game.GetAllPlayers();
 
         // Console.ForegroundColor = ConsoleColor.Green;
         // Console.WriteLine($"\nWelcome {player1.Name} and {player2.Name} ! \nLets Play !! \n");
@@ -165,7 +165,7 @@ public static class SimpleTest
         Medusa medusa = new();
         QuickSilver quickSilver = new();
 
-        List<AbstractCard> cards = new List<AbstractCard>()
+        List<AbstractCard> listCards = new List<AbstractCard>()
         {
             abomination,
             cyclops,
@@ -176,9 +176,9 @@ public static class SimpleTest
         };
 
         //* assign card to player deck
-        foreach (var player in listPlayer)
+        foreach (var player in listPlayers)
         {
-            foreach (var card in cards)
+            foreach (var card in listCards)
             {
                 game.AssignCardToPlayerDeck(player, card);
             }
@@ -189,8 +189,8 @@ public static class SimpleTest
         List<AbstractCard> deckPlayer2 = game.GetPlayerDeck(player2);
 
         //* assign card to player hand
-        game.AssignCardToPlayerHand(player1, cards.ToArray());
-        game.AssignCardToPlayerHand(player2, cards.ToArray());
+        game.AssignCardToPlayerHand(player1, listCards.ToArray());
+        game.AssignCardToPlayerHand(player2, listCards.ToArray());
 
 
         //* locations
@@ -198,7 +198,7 @@ public static class SimpleTest
         NegativeZone negativeZone = new NegativeZone();
         Ruins ruins = new Ruins();
 
-        List<AbstractLocation> locations = new List<AbstractLocation>()
+        List<AbstractLocation> listLocations = new List<AbstractLocation>()
         {
             kunLun,
             negativeZone,
@@ -206,12 +206,12 @@ public static class SimpleTest
         };
 
         //* Assign location to game
-        game.AssignLocation(locations.ToArray());
+        game.AssignLocation(listLocations.ToArray());
 
         //* Assign all player to all location deployed
         foreach (var location in game.GetAllDeployedLocations())
         {
-            location.AssignPlayerToLocation(listPlayer.ToArray());
+            location.AssignPlayerToLocation(listPlayers.ToArray());
         }
 
         Console.Clear();
@@ -221,24 +221,46 @@ public static class SimpleTest
         marvelSnapDisplay.DisplayLocation(game);
         Console.ReadKey();
 
-        //*test assign to location
-        Console.Clear();
-        game.AssignPlayerCardToLocation(player1, hawkeye, kunLun);
-        game.NextRound();
-        marvelSnapDisplay.Intro();
-        Console.WriteLine(game.GetCurrentRound());
-        marvelSnapDisplay.DisplayLocation(game);
-        // Console.WriteLine(assigned);
-        Console.ReadKey();
+        while (game.GetCurrentGameStatus() == GameStatus.Running)
+        {
+            Console.Clear();
+            if (game.GetCurrentRound() == 1)
+            {
+                game.AssignPlayerCardToLocation(player1, hawkeye, kunLun);
+            }
+            game.NextRound(6);
+            marvelSnapDisplay.Intro();
+            Console.WriteLine(game.GetCurrentRound());
+            foreach (var player in listPlayers)
+            {
+                foreach(var location in listLocations)
+                game.SetPlayerPowerInLocation(player, location);
+            }
+            
+            marvelSnapDisplay.DisplayLocation(game);
+            Console.ReadKey();
+        }
 
-        Console.Clear();
-        game.AssignPlayerCardToLocation(player1, quickSilver, kunLun);
-        game.NextRound();
-        marvelSnapDisplay.Intro();
-        Console.WriteLine(game.GetCurrentRound());
-        marvelSnapDisplay.DisplayLocation(game);
+
+
+        //*test assign to location
+        // Console.Clear();
+        // game.AssignPlayerCardToLocation(player1, hawkeye, kunLun);
+        // game.NextRound();
+        // marvelSnapDisplay.Intro();
+        // Console.WriteLine(game.GetCurrentRound());
+        // marvelSnapDisplay.DisplayLocation(game);
         // Console.WriteLine(assigned);
-        Console.ReadKey();
+        // Console.ReadKey();
+
+        // Console.Clear();
+        // game.AssignPlayerCardToLocation(player1, quickSilver, kunLun);
+        // game.NextRound();
+        // marvelSnapDisplay.Intro();
+        // Console.WriteLine(game.GetCurrentRound());
+        // marvelSnapDisplay.DisplayLocation(game);
+        // Console.WriteLine(assigned);
+        // Console.ReadKey();
 
         // Console.Clear();
         // marvelSnapDisplay.Intro();
