@@ -51,6 +51,7 @@ public abstract class AbstractLocation
     private List<AbstractCard> _allCards;
     private Dictionary<IPlayer, List<AbstractCard>> _playersCards;
     private Dictionary<IPlayer, int> _playersPower;
+    private Dictionary<IPlayer, PlayerStatus> _playersStatus;
 
     /// <summary>
     /// Abstract Class of Location
@@ -75,6 +76,7 @@ public abstract class AbstractLocation
         _allCards = new List<AbstractCard>();
         _playersCards = new Dictionary<IPlayer, List<AbstractCard>>();
         _playersPower = new Dictionary<IPlayer, int>();
+        _playersStatus = new Dictionary<IPlayer, PlayerStatus>();
     }
 
     /// <summary>
@@ -165,5 +167,37 @@ public abstract class AbstractLocation
     {
         bool status = _playersPower.TryAdd(player, power);
         return status;
+    }
+
+    public bool AssignPlayerToLocation(params IPlayer[] players)
+    {
+        int status = 0;
+        foreach (IPlayer player in players)
+        {
+            if (_playersCards.ContainsKey(player) || _playersPower.ContainsKey(player) || _playersStatus.ContainsKey(player))
+            {
+                status++;
+                continue;
+            }
+            _playersCards.Add(player, new List<AbstractCard>());
+            _playersPower.Add(player, 0);
+            _playersStatus.Add(player, PlayerStatus.None);
+        }
+        return (status > 0) ? false : true;
+    }
+
+    public Dictionary<IPlayer, PlayerStatus> GetPlayerStatusInLocation()
+    {
+        return _playersStatus;
+    }
+    public PlayerStatus GetPlayerStatusInLocation(IPlayer player)
+    {
+        return _playersStatus[player];
+    }
+
+    public bool SetPlayerStatusInLocation(IPlayer player, PlayerStatus playerStatus)
+    {
+        _playersStatus[player] = playerStatus;
+        return true;
     }
 }

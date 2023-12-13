@@ -10,10 +10,9 @@ class Program
 {
     public static void Main(string[] args)
     {
-        // SimpleTest.TestGame();
-        MarvelSnapDisplay marvelSnapDisplay = new();
-        // marvelSnapDisplay.TestTableSpectre();
-        marvelSnapDisplay.Intro();
+        // MarvelSnapDisplay marvelSnapDisplay = new();
+        // marvelSnapDisplay.Intro();
+        SimpleTest.TestGame();
 
     }
 }

@@ -35,6 +35,7 @@ public class GameController
         _gameStatus = GameStatus.None;
         _players = new Dictionary<IPlayer, PlayerInfo>();
         _locations = new List<AbstractLocation>();
+        _allLocations = new List<AbstractLocation>();
         _allCards = new List<AbstractCard>();
         _round = 0;
 
@@ -88,6 +89,11 @@ public class GameController
         return true;
     }
 
+    public IPlayer GetPlayer(int index)
+    {
+        return _players.Keys.ToList()[index];
+    }
+
     public List<IPlayer> GetAllPlayers()
     {
         List<IPlayer> players = _players.Keys.ToList();
@@ -109,14 +115,29 @@ public class GameController
         return _players[player].GetDeck();
     }
 
+    public AbstractCard GetPlayerCardInDeck(IPlayer player, AbstractCard card)
+    {
+        return GetPlayerDeck(player).Find(c => c.Name == card.Name);
+    }
+
     public List<AbstractCard> GetPlayerHand(IPlayer player)
     {
         return _players[player].GetHandCards();
     }
 
-    public List<AbstractLocation> GetAllLocations()
+    public AbstractCard GetPlayerCardInHand(IPlayer player, AbstractCard card)
     {
-        return _allLocations;
+        return GetPlayerHand(player).Find(c => c.Name == card.Name);
+    }
+
+    public List<AbstractCard> GetPlayerCardsInLocation(IPlayer player, AbstractLocation location)
+    {
+        return location.GetPlayerCards(player);
+    }
+
+    public AbstractCard GetPlayerCardInLocation(IPlayer player, AbstractLocation location, AbstractCard card)
+    {
+        return GetPlayerCardsInLocation(player, location).Find(c => c.Name == card.Name);
     }
 
     public List<AbstractLocation> GetAllDeployedLocations()
@@ -127,6 +148,11 @@ public class GameController
     public AbstractLocation GetLocation(AbstractLocation location)
     {
         return _locations.Find(loc => loc == location);
+    }
+
+    public AbstractLocation GetLocation(int index)
+    {
+        return _locations[index];
     }
 
     public bool AssignLocation(params AbstractLocation[] locations)
@@ -141,9 +167,112 @@ public class GameController
         return true;
     }
 
-    public List<AbstractCard> GetAllCards()
+    public List<AbstractLocation> GetDefaultAllLocations()
+    {
+        return _allLocations;
+    }
+
+    public bool GenerateDefaultAllLocation()
+    {
+        // Asgard = 1
+        // Atlantis = 2
+        // AvengerCompound = 4
+        // Flooded = 6
+        // KunLun = 7
+        // NegativeZone = 8
+        // Ruins = 9
+        List<AbstractLocation> locations = new List<AbstractLocation>()
+        {
+        new Asgard(),
+        new Atlantis(),
+        new AvengersCompound(),
+        new Flooded(),
+        new KunLun(),
+        new NegativeZone(),
+        new Ruins(),
+        };
+
+        foreach (var location in locations)
+        {
+            SetDefaultAllLocations(location);
+        }
+        return true;
+    }
+
+    public bool SetDefaultAllLocations(params AbstractLocation[] locations)
+    {
+        foreach (var location in locations)
+        {
+            if (_allLocations.Contains(location))
+            {
+                continue;
+            }
+            _allLocations.Add(location);
+        }
+        return true;
+    }
+
+    public List<AbstractCard> GetDefaultAllCards()
     {
         return _allCards;
+    }
+
+    public bool GenerateDefaultAllCards()
+    {
+        // Abomination = 1
+        // Cyclops = 2
+        // Howkeye = 3
+        // Hulk = 4
+        // IronMan = 5
+        // JessicaJones = 6
+        // Medusa = 7
+        // MisterFantastic = 8
+        // MistyKnight = 9
+        // QuickSilver = 10
+        // Sentinel = 11
+        // Spectrum = 12
+        // StarLord = 13
+        // ThePunisher = 14
+        // Thing = 15
+        // WhiteTiger = 16
+        List<AbstractCard> cards = new List<AbstractCard>()
+        {
+            new Abomination(),
+            new Cyclops(),
+            new Hawkeye(),
+            new Hulk(),
+            new IronMan(),
+            new JessicaJones(),
+            new Medusa(),
+            new MisterFantastic(),
+            new MistyKnight(),
+            new QuickSilver(),
+            new Sentinel(),
+            new Spectrum(),
+            new StarLord(),
+            new ThePunisher(),
+            new Thing(),
+            new WhiteTiger()
+        };
+
+        foreach (var card in cards)
+        {
+            SetDefaultAllCards(card);
+        }
+        return true;
+    }
+
+    public bool SetDefaultAllCards(params AbstractCard[] cards)
+    {
+        foreach (var card in cards)
+        {
+            if (_allCards.Contains(card))
+            {
+                continue;
+            }
+            _allCards.Add(card);
+        }
+        return true;
     }
 
     public AbstractCard GetShuffleCard()
@@ -151,6 +280,12 @@ public class GameController
         Random random = new Random();
         var indexCard = random.Next(_allCards.Count);
         return _allCards[indexCard];
+    }
+
+    public int GetShuffleIndex(int max)
+    {
+        Random random = new Random();
+        return random.Next(max);
     }
 
     public bool AssignCardToPlayerDeck(IPlayer player, params AbstractCard[] cards)
@@ -166,7 +301,7 @@ public class GameController
             status = _players[player].AssignCardToDeck(card.Clone());
             if (status)
             {
-                _players[player].GetDeck().Find(c => c.Name == card.Name).SetCardStatus(CardStatus.OnDeck);
+                GetPlayerCardInDeck(player, card).SetCardStatus(CardStatus.OnDeck);
             }
         }
 
@@ -184,20 +319,48 @@ public class GameController
         foreach (var card in cards)
         {
             //* player hand can have same card
-            var cardInDeck = _players[player].GetDeck().Find(c => c.Name == card.Name);
+            var cardInDeck = GetPlayerDeck(player).Find(c => c.Name == card.Name);
             status = _players[player].AssignCardToHand(cardInDeck);
             if (status)
             {
-                _players[player].GetHandCards().Find(c => c.Name == card.Name).SetCardStatus(CardStatus.OnHand);
+                GetPlayerCardInHand(player, cardInDeck).SetCardStatus(CardStatus.OnHand);
             }
 
         }
         return status;
     }
 
-    public bool assignPlayerCardToLocation(AbstractLocation location)
+    public bool AssignPlayerCardToLocation(IPlayer player, AbstractCard card, AbstractLocation location)
     {
-        return true;
+        if (!_players.ContainsKey(player))
+        {
+            return false;
+        }
+
+        if (!GetAllDeployedLocations().Contains(location))
+        {
+            return false;
+        }
+
+        if (!location.IsLocationValid())
+        {
+            return false;
+        }
+
+        var cardInHand = GetPlayerCardInHand(player, card);
+        var status = location.AssignPlayerCardToLocation(player, cardInHand);
+        if (status)
+        {
+            GetPlayerCardInLocation(player, location, cardInHand).SetCardStatus(CardStatus.OnLocation);
+            var cardInLocation = GetPlayerCardInLocation(player, location, cardInHand);
+            if (cardInLocation._isOnReveal || cardInLocation._isOnGoing)
+            {
+                cardInLocation.DeployCard(this, player, location);
+            }
+        }
+        // GetPlayerInfo(player).RetrieveCardFromHand(card);
+
+        return status;
     }
 
     public IPlayer GetCurrentTurn()
@@ -232,6 +395,16 @@ public class GameController
     public IPlayer GetWinner()
     {
         return _winner;
+    }
+
+    public int GetPlayerEnergy(IPlayer player)
+    {
+        return _players[player].GetEnergy();
+    }
+
+    public int GetPlayerPowerInLocation(IPlayer player, AbstractLocation location)
+    {
+        return location.GetPlayerPower(player);
     }
 
 
