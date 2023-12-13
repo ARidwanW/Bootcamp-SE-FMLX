@@ -4,6 +4,7 @@ using MarvelSnapProject.Component.Location;
 using MarvelSnapProject.Component.Player;
 using MarvelSnapProject.Enum;
 using NLog;
+using NLog.LayoutRenderers;
 
 namespace MarvelSnapProject;
 
@@ -405,6 +406,16 @@ public class GameController
     public int GetPlayerPowerInLocation(IPlayer player, AbstractLocation location)
     {
         return location.GetPlayerPower(player);
+    }
+
+    public bool SetPlayerPowerInLocation(IPlayer player, AbstractLocation location)
+    {
+        var playerCardInLocation = location.GetPlayerCards(player);
+        foreach (var card in playerCardInLocation)
+        {
+            location.AssignPlayerPower(player, card.GetPower());
+        }
+        return true;
     }
 
 
