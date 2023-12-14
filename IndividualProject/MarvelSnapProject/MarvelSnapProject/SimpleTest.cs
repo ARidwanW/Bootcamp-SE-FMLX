@@ -274,6 +274,10 @@ public static class SimpleTest
             marvelSnapDisplay.DisplayLocation(game);
             marvelSnapDisplay.DiplayPlayerCard(game, player1);
             marvelSnapDisplay.DiplayPlayerCard(game, player2);
+            if(game.GetCurrentGameStatus() == GameStatus.Finished)
+            {
+                Console.WriteLine(game.FindWinner().Name);
+            }
             Console.ReadKey();
         }
     }
