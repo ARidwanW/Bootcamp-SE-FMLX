@@ -78,6 +78,7 @@ public class GameController
         OnGoingLocationAbilityCall?.Invoke(this);
 
         AssignPlayerPowerToLocation();
+        FindWinnerInLocation();
 
         _round = round;
         RevealLocation(round, true);
@@ -101,6 +102,7 @@ public class GameController
         OnGoingLocationAbilityCall?.Invoke(this);
 
         AssignPlayerPowerToLocation();
+        FindWinnerInLocation();
 
         _round += 1;
         RevealLocation(_round);
@@ -703,6 +705,13 @@ public class GameController
         return _allCards[indexCard];
     }
 
+    public AbstractLocation GetShuffleLocation()
+    {
+        Random random = new Random();
+        var indexLocation = random.Next(_allLocations.Count);
+        return _allLocations[indexLocation];
+    }
+
     public int GetShuffleIndex(int max)
     {
         Random random = new Random();
@@ -728,7 +737,7 @@ public class GameController
 
         if (usingEnergy)
         {
-            if(card.GetCost() > GetPlayerEnergy(player))
+            if (card.GetCost() > GetPlayerEnergy(player))
             {
                 return false;
             }
@@ -782,6 +791,116 @@ public class GameController
     public IPlayer GetWinner()
     {
         return _winner;
+    }
+
+    public IPlayer FindWinnerInLocation(AbstractLocation location)
+    {
+        var playersPower = GetPlayerPowerInLocation(location);
+        var maxPower = playersPower.Values.Max();
+        var minPower = playersPower.Values.Min();
+
+        var winnerPair = playersPower.FirstOrDefault(x => x.Value == maxPower);
+        var loserPair = playersPower.FirstOrDefault(x => x.Value == minPower);
+
+        IPlayer winner = winnerPair.Key;
+        IPlayer loser = loserPair.Key;
+
+        foreach (var player in playersPower.Keys)
+        {
+            if (_round < 1)
+            {
+                SetPlayerStatusInLocation(player, location, PlayerStatus.None);
+            }
+            else
+            {
+                var playerCards = GetPlayerCardInLocation(player, location);
+                if (playerCards.Count == 0)
+                {
+                    // Cek apakah semua pemain belum meletakan kartu
+                    bool allPlayersNoCards = playersPower.Keys.All(p => GetPlayerCardInLocation(p, location).Count == 0);
+                    if (allPlayersNoCards)
+                    {
+                        SetPlayerStatusInLocation(player, location, PlayerStatus.Draw); // Ubah status menjadi Draw
+                    }
+                    else
+                    {
+                        if(player.Equals(winner))
+                        {
+                            SetPlayerStatusInLocation(player, location, PlayerStatus.Win);
+                        }else if (player.Equals(loser))
+                        {
+                            SetPlayerStatusInLocation(player, location, PlayerStatus.Lose); // Ubah status menjadi Lose
+                        }   
+                    }
+                }
+                else if (player.Equals(winner))
+                {
+                    SetPlayerStatusInLocation(player, location, PlayerStatus.Win);
+                }
+                else
+                {
+                    SetPlayerStatusInLocation(player, location, PlayerStatus.Lose);
+                }
+            }
+        }
+
+        return winner;
+    }
+
+    public void FindWinnerInLocation()
+    {
+        foreach (var location in GetAllDeployedLocations())
+        {
+            FindWinnerInLocation(location);
+        }
+    }
+
+    public IPlayer FindWinner()
+    {
+        // Reset total win for all players
+        foreach (var player in _players.Keys)
+        {
+            SetPlayerTotalWin(player, 0);
+        }
+
+        // Calculate total win for each player
+        foreach (var location in _locations)
+        {
+            foreach (var player in GetPlayerStatusInLocation(location).Keys)
+            {
+                if (GetPlayerStatusInLocation(player, location) == PlayerStatus.Win)
+                {
+                    AddPlayerTotalWin(player, 1);
+                }
+            }
+        }
+
+        // Find the player with the highest total win
+        IPlayer winner = null;
+        int maxTotalWin = 0;
+        foreach (var player in _players.Keys)
+        {
+            var totalWin = GetPlayerTotalWin(player);
+            if (totalWin > maxTotalWin)
+            {
+                maxTotalWin = totalWin;
+                winner = player;
+            }
+        }
+
+        foreach (var player in _players)
+        {
+            if (player.Key == winner)
+            {
+                SetPlayerStatus(player.Key, PlayerStatus.Win);
+            }
+            else
+            {
+                SetPlayerStatus(player.Key, PlayerStatus.Lose);
+            }
+        }
+
+        return winner;
     }
 
     public bool SetWinner(IPlayer player)

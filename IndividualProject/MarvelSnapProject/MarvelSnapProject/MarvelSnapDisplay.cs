@@ -41,6 +41,7 @@ public class MarvelSnapDisplay
         var playerInfoB = game.GetPlayerInfo(playerB);
 
         var table = new Table().Border(TableBorder.Rounded).Centered();
+        table.AddColumn("Index");
         table.AddColumn("Location");
         table.AddColumn("Status");
         table.AddColumn($"Status {playerA.Name}");
@@ -50,7 +51,7 @@ public class MarvelSnapDisplay
         table.AddColumn($"Card {playerB.Name}");
         table.AddColumn($"Power {playerB.Name}");
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < game.GetMaxLocation(); i++)
         {
             var location = game.GetDeployedLocation(i);
             var locationStatus = location.GetLocationStatus().ToString();
@@ -60,7 +61,8 @@ public class MarvelSnapDisplay
             string? powerPlayerA, powerPlayerB;
             if (playerA != null)
             {
-                playerStatusA = location.GetPlayerStatusInLocation(playerA).ToString();
+                // playerStatusA = location.GetPlayerStatus(playerA).ToString();
+                playerStatusA = game.GetPlayerStatusInLocation(playerA, location).ToString();
                 cardsPlayerA = game.GetPlayerCardInLocation(playerA, location);
                 powerPlayerA = game.GetPlayerPowerInLocation(playerA, location).ToString();
             }
@@ -72,7 +74,8 @@ public class MarvelSnapDisplay
             }
             if (playerB != null)
             {
-                playerStatusB = location.GetPlayerStatusInLocation(playerB).ToString();
+                // playerStatusB = location.GetPlayerStatus(playerB).ToString();
+                playerStatusB = game.GetPlayerStatusInLocation(playerB, location).ToString();
                 cardsPlayerB = game.GetPlayerCardInLocation(playerB, location);
                 powerPlayerB = game.GetPlayerPowerInLocation(playerB, location).ToString();
             }
@@ -89,6 +92,7 @@ public class MarvelSnapDisplay
             if (location != null && playerA != null && playerB != null)
             {
                 table.AddRow(
+                    (i+1).ToString(),
                     Markup.Escape((location.GetLocationStatus() == LocationStatus.Revealed) ? location.Name : "Hidden"),
                     Markup.Escape(locationStatus),
                     Markup.Escape(playerStatusA),

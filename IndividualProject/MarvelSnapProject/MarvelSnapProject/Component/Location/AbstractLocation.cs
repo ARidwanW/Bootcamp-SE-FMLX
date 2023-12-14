@@ -213,7 +213,7 @@ public abstract class AbstractLocation
     {
         return _playersStatus;
     }
-    public PlayerStatus GetPlayerStatusInLocation(IPlayer player)
+    public PlayerStatus GetPlayerStatus(IPlayer player)
     {
         return _playersStatus[player];
     }

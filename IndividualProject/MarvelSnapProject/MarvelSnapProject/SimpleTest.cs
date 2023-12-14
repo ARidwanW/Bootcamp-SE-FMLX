@@ -162,18 +162,46 @@ public static class SimpleTest
         Cyclops cyclops = new();
         Hawkeye hawkeye = new();
         Hulk hulk = new();
+        IronMan ironMan = new();
+        JessicaJones jessicaJones = new();
         Medusa medusa = new();
+        MisterFantastic misterFantastic = new();
+        MistyKnight mistyKnight = new();
         QuickSilver quickSilver = new();
+        Spectrum spectrum = new();
+        StarLord starLord = new();
+        ThePunisher thePunisher = new();
+        Thing thing = new();
+        WhiteTiger whiteTiger = new();      
 
         List<AbstractCard> listCards = new List<AbstractCard>()
         {
             // 1 energi
-            abomination,
-            cyclops,
             hawkeye,
-            hulk,
+            // mistyKnight,
+            quickSilver,
+
+            // 2 energi
             medusa,
-            quickSilver
+            starLord,
+
+            //3 energi
+            cyclops,
+            misterFantastic,
+            // thePunisher,
+
+            //4 energi
+            thing,
+            jessicaJones,
+
+            //5 energi
+            abomination,
+            ironMan,
+            // whiteTiger,
+
+            //6 energi
+            hulk,
+            spectrum
         };
 
         //* assign card to player deck
