@@ -50,6 +50,7 @@ public abstract class AbstractLocation
     private bool _isValid;
     private List<AbstractCard> _allCards;
     private Dictionary<IPlayer, List<AbstractCard>> _playersCards;
+    private Dictionary<IPlayer, List<AbstractCard>> _tempPlayersCards;
     private Dictionary<IPlayer, int> _playersPower;
     private Dictionary<IPlayer, PlayerStatus> _playersStatus;
 
@@ -75,6 +76,7 @@ public abstract class AbstractLocation
         _isValid = isValid;
         _allCards = new List<AbstractCard>();
         _playersCards = new Dictionary<IPlayer, List<AbstractCard>>();
+        _tempPlayersCards = new Dictionary<IPlayer, List<AbstractCard>>();
         _playersPower = new Dictionary<IPlayer, int>();
         _playersStatus = new Dictionary<IPlayer, PlayerStatus>();
     }
@@ -122,10 +124,7 @@ public abstract class AbstractLocation
 
     public bool AssignCardToLocation(params AbstractCard[] cards)
     {
-        foreach(var card in cards)
-        {
-            _allCards.Add(card);
-        }
+        _allCards.AddRange(cards);
         return true;
     }
 
@@ -183,24 +182,25 @@ public abstract class AbstractLocation
         return true;
     }
 
-    public bool AssignPlayerToLocation(params IPlayer[] players)
+    public bool AssignPlayer(params IPlayer[] players)
     {
         int status = 0;
         foreach (IPlayer player in players)
         {
-            if (_playersCards.ContainsKey(player) || _playersPower.ContainsKey(player) || _playersStatus.ContainsKey(player))
+            if (_playersCards.ContainsKey(player) || _tempPlayersCards.ContainsKey(player) || _playersPower.ContainsKey(player) || _playersStatus.ContainsKey(player))
             {
                 status++;
                 continue;
             }
             _playersCards.Add(player, new List<AbstractCard>());
+            _tempPlayersCards.Add(player, new List<AbstractCard>());
             _playersPower.Add(player, 0);
             _playersStatus.Add(player, PlayerStatus.None);
         }
         return (status > 0) ? false : true;
     }
 
-    public Dictionary<IPlayer, PlayerStatus> GetPlayerStatusInLocation()
+    public Dictionary<IPlayer, PlayerStatus> GetAllPlayerStatus()
     {
         return _playersStatus;
     }
@@ -209,7 +209,7 @@ public abstract class AbstractLocation
         return _playersStatus[player];
     }
 
-    public bool SetPlayerStatusInLocation(IPlayer player, PlayerStatus playerStatus)
+    public bool SetPlayerStatus(IPlayer player, PlayerStatus playerStatus)
     {
         _playersStatus[player] = playerStatus;
         return true;

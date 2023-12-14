@@ -34,7 +34,7 @@ public class StarLord : AbstractCard
                 return false;
             }
 
-            var location = game.GetLocation(_locationDeployed);
+            var location = game.GetDeployedLocation(_locationDeployed);
             var allPlayers = game.GetAllPlayers();
             List<AbstractCard> opponentsCards = new List<AbstractCard>();
             foreach( var player in allPlayers)

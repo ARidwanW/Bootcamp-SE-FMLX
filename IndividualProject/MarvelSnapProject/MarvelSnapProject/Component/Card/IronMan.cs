@@ -23,7 +23,7 @@ public class IronMan : AbstractCard
     {
         if (IsDeployed())
         {
-            AbstractLocation cardLocation = game.GetLocation(_locationDeployed);
+            AbstractLocation cardLocation = game.GetDeployedLocation(_locationDeployed);
             int totalPower = cardLocation.GetPlayerPower(_deployer);
             return cardLocation.AssignPlayerPower(_deployer, totalPower * 2); ;
         }

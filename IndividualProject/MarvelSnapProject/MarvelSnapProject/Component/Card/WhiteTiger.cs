@@ -34,7 +34,7 @@ public class WhiteTiger : AbstractCard
                 return false;
             }
 
-            var location = game.GetLocation(_locationDeployed);
+            var location = game.GetDeployedLocation(_locationDeployed);
             var allDeployedLocation = game.GetAllDeployedLocations();
             foreach (var deployedLocation in allDeployedLocation)
             {

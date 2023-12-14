@@ -13,6 +13,7 @@ public class GameController
     private readonly Logger _logger;
     private GameStatus _gameStatus;
     private int _round;
+    private int _maxRound;
     private Dictionary<IPlayer, PlayerInfo> _players;
     private List<AbstractLocation> _locations;
     private List<AbstractLocation> _allLocations;
@@ -21,8 +22,8 @@ public class GameController
     private IPlayer _winner;
     public Action<AbstractCard, CardStatus>? OnCardStatusUpdate;
     public Action<AbstractLocation, LocationStatus>? OnLocationStatusUpdate;
-    public Action<AbstractLocation>? OnLocationUpdate;
     public Action<IPlayer, PlayerStatus>? OnPlayerStatusUpdate;
+    public Action<AbstractLocation>? OnLocationUpdate;
     public Action<IPlayer, PlayerInfo>? OnPlayerUpdate;
     public event Func<GameController, bool>? OnRevealCardAbilityCall;        // invoke every round, chek apakah ada sub, jika iya bakal di invoke dan chek apakah roundnya sudah selanjutnya
     public event Func<GameController, bool>? OnRevealLocationAbilityCall;
@@ -39,6 +40,7 @@ public class GameController
         _allLocations = new List<AbstractLocation>();
         _allCards = new List<AbstractCard>();
         _round = 0;
+        _maxRound = 6;
 
         _logger?.Info("Game created");
     }
@@ -59,56 +61,51 @@ public class GameController
         return _round;
     }
 
-    public bool NextRound()
+    public bool NextRound(int round)
     {
+        if (round > _maxRound)
+        {
+            _gameStatus = GameStatus.Finished;
+            return false;
+        }
         _gameStatus = GameStatus.Running;
+
         OnRevealCardAbilityCall?.Invoke(this);
         OnGoingCardAbilityCall?.Invoke(this);
         OnRevealLocationAbilityCall?.Invoke(this);
         OnGoingLocationAbilityCall?.Invoke(this);
+
+        _round = round;
+        return true;
+    }
+
+    public bool NextRound()
+    {
+        if (_round > _maxRound)
+        {
+            _gameStatus = GameStatus.Finished;
+            return false;
+        }
+        _gameStatus = GameStatus.Running;
+
+        OnRevealCardAbilityCall?.Invoke(this);
+        OnGoingCardAbilityCall?.Invoke(this);
+        OnRevealLocationAbilityCall?.Invoke(this);
+        OnGoingLocationAbilityCall?.Invoke(this);
+
         _round += 1;
         return true;
     }
 
-    public bool NextRound(int maxRound)
+    public int GetMaxRound()
     {
-        if (_round > maxRound)
-        {
-           _gameStatus = GameStatus.Finished;
-           return false;
-        }
-        return NextRound();
+        return _maxRound;
     }
 
-    public bool AssignPlayer(params IPlayer[] players)
+    public bool SetMaxRound(int maxround)
     {
-        int status = 0;
-        foreach (IPlayer player in players)
-        {
-            if (_players.ContainsKey(player))
-            {
-                status++;
-                continue;
-            }
-            _players.Add(player, new PlayerInfo());
-        }
-        return (status > 0) ? false : true;
-    }
-
-    public bool RemovePlayer(params IPlayer[] players)
-    {
+        _maxRound = maxround;
         return true;
-    }
-
-    public IPlayer GetPlayer(int index)
-    {
-        return _players.Keys.ToList()[index];
-    }
-
-    public List<IPlayer> GetAllPlayers()
-    {
-        List<IPlayer> players = _players.Keys.ToList();
-        return players;
     }
 
     public Dictionary<IPlayer, PlayerInfo> GetAllPlayersInfo()
@@ -116,39 +113,178 @@ public class GameController
         return _players;
     }
 
+    public List<IPlayer> GetAllPlayers()
+    {
+        return _players.Keys.ToList();
+    }
+
+    public IPlayer GetPlayer(IPlayer player)
+    {
+        var foundPlayer = GetAllPlayers().Find(p => p.Id == player.Id);
+        if (foundPlayer == null)
+        {
+            return new MSPlayer(0, "None");
+        }
+        return foundPlayer;
+    }
+
+    public IPlayer GetPlayer(int index)
+    {
+        return GetAllPlayers()[index];
+    }
+
     public PlayerInfo GetPlayerInfo(IPlayer player)
     {
         return _players[player];
     }
 
+    public IPlayer CreatePlayer(int id, string name)
+    {
+        return new MSPlayer(id, name);
+    }
+
+    public bool AssignPlayer(params IPlayer[] players)
+    {
+        var newPlayers = players.Where(player => !_players.ContainsKey(player)).ToList();
+        newPlayers.ForEach(player => _players.Add(player, new PlayerInfo()));
+        return newPlayers.Count == players.Length;
+    }
+
+    public bool RemovePlayer(params IPlayer[] players)
+    {
+        bool allRemoved = true;
+        foreach (var player in players)
+        {
+            if (!_players.Remove(player))
+            {
+                allRemoved = false;
+            }
+        }
+        return allRemoved;
+    }
+
     public List<AbstractCard> GetPlayerDeck(IPlayer player)
     {
-        return _players[player].GetDeck();
+        return GetPlayerInfo(player).GetDeck();
     }
 
     public AbstractCard GetPlayerCardInDeck(IPlayer player, AbstractCard card)
     {
-        return GetPlayerDeck(player).Find(c => c.Name == card.Name);
+        var playerDeck = GetPlayerDeck(player);
+        var foundCard = playerDeck.Find(c => c.Name == card.Name);
+
+        if (foundCard == null)
+        {
+            return new NoneCard();
+        }
+        return foundCard;
+    }
+
+    public bool AssignPlayerCardToDeck(IPlayer player, params AbstractCard[] cards)
+    {
+        var playerInfo = GetPlayerInfo(player);
+        if (playerInfo == null)
+        {
+            throw new Exception("Player not found");
+        }
+        return playerInfo.AssignCardToDeck(cards);
+    }
+
+    public bool RetrievePlayerCardFromDeck(IPlayer player, params AbstractCard[] cards)
+    {
+        return GetPlayerInfo(player).RetrieveCardFromDeck(cards);
     }
 
     public List<AbstractCard> GetPlayerHand(IPlayer player)
     {
-        return _players[player].GetHandCards();
+        return GetPlayerInfo(player).GetHandCards();
     }
 
     public AbstractCard GetPlayerCardInHand(IPlayer player, AbstractCard card)
     {
-        return GetPlayerHand(player).Find(c => c.Name == card.Name);
+        var playerDeck = GetPlayerHand(player);
+        var foundCard = playerDeck.Find(c => c.Name == card.Name);
+
+        if (foundCard == null)
+        {
+            return new NoneCard();
+        }
+        return foundCard;
     }
 
-    public List<AbstractCard> GetPlayerCardsInLocation(IPlayer player, AbstractLocation location)
+    public bool AssignPlayerCardToHand(IPlayer player, params AbstractCard[] cards)
     {
-        return location.GetPlayerCards(player);
+        var playerInfo = GetPlayerInfo(player);
+        if (playerInfo == null)
+        {
+            throw new Exception("Player not found");
+        }
+        return playerInfo.AssignCardToHand(cards);
     }
 
-    public AbstractCard GetPlayerCardInLocation(IPlayer player, AbstractLocation location, AbstractCard card)
+    public bool RetrievePlayerCardFromHand(IPlayer player, params AbstractCard[] cards)
     {
-        return GetPlayerCardsInLocation(player, location).Find(c => c.Name == card.Name);
+        return GetPlayerInfo(player).RetrieveCardFromHand(cards);
+    }
+
+    public int GetPlayerEnergy(IPlayer player)
+    {
+        return GetPlayerInfo(player).GetEnergy();
+    }
+
+    public bool SetPlayerEnergy(IPlayer player, int energy)
+    {
+        return GetPlayerInfo(player).SetEnergy(energy);
+    }
+
+    public bool AddPlayerEnergy(IPlayer player)
+    {
+        return SetPlayerEnergy(player, GetPlayerEnergy(player) + 1);
+    }
+
+    public bool AddPlayerEnergy(IPlayer player, int addEnergy)
+    {
+        return SetPlayerEnergy(player, GetPlayerEnergy(player) + addEnergy);
+    }
+
+    public int GetPlayerMaxDeck(IPlayer player)
+    {
+        return GetPlayerInfo(player).GetMaxDeck();
+    }
+
+    public bool SetPlayerMaxDeck(IPlayer player, int maxDeck)
+    {
+        return GetPlayerInfo(player).SetMaxDeck(maxDeck);
+    }
+
+    public int GetPlayerTotalWin(IPlayer player)
+    {
+        return GetPlayerInfo(player).GetTotalWin();
+    }
+
+    public bool SetPlayerTotalWin(IPlayer player, int totalWin)
+    {
+        return GetPlayerInfo(player).SetTotalWin(totalWin);
+    }
+
+    public bool AddPlayerTotalWin(IPlayer player)
+    {
+        return GetPlayerInfo(player).AddTotalWin();
+    }
+
+    public bool AddPlayerTotalWin(IPlayer player, int addWin)
+    {
+        return GetPlayerInfo(player).AddTotalWin(addWin);
+    }
+
+    public PlayerStatus GetPlayerStatus(IPlayer player)
+    {
+        return GetPlayerInfo(player).GetPlayerStatus();
+    }
+
+    public bool SetPlayerStatus(IPlayer player, PlayerStatus status)
+    {
+        return GetPlayerInfo(player).SetPlayerStatus(status);
     }
 
     public List<AbstractLocation> GetAllDeployedLocations()
@@ -156,26 +292,184 @@ public class GameController
         return _locations;
     }
 
-    public AbstractLocation GetLocation(AbstractLocation location)
+    public AbstractLocation GetDeployedLocation(AbstractLocation location)
     {
-        return _locations.Find(loc => loc == location);
+        var deployedLocations = GetAllDeployedLocations();
+        var foundLocation = deployedLocations.Find(loc => loc.Name == location.Name);
+        if (foundLocation == null)
+        {
+            return new NoneLocation();
+        }
+        return foundLocation;
     }
 
-    public AbstractLocation GetLocation(int index)
+    public AbstractLocation GetDeployedLocation(int index)
     {
-        return _locations[index];
+        return GetAllDeployedLocations()[index];
     }
 
     public bool AssignLocation(params AbstractLocation[] locations)
     {
+        _locations.AddRange(locations);
+        return true;
+    }
+
+    public bool RemoveLocation(params AbstractLocation[] locations)
+    {
+        bool allRemoved = true;
         foreach (var location in locations)
         {
-            if (!_locations.Contains(location))
+            if (!_locations.Remove(location))
             {
-                _locations.Add(location);
+                allRemoved = false;
             }
         }
+        return allRemoved;
+    }
+
+    public LocationStatus GetLocationStatus(AbstractLocation location)
+    {
+        return location.GetLocationStatus();
+    }
+
+    public bool SetLocationStatus(AbstractLocation location, LocationStatus status)
+    {
+        return location.SetLocationStatus(status);
+    }
+
+    public bool IsLocationValid(AbstractLocation location)
+    {
+        return location.IsLocationValid();
+    }
+
+    public bool SetLocationValid(AbstractLocation location, bool isValid)
+    {
+        return location.SetLocationValid(isValid);
+    }
+
+    public List<AbstractCard> GetAllCardsInLocation(AbstractLocation location)
+    {
+        return location.GetAllCards();
+    }
+
+    public AbstractCard GetCardInLocation(AbstractLocation location, AbstractCard card)
+    {
+        var allCardsInLocation = GetAllCardsInLocation(location);
+        var foundCard = allCardsInLocation.Find(c => c.Name == card.Name);
+        if (foundCard == null)
+        {
+            return new NoneCard();
+        }
+        return foundCard;
+    }
+
+    public AbstractCard GetCardInLocation(AbstractLocation location, int index)
+    {
+        return GetAllCardsInLocation(location)[index];
+    }
+
+    public bool AssignCardToLocation(AbstractLocation location, params AbstractCard[] cards)
+    {
+        return location.AssignCardToLocation(cards);
+    }
+
+    public Dictionary<IPlayer, List<AbstractCard>> GetPlayersCardsInLocation(AbstractLocation location)
+    {
+        return location.GetAllPlayersCards();
+    }
+
+    public List<AbstractCard> GetPlayerCardsInLocation(IPlayer player, AbstractLocation location)
+    {
+        return GetPlayersCardsInLocation(location)[player];
+    }
+
+    public AbstractCard GetPlayerCardInLocation(IPlayer player, AbstractLocation location, AbstractCard card)
+    {   
+        var playerCards = GetPlayerCardsInLocation(player, location);
+        var foundCard = playerCards.Find(c => c.Name == card.Name);
+        if(foundCard == null)
+        {
+            return new NoneCard();
+        }
+        return foundCard;
+    }
+
+    public bool AssignPlayerToLocation(AbstractLocation location, params IPlayer[] players)
+    {
+        location.AssignPlayer(players);
         return true;
+    }
+
+    public Dictionary<IPlayer, int> GetPlayersPowerInLocation(AbstractLocation location)
+    {
+        return location.GetAllPlayersPower();
+    }
+
+    public int GetPlayerPowerInLocation(IPlayer player, AbstractLocation location)
+    {
+        return GetPlayersPowerInLocation(location)[player];
+    }
+
+    public bool AssignPlayerPowerInLocation(IPlayer player, AbstractLocation location, int power)
+    {
+        return location.AssignPlayerPower(player, power);
+    }
+
+    public bool AddPlayerPowerInLocation(IPlayer player, AbstractLocation location)
+    {
+        return location.AddPlayerPower(player,1);
+    }
+
+    public bool AddPlayerPowerInLocation(IPlayer player, AbstractLocation location, int powerToAdd)
+    {
+        return location.AddPlayerPower(player,powerToAdd);
+    }
+
+    public Dictionary<IPlayer, PlayerStatus> GetPlayersStatusInLocation(AbstractLocation location)
+    {
+        return location.GetAllPlayerStatus();
+    }
+
+    public PlayerStatus GetPlayerStatusInLocation(IPlayer player, AbstractLocation location)
+    {
+        return GetPlayersStatusInLocation(location)[player];
+    }
+
+    public bool SetPlayerStatusInLocation(IPlayer player, AbstractLocation location, PlayerStatus status)
+    {
+        return location.SetPlayerStatus(player, status);
+    }
+
+    public List<IPlayer> GetPlayersInLocation(AbstractLocation location, PlayerInfoSource infoSource = PlayerInfoSource.FromCard)
+    {
+        switch (infoSource)
+        {
+            case PlayerInfoSource.FromCard:
+                return GetPlayersCardsInLocation(location).Keys.ToList();
+            case PlayerInfoSource.FromPower:
+                return GetPlayersPowerInLocation(location).Keys.ToList();
+            case PlayerInfoSource.FromStatus:
+                return GetPlayersStatusInLocation(location).Keys.ToList();
+            default:
+                throw new ArgumentException("Invalid source");
+        }
+    }
+
+    public IPlayer GetPlayerInLocation(AbstractLocation location, IPlayer player)
+    {
+        var playersInLocation = GetPlayersInLocation(location);
+        var foundPlayer = playersInLocation.Find(p => p.Id == player.Id);
+
+        if (foundPlayer == null)
+        {
+            return new MSPlayer(0, "None");
+        }
+        return foundPlayer;
+    }
+
+    public IPlayer GetPlayerInLocation(AbstractLocation location, int index)
+    {
+        return GetPlayersInLocation(location)[index];
     }
 
     public List<AbstractLocation> GetDefaultAllLocations()
@@ -406,26 +700,6 @@ public class GameController
     public IPlayer GetWinner()
     {
         return _winner;
-    }
-
-    public int GetPlayerEnergy(IPlayer player)
-    {
-        return _players[player].GetEnergy();
-    }
-
-    public int GetPlayerPowerInLocation(IPlayer player, AbstractLocation location)
-    {
-        return location.GetPlayerPower(player);
-    }
-
-    public bool SetPlayerPowerInLocation(IPlayer player, AbstractLocation location)
-    {
-        var playerCardInLocation = location.GetPlayerCards(player);
-        foreach (var card in playerCardInLocation)
-        {
-            location.AddPlayerPower(player, card.GetPower());
-        }
-        return true;
     }
 
 

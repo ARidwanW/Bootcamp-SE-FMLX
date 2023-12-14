@@ -34,7 +34,7 @@ public class JessicaJones : AbstractCard
                 return false;
             }
 
-            AbstractLocation location = game.GetLocation(_locationDeployed);
+            AbstractLocation location = game.GetDeployedLocation(_locationDeployed);
             int countCardInLocation = location.GetPlayerCards(_deployer).Count;
             if (countCardInLocation == 1)
             {

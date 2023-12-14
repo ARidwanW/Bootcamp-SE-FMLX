@@ -34,7 +34,7 @@ public class Hawkeye : AbstractCard
                 return false;
             }
 
-            var location = game.GetLocation(_locationDeployed);
+            var location = game.GetDeployedLocation(_locationDeployed);
             bool anotherCard = location.GetPlayerCards(_deployer).Count > 1;
             if (anotherCard)
             {

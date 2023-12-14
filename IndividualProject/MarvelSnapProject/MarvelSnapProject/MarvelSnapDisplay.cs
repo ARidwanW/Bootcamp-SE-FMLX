@@ -45,12 +45,12 @@ public class MarvelSnapDisplay
         var currentRound = game.GetCurrentRound();
         if (currentRound < 4)
         {
-            game.GetLocation(currentRound - 1).SetLocationStatus(LocationStatus.Revealed);
+            game.GetDeployedLocation(currentRound - 1).SetLocationStatus(LocationStatus.Revealed);
         }
 
         for (int i = 0; i < 3; i++)
         {
-            var location = game.GetLocation(i);
+            var location = game.GetDeployedLocation(i);
             var locationStatus = location.GetLocationStatus().ToString();
 
             var playerStatusA = location.GetPlayerStatusInLocation(playerA).ToString();

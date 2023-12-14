@@ -228,6 +228,18 @@ public class PlayerInfo
         return true;
     }
 
+    public bool AddTotalWin(int addWin)
+    {
+        _totalWin += addWin;
+        return true;
+    }
+
+    public bool SetTotalWin(int totalWin)
+    {
+        _totalWin = totalWin;
+        return true;
+    }
+
     /// <summary>
     /// Getter of player status (win, lose, draw)
     /// </summary>

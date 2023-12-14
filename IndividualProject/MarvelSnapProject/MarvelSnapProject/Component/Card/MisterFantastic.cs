@@ -29,7 +29,7 @@ public class MisterFantastic : AbstractCard
         if (cardLocationIndex != 0)
         {
             AbstractLocation adjacentLocationLeft = allLocations[cardLocationIndex - 1];
-            AbstractLocation locationLeft = game.GetLocation(adjacentLocationLeft);
+            AbstractLocation locationLeft = game.GetDeployedLocation(adjacentLocationLeft);
             locationLeft.AssignPlayerPower(_deployer, locationLeft.GetPlayerPower(_deployer) + 2);
             status++;
         }
@@ -37,7 +37,7 @@ public class MisterFantastic : AbstractCard
         if (cardLocationIndex != (allLocations.Count - 1))
         {
             AbstractLocation adjacentLocationRight = allLocations[cardLocationIndex + 1];
-            AbstractLocation locationRight = game.GetLocation(adjacentLocationRight);
+            AbstractLocation locationRight = game.GetDeployedLocation(adjacentLocationRight);
             locationRight.AssignPlayerPower(_deployer, locationRight.GetPlayerPower(_deployer) + 2);
             status++;
         }

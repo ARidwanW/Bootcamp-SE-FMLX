@@ -88,7 +88,7 @@ public static class SimpleTest
         Attilan attilan = new();
         Flooded flooded = new();
         game.AssignLocation(asgard, atlantis, attilan);
-        var location = game.GetLocation(flooded);
+        var location = game.GetDeployedLocation(flooded);
         var locations = game.GetDefaultAllLocations();
         foreach (var item in locations)
         {
@@ -211,7 +211,7 @@ public static class SimpleTest
         //* Assign all player to all location deployed
         foreach (var location in game.GetAllDeployedLocations())
         {
-            location.AssignPlayerToLocation(listPlayers.ToArray());
+            location.AssignPlayer(listPlayers.ToArray());
         }
 
         Console.Clear();
@@ -228,13 +228,13 @@ public static class SimpleTest
             {
                 game.AssignPlayerCardToLocation(player1, hawkeye, kunLun);
             }
-            game.NextRound(6);
+            game.NextRound();
             marvelSnapDisplay.Intro();
             Console.WriteLine(game.GetCurrentRound());
             foreach (var player in listPlayers)
             {
                 foreach(var location in listLocations)
-                game.SetPlayerPowerInLocation(player, location);
+                game.AssignPlayerPowerInLocation(player1, location, hawkeye.GetPower());
             }
             
             marvelSnapDisplay.DisplayLocation(game);
