@@ -36,4 +36,10 @@ public class Atlantis : AbstractLocation
             game.OnGoingLocationAbilityCall += SpecialAbilityOnGoing;
         }
     }
+
+    public override bool RegisterAbility(GameController game)
+    {
+        RegisterSpecialAbilityOnGoing(game);
+        return true;
+    }
 }

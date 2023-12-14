@@ -1,6 +1,7 @@
 using MarvelSnapProject.Component.Location;
 using MarvelSnapProject.Component.Player;
 using MarvelSnapProject.Enum;
+using NLog.Targets;
 
 namespace MarvelSnapProject.Component.Card;
 

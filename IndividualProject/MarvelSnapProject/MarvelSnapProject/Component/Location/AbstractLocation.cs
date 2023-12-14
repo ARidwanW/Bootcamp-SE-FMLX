@@ -95,6 +95,15 @@ public abstract class AbstractLocation
     /// <returns>true: if card successfully doing its ability on reveal</returns>
     public abstract bool SpecialAbilityOnReveal(GameController game);
 
+    public virtual bool RegisterAbility(GameController game)
+    {
+        if(_isOnGoing)
+        {
+            return _isOnGoing;
+        }
+        return _isOnReveal;
+    }
+
     public LocationStatus GetLocationStatus()
     {
         return _locationStatus;
@@ -149,7 +158,7 @@ public abstract class AbstractLocation
             _playersCards[player].Add(card);
         }
         
-        return AssignCardToLocation(card);;
+        return AssignCardToLocation(card);
     }
 
     public int GetPlayerPower(IPlayer player)

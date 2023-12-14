@@ -146,8 +146,8 @@ public static class SimpleTest
         // Console.ForegroundColor = ConsoleColor.Green;
         // Console.WriteLine($"\nWelcome {player1.Name} and {player2.Name} ! \nLets Play !! \n");
         // Console.ResetColor();
-        AnsiConsole.Write(new Markup($"\n[yellow]Welcome[/] [blue]{player1.Name}[/] [yellow]and[/] [red]{player2.Name}[/] !" +
-                                    "\n[green]Lets Play !![/] \n").Centered());
+        AnsiConsole.Write(new Markup($"\n[bold yellow]Welcome[/] [bold blue]{player1.Name}[/] [bold yellow]and[/] [bold red]{player2.Name}[/] !" +
+                                    "\n[bold green]Lets Play !![/] \n").Centered());
 
         // Console.ForegroundColor = ConsoleColor.Yellow;
         do
@@ -167,6 +167,7 @@ public static class SimpleTest
 
         List<AbstractCard> listCards = new List<AbstractCard>()
         {
+            // 1 energi
             abomination,
             cyclops,
             hawkeye,
@@ -219,6 +220,8 @@ public static class SimpleTest
         marvelSnapDisplay.Intro();
         Console.WriteLine(game.GetCurrentRound());
         marvelSnapDisplay.DisplayLocation(game);
+        marvelSnapDisplay.DiplayPlayerCard(game, player1);
+        marvelSnapDisplay.DiplayPlayerCard(game, player2);
         Console.ReadKey();
 
         while (game.GetCurrentGameStatus() == GameStatus.Running)
@@ -228,57 +231,22 @@ public static class SimpleTest
             {
                 game.AssignPlayerCardToLocation(player1, hawkeye, kunLun);
             }
+            if (game.GetCurrentRound() == 2)
+            {
+                game.AssignPlayerCardToLocation(player1, cyclops, kunLun);
+            }
+            if(game.GetCurrentRound() == 3)
+            {
+                game.AssignPlayerCardToLocation(player2, medusa, negativeZone);
+            }
             game.NextRound();
             marvelSnapDisplay.Intro();
             Console.WriteLine(game.GetCurrentRound());
-            foreach (var player in listPlayers)
-            {
-                foreach(var location in listLocations)
-                game.AssignPlayerPowerInLocation(player1, location, hawkeye.GetPower());
-            }
-            
+            // game.AssignPlayerPowerToLocation(player1, kunLun, hawkeye.GetPower());
             marvelSnapDisplay.DisplayLocation(game);
+            marvelSnapDisplay.DiplayPlayerCard(game, player1);
+            marvelSnapDisplay.DiplayPlayerCard(game, player2);
             Console.ReadKey();
         }
-
-
-
-        //*test assign to location
-        // Console.Clear();
-        // game.AssignPlayerCardToLocation(player1, hawkeye, kunLun);
-        // game.NextRound();
-        // marvelSnapDisplay.Intro();
-        // Console.WriteLine(game.GetCurrentRound());
-        // marvelSnapDisplay.DisplayLocation(game);
-        // Console.WriteLine(assigned);
-        // Console.ReadKey();
-
-        // Console.Clear();
-        // game.AssignPlayerCardToLocation(player1, quickSilver, kunLun);
-        // game.NextRound();
-        // marvelSnapDisplay.Intro();
-        // Console.WriteLine(game.GetCurrentRound());
-        // marvelSnapDisplay.DisplayLocation(game);
-        // Console.WriteLine(assigned);
-        // Console.ReadKey();
-
-        // Console.Clear();
-        // marvelSnapDisplay.Intro();
-        // game.NextRound();
-        // marvelSnapDisplay.DisplayLocation(game);
-
-
-
-        // while(game.GetCurrentGameStatus() == GameStatus.Running)
-        // {
-        //     // Console.WriteLine(game.AssignCardToPlayerDeck(player1, abomination,cyclops,hawkeye,hulk,medusa, quickSilver));
-        //     // Console.WriteLine(game.AssignCardToPlayerDeck(player2, abomination,cyclops,hawkeye,hulk,medusa, quickSilver));
-        //     // Console.WriteLine(game.AssignCardToPlayerHand(player1, cyclops, medusa, quickSilver));
-        //     // Console.WriteLine(game.AssignCardToPlayerHand(player2, cyclops, medusa, quickSilver));
-        //     // Console.WriteLine(game.GetPlayerDeck(player1));
-        //     // Console.WriteLine(game.GetPlayerDeck(player2));
-        //     // Console.WriteLine(game.GetPlayerHand(player1));
-        //     // Console.WriteLine(game.GetPlayerHand(player2));
-        // }
     }
 }

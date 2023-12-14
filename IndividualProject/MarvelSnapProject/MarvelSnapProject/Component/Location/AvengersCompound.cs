@@ -41,4 +41,10 @@ public class AvengersCompound : AbstractLocation
             game.OnRevealLocationAbilityCall += SpecialAbilityOnReveal;
         }
     }
+
+    public override bool RegisterAbility(GameController game)
+    {
+        RegisterSpecialAbilityOnReveal(game);
+        return true;
+    }
 }

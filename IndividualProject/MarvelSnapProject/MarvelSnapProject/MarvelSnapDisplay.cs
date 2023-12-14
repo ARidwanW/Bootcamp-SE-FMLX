@@ -9,12 +9,16 @@ namespace MarvelSnapProject;
 
 public class MarvelSnapDisplay
 {
+    /// <summary>
+    /// Display Intro for Wawan Snap
+    /// </summary>
     public void Intro()
     {
         var ruleHead = new Rule();
         ruleHead.Style = Style.Parse("rapidblink cyan1");
 
-        string description = "This is a Marvel Snap game clone\n(Education Purpose Only)\nSome Card is Overpower lol :rolling_on_the_floor_laughing:";
+        string description = "This is a Marvel Snap game clone\n(Education Purpose Only)\n" +
+                            "Some Card & Some Location is Overpower lol :rolling_on_the_floor_laughing:";
         string author = "By: ARidwanW";
         // $"[bold yellow]{description}[/]"
         AnsiConsole.Write(new Markup("[bold yellow]Welcome to the game![/]").Centered());
@@ -25,6 +29,10 @@ public class MarvelSnapDisplay
         AnsiConsole.Write(ruleHead);
     }
 
+    /// <summary>
+    /// Diplay table location from spectre console for 2 players
+    /// </summary>
+    /// <param name="game">GameController</param>
     public void DisplayLocation(GameController game)
     {
         var playerA = game.GetPlayer(0);
@@ -42,29 +50,41 @@ public class MarvelSnapDisplay
         table.AddColumn($"Card {playerB.Name}");
         table.AddColumn($"Power {playerB.Name}");
 
-        var currentRound = game.GetCurrentRound();
-        if (currentRound < 4)
-        {
-            game.GetDeployedLocation(currentRound - 1).SetLocationStatus(LocationStatus.Revealed);
-        }
-
         for (int i = 0; i < 3; i++)
         {
             var location = game.GetDeployedLocation(i);
             var locationStatus = location.GetLocationStatus().ToString();
 
-            var playerStatusA = location.GetPlayerStatusInLocation(playerA).ToString();
-            var playerStatusB = location.GetPlayerStatusInLocation(playerB).ToString();
+            string? playerStatusA, playerStatusB;
+            List<AbstractCard>? cardsPlayerA, cardsPlayerB;
+            string? powerPlayerA, powerPlayerB;
+            if (playerA != null)
+            {
+                playerStatusA = location.GetPlayerStatusInLocation(playerA).ToString();
+                cardsPlayerA = game.GetPlayerCardInLocation(playerA, location);
+                powerPlayerA = game.GetPlayerPowerInLocation(playerA, location).ToString();
+            }
+            else
+            {
+                playerStatusA = "None";
+                cardsPlayerA = new List<AbstractCard>();
+                powerPlayerA = "None";
+            }
+            if (playerB != null)
+            {
+                playerStatusB = location.GetPlayerStatusInLocation(playerB).ToString();
+                cardsPlayerB = game.GetPlayerCardInLocation(playerB, location);
+                powerPlayerB = game.GetPlayerPowerInLocation(playerB, location).ToString();
+            }
+            else
+            {
+                playerStatusB = "None";
+                cardsPlayerB = new List<AbstractCard>();
+                powerPlayerB = "None";
+            }
 
-            var cardsPlayerA = game.GetPlayerCardsInLocation(playerA, location);
             var cardStringsA = cardsPlayerA.Select(card => card.Name);
-
-            var cardsPlayerB = game.GetPlayerCardsInLocation(playerB, location);
             var cardStringsB = cardsPlayerB.Select(card => card.Name);
-
-            var powerPlayerA = game.GetPlayerPowerInLocation(playerA, location).ToString();
-            var powerPlayerB = game.GetPlayerPowerInLocation(playerB, location).ToString();
-
 
             if (location != null && playerA != null && playerB != null)
             {
@@ -84,10 +104,29 @@ public class MarvelSnapDisplay
 
         AnsiConsole.Write(table);
     }
-    //     var cards = game.GetPlayerCardsInLocation(playerA, location);
-    // var cardStrings = cards.Select(card => card.ToString());
-    // var result = Markup.Escape(string.Join(", ", cardStrings));
 
+    public void DiplayPlayerCard(GameController game, IPlayer player)
+    {
+        var table = new Table().Centered()
+        .AddColumn(new TableColumn("Index"))
+        .AddColumn(new TableColumn("Card Name"))
+        .AddColumn(new TableColumn("Description"))
+        .AddColumn(new TableColumn("Cost"))
+        .AddColumn(new TableColumn("Power"));
+
+        var cards = game.GetPlayerHand(player);
+        var cardsClone = cards.Select(card => card.Clone()).ToList();
+        for (int i = 0; i < cardsClone.Count; i++)
+        {
+            var card = cardsClone[i];
+            table.AddRow((i + 1).ToString(), card.Name, card.Description, card.GetCost().ToString(), card.GetPower().ToString());
+        }
+
+        AnsiConsole.Write(table);
+        // AnsiConsole.WriteLine("Please enter the index of the card you want to select:");
+        // var index = AnsiConsole.Ask<int>("Index: ");
+        // var selectedCard = cards[index - 1];
+    }
 
     public void TestTableSpectre()
     {

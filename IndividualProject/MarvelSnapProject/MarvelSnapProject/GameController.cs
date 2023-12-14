@@ -5,6 +5,7 @@ using MarvelSnapProject.Component.Player;
 using MarvelSnapProject.Enum;
 using NLog;
 using NLog.LayoutRenderers;
+using Spectre.Console;
 
 namespace MarvelSnapProject;
 
@@ -16,6 +17,7 @@ public class GameController
     private int _maxRound;
     private Dictionary<IPlayer, PlayerInfo> _players;
     private List<AbstractLocation> _locations;
+    private int _maxLocation = 3;
     private List<AbstractLocation> _allLocations;
     private List<AbstractCard> _allCards;
     private IPlayer _currentTurn;
@@ -75,7 +77,12 @@ public class GameController
         OnRevealLocationAbilityCall?.Invoke(this);
         OnGoingLocationAbilityCall?.Invoke(this);
 
+        AssignPlayerPowerToLocation();
+
         _round = round;
+        RevealLocation(round, true);
+        SetPlayerEnergy(_round);
+
         return true;
     }
 
@@ -93,7 +100,40 @@ public class GameController
         OnRevealLocationAbilityCall?.Invoke(this);
         OnGoingLocationAbilityCall?.Invoke(this);
 
+        AssignPlayerPowerToLocation();
+
         _round += 1;
+        RevealLocation(_round);
+        SetPlayerEnergy(_round);
+
+        return true;
+    }
+
+    public bool RevealLocation(int index, bool isLoop = false)
+    {
+        if (index >= _maxLocation + 1)
+        {
+            return false;
+        }
+        if (!isLoop)
+        {
+            var currentLocation = GetDeployedLocation(index - 1);
+            currentLocation.SetLocationStatus(LocationStatus.Revealed);
+            if (currentLocation._isOnReveal || currentLocation._isOnGoing)
+            {
+                currentLocation.RegisterAbility(this);
+            }
+            return true;
+        }
+        for (int i = 0; i < index; i++)
+        {
+            var currentLocation = GetDeployedLocation(i);
+            currentLocation.SetLocationStatus(LocationStatus.Revealed);
+            if (currentLocation._isOnReveal || currentLocation._isOnGoing)
+            {
+                currentLocation.RegisterAbility(this);
+            }
+        }
         return true;
     }
 
@@ -180,14 +220,24 @@ public class GameController
         return foundCard;
     }
 
-    public bool AssignPlayerCardToDeck(IPlayer player, params AbstractCard[] cards)
+    public bool AssignCardToPlayerDeck(IPlayer player, params AbstractCard[] cards)
     {
-        var playerInfo = GetPlayerInfo(player);
-        if (playerInfo == null)
+        bool status = false;
+        if (!_players.ContainsKey(player))
         {
-            throw new Exception("Player not found");
+            return false;
         }
-        return playerInfo.AssignCardToDeck(cards);
+
+        foreach (var card in cards)
+        {
+            status = GetPlayerInfo(player).AssignCardToDeck(card.Clone());
+            if (status)
+            {
+                GetPlayerCardInDeck(player, card).SetCardStatus(CardStatus.OnDeck);
+            }
+        }
+
+        return status;
     }
 
     public bool RetrievePlayerCardFromDeck(IPlayer player, params AbstractCard[] cards)
@@ -202,8 +252,8 @@ public class GameController
 
     public AbstractCard GetPlayerCardInHand(IPlayer player, AbstractCard card)
     {
-        var playerDeck = GetPlayerHand(player);
-        var foundCard = playerDeck.Find(c => c.Name == card.Name);
+        var playerHand = GetPlayerHand(player);
+        var foundCard = playerHand.Find(c => c.Name == card.Name);
 
         if (foundCard == null)
         {
@@ -212,14 +262,26 @@ public class GameController
         return foundCard;
     }
 
-    public bool AssignPlayerCardToHand(IPlayer player, params AbstractCard[] cards)
+    public bool AssignCardToPlayerHand(IPlayer player, params AbstractCard[] cards)
     {
-        var playerInfo = GetPlayerInfo(player);
-        if (playerInfo == null)
+        bool status = false;
+        if (!_players.ContainsKey(player))
         {
-            throw new Exception("Player not found");
+            return false;
         }
-        return playerInfo.AssignCardToHand(cards);
+
+        foreach (var card in cards)
+        {
+            //* player hand can have same card
+            var cardInDeck = GetPlayerDeck(player).Find(c => c.Name == card.Name);
+            status = _players[player].AssignCardToHand(cardInDeck);
+            if (status)
+            {
+                GetPlayerCardInHand(player, cardInDeck).SetCardStatus(CardStatus.OnHand);
+            }
+
+        }
+        return status;
     }
 
     public bool RetrievePlayerCardFromHand(IPlayer player, params AbstractCard[] cards)
@@ -230,6 +292,15 @@ public class GameController
     public int GetPlayerEnergy(IPlayer player)
     {
         return GetPlayerInfo(player).GetEnergy();
+    }
+
+    public bool SetPlayerEnergy(int energy)
+    {
+        foreach (var player in GetAllPlayers())
+        {
+            SetPlayerEnergy(player, energy);
+        }
+        return true;
     }
 
     public bool SetPlayerEnergy(IPlayer player, int energy)
@@ -310,8 +381,9 @@ public class GameController
 
     public bool AssignLocation(params AbstractLocation[] locations)
     {
-        _locations.AddRange(locations);
-        return true;
+        var newLocations = locations.Where(location => !_locations.Contains(location)).ToList();
+        newLocations.ForEach(location => _locations.Add(location));
+        return newLocations.Count == locations.Length;
     }
 
     public bool RemoveLocation(params AbstractLocation[] locations)
@@ -373,21 +445,21 @@ public class GameController
         return location.AssignCardToLocation(cards);
     }
 
-    public Dictionary<IPlayer, List<AbstractCard>> GetPlayersCardsInLocation(AbstractLocation location)
+    public Dictionary<IPlayer, List<AbstractCard>> GetPlayerCardInLocation(AbstractLocation location)
     {
         return location.GetAllPlayersCards();
     }
 
-    public List<AbstractCard> GetPlayerCardsInLocation(IPlayer player, AbstractLocation location)
+    public List<AbstractCard> GetPlayerCardInLocation(IPlayer player, AbstractLocation location)
     {
-        return GetPlayersCardsInLocation(location)[player];
+        return GetPlayerCardInLocation(location)[player];
     }
 
     public AbstractCard GetPlayerCardInLocation(IPlayer player, AbstractLocation location, AbstractCard card)
-    {   
-        var playerCards = GetPlayerCardsInLocation(player, location);
+    {
+        var playerCards = GetPlayerCardInLocation(player, location);
         var foundCard = playerCards.Find(c => c.Name == card.Name);
-        if(foundCard == null)
+        if (foundCard == null)
         {
             return new NoneCard();
         }
@@ -400,39 +472,72 @@ public class GameController
         return true;
     }
 
-    public Dictionary<IPlayer, int> GetPlayersPowerInLocation(AbstractLocation location)
+    public Dictionary<IPlayer, int> GetPlayerPowerInLocation(AbstractLocation location)
     {
         return location.GetAllPlayersPower();
     }
 
     public int GetPlayerPowerInLocation(IPlayer player, AbstractLocation location)
     {
-        return GetPlayersPowerInLocation(location)[player];
+        return GetPlayerPowerInLocation(location)[player];
     }
 
-    public bool AssignPlayerPowerInLocation(IPlayer player, AbstractLocation location, int power)
+    public bool AssignPlayerPowerToLocation()
+    {
+        var players = GetAllPlayers();
+        var locations = GetAllDeployedLocations();
+        foreach (var location in locations)
+        {
+            foreach (var player in players)
+            {
+                if (GetPlayerCardInLocation(location).ContainsKey(player))
+                {
+                    var playerCards = GetPlayerCardInLocation(player, location);
+                    var totalPower = 0;
+
+                    foreach (var card in playerCards)
+                    {
+                        totalPower += card.GetPower();
+                    }
+
+                    if (GetPlayerPowerInLocation(location).ContainsKey(player))
+                    {
+                        AssignPlayerPowerToLocation(player, location, totalPower);
+                    }
+                    else
+                    {
+                        GetPlayerPowerInLocation(location).Add(player, totalPower);
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public bool AssignPlayerPowerToLocation(IPlayer player, AbstractLocation location, int power)
     {
         return location.AssignPlayerPower(player, power);
     }
 
-    public bool AddPlayerPowerInLocation(IPlayer player, AbstractLocation location)
+    public bool AddPlayerPowerToLocation(IPlayer player, AbstractLocation location)
     {
-        return location.AddPlayerPower(player,1);
+        return location.AddPlayerPower(player, 1);
     }
 
-    public bool AddPlayerPowerInLocation(IPlayer player, AbstractLocation location, int powerToAdd)
+    public bool AddPlayerPowerToLocation(IPlayer player, AbstractLocation location, int powerToAdd)
     {
-        return location.AddPlayerPower(player,powerToAdd);
+        return location.AddPlayerPower(player, powerToAdd);
     }
 
-    public Dictionary<IPlayer, PlayerStatus> GetPlayersStatusInLocation(AbstractLocation location)
+    public Dictionary<IPlayer, PlayerStatus> GetPlayerStatusInLocation(AbstractLocation location)
     {
         return location.GetAllPlayerStatus();
     }
 
     public PlayerStatus GetPlayerStatusInLocation(IPlayer player, AbstractLocation location)
     {
-        return GetPlayersStatusInLocation(location)[player];
+        return GetPlayerStatusInLocation(location)[player];
     }
 
     public bool SetPlayerStatusInLocation(IPlayer player, AbstractLocation location, PlayerStatus status)
@@ -440,16 +545,16 @@ public class GameController
         return location.SetPlayerStatus(player, status);
     }
 
-    public List<IPlayer> GetPlayersInLocation(AbstractLocation location, PlayerInfoSource infoSource = PlayerInfoSource.FromCard)
+    public List<IPlayer> GetAllPlayersInLocation(AbstractLocation location, PlayerInfoSource infoSource = PlayerInfoSource.FromCard)
     {
         switch (infoSource)
         {
             case PlayerInfoSource.FromCard:
-                return GetPlayersCardsInLocation(location).Keys.ToList();
+                return GetPlayerCardInLocation(location).Keys.ToList();
             case PlayerInfoSource.FromPower:
-                return GetPlayersPowerInLocation(location).Keys.ToList();
+                return GetPlayerPowerInLocation(location).Keys.ToList();
             case PlayerInfoSource.FromStatus:
-                return GetPlayersStatusInLocation(location).Keys.ToList();
+                return GetPlayerStatusInLocation(location).Keys.ToList();
             default:
                 throw new ArgumentException("Invalid source");
         }
@@ -457,7 +562,7 @@ public class GameController
 
     public IPlayer GetPlayerInLocation(AbstractLocation location, IPlayer player)
     {
-        var playersInLocation = GetPlayersInLocation(location);
+        var playersInLocation = GetAllPlayersInLocation(location);
         var foundPlayer = playersInLocation.Find(p => p.Id == player.Id);
 
         if (foundPlayer == null)
@@ -469,7 +574,18 @@ public class GameController
 
     public IPlayer GetPlayerInLocation(AbstractLocation location, int index)
     {
-        return GetPlayersInLocation(location)[index];
+        return GetAllPlayersInLocation(location)[index];
+    }
+
+    public int GetMaxLocation()
+    {
+        return _maxLocation;
+    }
+
+    public bool SetMaxLocation(int maxLocation)
+    {
+        _maxLocation = maxLocation;
+        return true;
     }
 
     public List<AbstractLocation> GetDefaultAllLocations()
@@ -593,49 +709,7 @@ public class GameController
         return random.Next(max);
     }
 
-    public bool AssignCardToPlayerDeck(IPlayer player, params AbstractCard[] cards)
-    {
-        bool status = false;
-        if (!_players.ContainsKey(player))
-        {
-            return false;
-        }
-
-        foreach (var card in cards)
-        {
-            status = _players[player].AssignCardToDeck(card.Clone());
-            if (status)
-            {
-                GetPlayerCardInDeck(player, card).SetCardStatus(CardStatus.OnDeck);
-            }
-        }
-
-        return status;
-    }
-
-    public bool AssignCardToPlayerHand(IPlayer player, params AbstractCard[] cards)
-    {
-        bool status = false;
-        if (!_players.ContainsKey(player))
-        {
-            return false;
-        }
-
-        foreach (var card in cards)
-        {
-            //* player hand can have same card
-            var cardInDeck = GetPlayerDeck(player).Find(c => c.Name == card.Name);
-            status = _players[player].AssignCardToHand(cardInDeck);
-            if (status)
-            {
-                GetPlayerCardInHand(player, cardInDeck).SetCardStatus(CardStatus.OnHand);
-            }
-
-        }
-        return status;
-    }
-
-    public bool AssignPlayerCardToLocation(IPlayer player, AbstractCard card, AbstractLocation location)
+    public bool AssignPlayerCardToLocation(IPlayer player, AbstractCard card, AbstractLocation location, bool usingEnergy = true)
     {
         if (!_players.ContainsKey(player))
         {
@@ -652,18 +726,26 @@ public class GameController
             return false;
         }
 
+        if (usingEnergy)
+        {
+            if(card.GetCost() > GetPlayerEnergy(player))
+            {
+                return false;
+            }
+        }
+
+
         var cardInHand = GetPlayerCardInHand(player, card);
         var status = location.AssignPlayerCardToLocation(player, cardInHand);
         if (status)
         {
-            GetPlayerCardInLocation(player, location, cardInHand).SetCardStatus(CardStatus.OnLocation);
             var cardInLocation = GetPlayerCardInLocation(player, location, cardInHand);
             if (cardInLocation._isOnReveal || cardInLocation._isOnGoing)
             {
+                // cardInLocation.DeployCard(this, player, location);
                 cardInLocation.DeployCard(this, player, location);
             }
         }
-        // GetPlayerInfo(player).RetrieveCardFromHand(card);
 
         return status;
     }
@@ -673,13 +755,13 @@ public class GameController
         return _currentTurn;
     }
 
-    public bool SetTurn(IPlayer player)
+    public bool NextTurn(IPlayer player)
     {
         _currentTurn = player;
         return true;
     }
 
-    public bool SetTurn(int index)
+    public bool NextTurn(int index)
     {
         _currentTurn = GetAllPlayers()[index];
         return true;
@@ -693,7 +775,7 @@ public class GameController
         {
             indexNext = 0;
         }
-        SetTurn(indexNext);
+        NextTurn(indexNext);
         return true;
     }
 
@@ -702,9 +784,10 @@ public class GameController
         return _winner;
     }
 
-
-
-
-
+    public bool SetWinner(IPlayer player)
+    {
+        _winner = player;
+        return true;
+    }
 
 }

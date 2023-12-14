@@ -85,7 +85,7 @@ public class PlayerInfo
                 status++;
                 continue;
             }
-            _deck.Add(card);            
+            _deck.Add(card);
         }
         return (status > 0) ? false : true;     // ?? if deck contain any card in cards, it will continue to the next card, but return false (means one or more card cannot be assign)
     }
@@ -99,17 +99,13 @@ public class PlayerInfo
     /// <returns>true: if all card successfully retrieved from deck; otherwise, false</returns>
     public bool RetrieveCardFromDeck(params AbstractCard[] cards)
     {
-        int status = 0;
-        foreach (var card in cards)
-        {
-            if (!_deck.Contains(card))
-            {
-                status++;
-                continue;
-            }
-            _deck.Remove(card);
-        }
-        return (status > 0) ? false : true;
+        var cardNames = new HashSet<string>(cards.Select(card => card.Name));
+
+        int initialDeckCount = _deck.Count;
+        _deck.RemoveAll(card => cardNames.Contains(card.Name));
+        int finalDeckCount = _deck.Count;
+
+        return (initialDeckCount - finalDeckCount) == cards.Length;
     }
 
     /// <summary>
@@ -137,7 +133,7 @@ public class PlayerInfo
             //     status++;
             //     continue;
             // }
-            if(_deck.Contains(card))
+            if (_deck.Contains(card))
             {
                 status++;
                 _handCards.Add(card);
@@ -156,17 +152,13 @@ public class PlayerInfo
     /// <returns>true: if all card successfully retrieved from hand; otherwise, false</returns>
     public bool RetrieveCardFromHand(params AbstractCard[] cards)
     {
-        int status = 0;
-        foreach (var card in cards)
-        {
-            if (!_handCards.Contains(card))
-            {
-                status++;
-                continue;
-            }
-            _handCards.Remove(card);
-        }
-        return (status > 0) ? false : true;
+        var cardNames = new HashSet<string>(cards.Select(card => card.Name));
+
+        int initialHandCount = _handCards.Count;
+        _handCards.RemoveAll(card => cardNames.Contains(card.Name));
+        int finalHandCount = _handCards.Count;
+
+        return (initialHandCount - finalHandCount) == cards.Length;
     }
 
     /// <summary>
