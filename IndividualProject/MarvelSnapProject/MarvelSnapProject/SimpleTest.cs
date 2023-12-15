@@ -253,10 +253,19 @@ public static class SimpleTest
         while (game.GetCurrentGameStatus() == GameStatus.Running)
         {
             Console.Clear();
-            if(game.GetCurrentTurn() == game.GetPlayer(game.GetAllPlayers().Count - 1))
+            if (game.GetCurrentTurn() == game.GetPlayer(game.GetAllPlayers().Count - 1))
             {
                 game.NextRound();
             }
+            if (game.GetCurrentRound() == 7)
+            {
+                game.SetGameStatus(GameStatus.Finished);
+                if (game.GetCurrentGameStatus() == GameStatus.Finished)
+                {
+                    Console.WriteLine(game.FindWinner().Name);
+                }
+            }
+
             game.NextTurn();
             marvelSnapDisplay.Intro();
             int currentRound = game.GetCurrentRound();
@@ -285,8 +294,8 @@ public static class SimpleTest
                 .ValidationErrorMessage("[red]That's not a valid card index[/]")
                 .Validate(index =>
                 {
-                    choosedCard = game.GetPlayerHand(currentTurn)[index-1];
-                    if (index < 0 || index >= game.GetPlayerHand(currentTurn).Count)
+                    choosedCard = game.GetPlayerHand(currentTurn)[index - 1];
+                    if (index < 0 || index > game.GetPlayerHand(currentTurn).Count)
                     {
                         return ValidationResult.Error("[red]The card index must be within the range of your hand[/]");
                     }
@@ -294,7 +303,7 @@ public static class SimpleTest
                     {
                         return ValidationResult.Error("[red]The cost of the card cannot exceed the player's energy[/]");
                     }
-                        return ValidationResult.Success();
+                    return ValidationResult.Success();
                 }));
             int locationIndex = AnsiConsole.Prompt(
             new TextPrompt<int>($"{currentTurn.Name}, Choose the location (index of your location): ")
@@ -302,22 +311,21 @@ public static class SimpleTest
                 .ValidationErrorMessage("[red]That's not a valid location index[/]")
                 .Validate(index =>
                 {
-                    if (index < 0 || index >= game.GetAllDeployedLocations().Count)
+                    if (index < 0 || index > game.GetAllDeployedLocations().Count)
                     {
                         return ValidationResult.Error("[red]The location index must be within the range of deployed locations[/]");
                     }
                     return ValidationResult.Success();
                 }));
 
-            choosedCard = game.GetPlayerHand(currentTurn)[cardIndex-1];
-            choosedLocation = game.GetDeployedLocation(locationIndex-1);
+            choosedCard = game.GetPlayerHand(currentTurn)[cardIndex - 1];
+            choosedLocation = game.GetDeployedLocation(locationIndex - 1);
 
-            game.AssignPlayerCardToLocation(currentTurn, choosedCard, choosedLocation);
+            game.AssignPlayerCardToLocation(currentTurn, choosedCard, choosedLocation, true);
 
-            if (game.GetCurrentGameStatus() == GameStatus.Finished)
-            {
-                Console.WriteLine(game.FindWinner().Name);
-            }
+
+
+
             Console.ReadKey();
         }
     }
