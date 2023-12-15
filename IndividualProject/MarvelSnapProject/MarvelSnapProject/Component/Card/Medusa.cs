@@ -56,7 +56,7 @@ public class Medusa : AbstractCard
 
     public override bool DeployCard(GameController game, IPlayer player, AbstractLocation location)
     {
-        if (!IsDeployed() && GetCardStatus() == CardStatus.OnHand)
+        if ((!IsDeployed()) && (GetCardStatus() == CardStatus.OnHand))
         {
             SetCardStatus(CardStatus.OnLocation);
             SetRoundDeployed(game.GetCurrentRound());

@@ -43,6 +43,7 @@ public class MarvelSnapDisplay
         var table = new Table().Border(TableBorder.Rounded).Centered();
         table.AddColumn("Index");
         table.AddColumn("Location");
+        table.AddColumns("Description");
         table.AddColumn("Status");
         table.AddColumn($"Status {playerA.Name}");
         table.AddColumn($"Card {playerA.Name}");
@@ -94,6 +95,7 @@ public class MarvelSnapDisplay
                 table.AddRow(
                     (i+1).ToString(),
                     Markup.Escape((location.GetLocationStatus() == LocationStatus.Revealed) ? location.Name : "Hidden"),
+                    Markup.Escape(location.Description),
                     Markup.Escape(locationStatus),
                     Markup.Escape(playerStatusA),
                     Markup.Escape(string.Join(", ", cardStringsA)),

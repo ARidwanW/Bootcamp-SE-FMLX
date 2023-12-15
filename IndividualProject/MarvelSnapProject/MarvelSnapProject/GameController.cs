@@ -739,8 +739,6 @@ public class GameController
         Random random = new Random();
         return random.Next(max);
     }
-
-    //* + method assign card to location no register ability card
     public bool AssignPlayerCardToLocation(IPlayer player, AbstractCard card, AbstractLocation location, bool registerAbility = false, bool usingEnergy = true)
     {
         if (!_players.ContainsKey(player))

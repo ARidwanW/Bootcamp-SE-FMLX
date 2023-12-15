@@ -252,20 +252,19 @@ public static class SimpleTest
         game.NextTurn(player2);
         while (game.GetCurrentGameStatus() == GameStatus.Running)
         {
-            Console.Clear();
+            
             if (game.GetCurrentTurn() == game.GetPlayer(game.GetAllPlayers().Count - 1))
             {
                 game.NextRound();
             }
+            
             if (game.GetCurrentRound() == 7)
             {
                 game.SetGameStatus(GameStatus.Finished);
-                if (game.GetCurrentGameStatus() == GameStatus.Finished)
-                {
-                    Console.WriteLine(game.FindWinner().Name);
-                }
+                break;
             }
 
+            Console.Clear();
             game.NextTurn();
             marvelSnapDisplay.Intro();
             int currentRound = game.GetCurrentRound();
@@ -290,16 +289,18 @@ public static class SimpleTest
             AbstractLocation choosedLocation;
             int cardIndex = AnsiConsole.Prompt(
             new TextPrompt<int>($"{currentTurn.Name}, Choose the card (index of your card): ")
-                .PromptStyle("green")
+                .PromptStyle(Color.Green)
                 .ValidationErrorMessage("[red]That's not a valid card index[/]")
                 .Validate(index =>
                 {
-                    choosedCard = game.GetPlayerHand(currentTurn)[index - 1];
+
                     if (index < 0 || index > game.GetPlayerHand(currentTurn).Count)
                     {
                         return ValidationResult.Error("[red]The card index must be within the range of your hand[/]");
                     }
-                    else if (choosedCard.GetCost() > currentEnergy)
+
+                    choosedCard = game.GetPlayerHand(currentTurn)[index - 1];
+                    if (choosedCard.GetCost() > currentEnergy)
                     {
                         return ValidationResult.Error("[red]The cost of the card cannot exceed the player's energy[/]");
                     }
@@ -307,7 +308,7 @@ public static class SimpleTest
                 }));
             int locationIndex = AnsiConsole.Prompt(
             new TextPrompt<int>($"{currentTurn.Name}, Choose the location (index of your location): ")
-                .PromptStyle("green")
+                .PromptStyle(Color.Green)
                 .ValidationErrorMessage("[red]That's not a valid location index[/]")
                 .Validate(index =>
                 {
@@ -322,11 +323,15 @@ public static class SimpleTest
             choosedLocation = game.GetDeployedLocation(locationIndex - 1);
 
             game.AssignPlayerCardToLocation(currentTurn, choosedCard, choosedLocation, true);
-
-
-
-
             Console.ReadKey();
+        }
+
+        var winner = game.FindWinner();
+        if (winner.Name != "Draw")
+        {
+            AnsiConsole.Write(new Markup($"\n\n\nThe Winner is {winner.Name}!!\nCongrats!!").Centered());
+        }else{
+            AnsiConsole.Write(new Markup($"\n\n\nThe Game is {winner.Name}!!").Centered());
         }
     }
 }

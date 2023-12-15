@@ -1,19 +1,25 @@
+using System.Diagnostics;
 using MarvelSnapProject.Enum;
 
 namespace MarvelSnapProject.Component.Location;
 
 public class KunLun : AbstractLocation
 {
-    public KunLun() : base(7, "K'un-Lun", "When a card moves here, give it +2 Power.", 
+    public KunLun() : base(7, "K'un-Lun", "When a card moves here, give it +2 Power.",
                         LocationAbility.KunLun, LocationStatus.Hidden, true, false)
     {
     }
 
     public override bool SpecialAbilityOnGoing(GameController game)
     {
-        foreach(var card in GetAllCards())
+        foreach (var player in GetAllPlayersCards())
         {
-            card.SetPower(card.GetPower() + 2);
+            foreach (var card in GetPlayerCards(player.Key))
+            {
+                card.SetPower(card.GetPower() + 2);
+                Debug.WriteLine(card.Name);
+                Debug.WriteLine(card.GetPower());
+            }
         }
         return true;
     }

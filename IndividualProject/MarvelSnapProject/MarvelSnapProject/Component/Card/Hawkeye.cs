@@ -39,6 +39,7 @@ public class Hawkeye : AbstractCard
             bool anotherCard = location.GetPlayerCards(_deployer).Count > 1;
             if (anotherCard)
             {
+                // Console.WriteLine()
                 return SetPower(GetPower() + 3);
             }
         }
