@@ -107,13 +107,6 @@ public static class SimpleTest
 
         Console.Clear();
         marvelSnapDisplay.Intro();
-        // Console.ForegroundColor = ConsoleColor.Blue;
-        // Console.WriteLine("==== Welcome To Wawan Snap ==== \n");
-        // Console.ResetColor();
-        // Console.ForegroundColor = ConsoleColor.Yellow;
-        // Console.WriteLine("A Marvel Snap Clone Project");
-        // Console.ForegroundColor = ConsoleColor.Cyan;
-        // Console.WriteLine("By: Alwandia Ridwan Wadiska");
         Console.ResetColor();
 
         //* Assign Player
@@ -121,8 +114,6 @@ public static class SimpleTest
         IPlayer player1, player2;
         do
         {
-            // Console.Write("Input First Player's Name \t: ");
-            // name1 = Console.ReadLine();
             name1 = AnsiConsole.Ask<string>("[blue]Input First Player's Name \t: [/]");
             name1 = char.ToUpper(name1[0]) + name1.Substring(1);
             player1 = new MSPlayer(101, name1);
@@ -131,8 +122,6 @@ public static class SimpleTest
 
         do
         {
-            // Console.Write("Input Second Player's Name \t: ");
-            // name2 = Console.ReadLine();
             name2 = AnsiConsole.Ask<string>("[red]Input Second Player's Name \t: [/]");
             name2 = char.ToUpper(name2[0]) + name2.Substring(1);
             player2 = new MSPlayer(102, name2);
@@ -143,16 +132,12 @@ public static class SimpleTest
         //* list player
         List<IPlayer> listPlayers = game.GetAllPlayers();
 
-        // Console.ForegroundColor = ConsoleColor.Green;
-        // Console.WriteLine($"\nWelcome {player1.Name} and {player2.Name} ! \nLets Play !! \n");
-        // Console.ResetColor();
         AnsiConsole.Write(new Markup($"\n[bold yellow]Welcome[/] [bold blue]{player1.Name}[/] [bold yellow]and[/] [bold red]{player2.Name}[/] !" +
                                     "\n[bold green]Lets Play !![/] \n").Centered());
 
-        // Console.ForegroundColor = ConsoleColor.Yellow;
+        //* to start game
         do
         {
-            // Console.WriteLine("\nPress Enter to start the Game");
             AnsiConsole.MarkupLine("\n[bold yellow]Press Enter to start the Game[/]");
         }
         while (Console.ReadKey().Key != ConsoleKey.Enter);
@@ -172,8 +157,9 @@ public static class SimpleTest
         StarLord starLord = new();
         ThePunisher thePunisher = new();
         Thing thing = new();
-        WhiteTiger whiteTiger = new();      
+        WhiteTiger whiteTiger = new();
 
+        //* list of cards
         List<AbstractCard> listCards = new List<AbstractCard>()
         {
             // 1 energi
@@ -227,6 +213,7 @@ public static class SimpleTest
         NegativeZone negativeZone = new NegativeZone();
         Ruins ruins = new Ruins();
 
+        //* list of location
         List<AbstractLocation> listLocations = new List<AbstractLocation>()
         {
             kunLun,
@@ -240,41 +227,94 @@ public static class SimpleTest
         //* Assign all player to all location deployed
         foreach (var location in game.GetAllDeployedLocations())
         {
-            location.AssignPlayer(listPlayers.ToArray());
+            game.AssignPlayerToLocation(location, listPlayers.ToArray());
         }
 
-        Console.Clear();
-        game.NextRound();
-        marvelSnapDisplay.Intro();
-        Console.WriteLine(game.GetCurrentRound());
-        marvelSnapDisplay.DisplayLocation(game);
-        marvelSnapDisplay.DiplayPlayerCard(game, player1);
-        marvelSnapDisplay.DiplayPlayerCard(game, player2);
-        Console.ReadKey();
+        // Console.Clear();
+        // game.NextRound();
+        // marvelSnapDisplay.Intro();
+        // int currentRound = game.GetCurrentRound();
+        // var currentTurn = game.GetCurrentTurn();
+        // game.NextTurn(player1);
+        // AnsiConsole.Write(new Markup($"[bold red]Round {currentRound}[/]").Centered());
+        // marvelSnapDisplay.DisplayLocation(game);
+        //*chek current turn here (current Turn) if player1 then marvelSnapDisplay.DiplayPlayerCard(game, player1);
+        //*ask the index or name of the card with ansiconsole --> var card --> ask again if there's no such index or name
+        //*ask the index or name of the location with ansiconsole --> var location --> ask again if there's no such index or location name
+        //*search card in player hand game.GetPlayerHand(IPlayer)[index of card] or game.GetPlayerHand(IPlayer).find(c => c.Name == card.Name) --> var choosedCard
+        //*search location game.GetDeployedLocation(index) or game.GetAllDeployedLocations().Find(loc => loc.Name == location.Name) --> var choosedLocation
+        //*assign card to location --> game.AssignPlayerCardToLocation(IPlayer player, AbstractCard card, AbstractLocation location, bool usingEnergy = true)
+        //*change turn with NexTurn() or NextTurn(index) or NexTurn(IPlayer player)
+        //*do the same as player 1 and go into loop
+        // Console.ReadKey();
 
+        game.StartGame();
+        game.NextTurn(player2);
         while (game.GetCurrentGameStatus() == GameStatus.Running)
         {
             Console.Clear();
-            if (game.GetCurrentRound() == 1)
+            if(game.GetCurrentTurn() == game.GetPlayer(game.GetAllPlayers().Count - 1))
             {
-                game.AssignPlayerCardToLocation(player1, hawkeye, kunLun);
+                game.NextRound();
             }
-            if (game.GetCurrentRound() == 2)
-            {
-                game.AssignPlayerCardToLocation(player1, cyclops, kunLun);
-            }
-            if(game.GetCurrentRound() == 3)
-            {
-                game.AssignPlayerCardToLocation(player2, medusa, negativeZone);
-            }
-            game.NextRound();
+            game.NextTurn();
             marvelSnapDisplay.Intro();
-            Console.WriteLine(game.GetCurrentRound());
-            // game.AssignPlayerPowerToLocation(player1, kunLun, hawkeye.GetPower());
+            int currentRound = game.GetCurrentRound();
+            var currentTurn = game.GetCurrentTurn();
+            var currentEnergy = game.GetPlayerEnergy(currentTurn);
+            AnsiConsole.Write(new Markup($"[bold red]Round {currentRound}[/]").Centered());
             marvelSnapDisplay.DisplayLocation(game);
-            marvelSnapDisplay.DiplayPlayerCard(game, player1);
-            marvelSnapDisplay.DiplayPlayerCard(game, player2);
-            if(game.GetCurrentGameStatus() == GameStatus.Finished)
+            if (currentTurn == player1)
+            {
+                AnsiConsole.Write(new Markup($"[bold yellow]Turn:[/] [bold blue]{currentTurn.Name}[/]").Centered());
+            }
+            else
+            {
+                AnsiConsole.Write(new Markup($"[bold yellow]Turn:[/] [bold red]{currentTurn.Name}[/]").Centered());
+            }
+
+            AnsiConsole.Write(new Markup($"[bold yellow]Player Energy:[/] [cyan]{currentEnergy}[/]").Centered());
+
+            marvelSnapDisplay.DiplayPlayerCard(game, currentTurn);
+
+            AbstractCard choosedCard;
+            AbstractLocation choosedLocation;
+            int cardIndex = AnsiConsole.Prompt(
+            new TextPrompt<int>($"{currentTurn.Name}, Choose the card (index of your card): ")
+                .PromptStyle("green")
+                .ValidationErrorMessage("[red]That's not a valid card index[/]")
+                .Validate(index =>
+                {
+                    choosedCard = game.GetPlayerHand(currentTurn)[index-1];
+                    if (index < 0 || index >= game.GetPlayerHand(currentTurn).Count)
+                    {
+                        return ValidationResult.Error("[red]The card index must be within the range of your hand[/]");
+                    }
+                    else if (choosedCard.GetCost() > currentEnergy)
+                    {
+                        return ValidationResult.Error("[red]The cost of the card cannot exceed the player's energy[/]");
+                    }
+                        return ValidationResult.Success();
+                }));
+            int locationIndex = AnsiConsole.Prompt(
+            new TextPrompt<int>($"{currentTurn.Name}, Choose the location (index of your location): ")
+                .PromptStyle("green")
+                .ValidationErrorMessage("[red]That's not a valid location index[/]")
+                .Validate(index =>
+                {
+                    if (index < 0 || index >= game.GetAllDeployedLocations().Count)
+                    {
+                        return ValidationResult.Error("[red]The location index must be within the range of deployed locations[/]");
+                    }
+                    return ValidationResult.Success();
+                }));
+
+            choosedCard = game.GetPlayerHand(currentTurn)[cardIndex-1];
+            choosedLocation = game.GetDeployedLocation(locationIndex-1);
+
+            game.AssignPlayerCardToLocation(currentTurn, choosedCard, choosedLocation);
+
+            if (game.GetCurrentGameStatus() == GameStatus.Finished)
             {
                 Console.WriteLine(game.FindWinner().Name);
             }

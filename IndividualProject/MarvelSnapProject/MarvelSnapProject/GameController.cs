@@ -47,6 +47,16 @@ public class GameController
         _logger?.Info("Game created");
     }
 
+    public void StartGame()
+    {
+        SetGameStatus(GameStatus.Running);
+    }
+
+    public void EndGame()
+    {
+        SetGameStatus(GameStatus.Finished);
+    }
+
     public GameStatus GetCurrentGameStatus()
     {
         return _gameStatus;
@@ -798,6 +808,22 @@ public class GameController
         var playersPower = GetPlayerPowerInLocation(location);
         var maxPower = playersPower.Values.Max();
         var minPower = playersPower.Values.Min();
+        // var playersWithSamePower = playersPower
+        //     .GroupBy(x => x.Value)
+        //     .Where(g => g.Count() > 1)
+        //     .Select(g => new { Power = g.Key, Players = g.Select(p => p.Key).ToList() })
+        //     .ToList();
+
+        // foreach (var group in playersWithSamePower)
+        // {
+        //     Console.WriteLine($"Power: {group.Power}");
+        //     foreach (var player in group.Players)
+        //     {
+        //         Console.WriteLine($"Player: {player.Name}");
+        //     }
+        // }
+
+        bool allValueAreSame = playersPower.Values.Distinct().Count() == 1;
 
         var winnerPair = playersPower.FirstOrDefault(x => x.Value == maxPower);
         var loserPair = playersPower.FirstOrDefault(x => x.Value == minPower);
@@ -824,13 +850,18 @@ public class GameController
                     }
                     else
                     {
-                        if(player.Equals(winner))
+                        if (allValueAreSame)
+                        {
+                            SetPlayerStatusInLocation(player, location, PlayerStatus.Draw);
+                        }
+                        else if (player.Equals(winner))
                         {
                             SetPlayerStatusInLocation(player, location, PlayerStatus.Win);
-                        }else if (player.Equals(loser))
+                        }
+                        else if (player.Equals(loser))
                         {
                             SetPlayerStatusInLocation(player, location, PlayerStatus.Lose); // Ubah status menjadi Lose
-                        }   
+                        }
                     }
                 }
                 else if (player.Equals(winner))
