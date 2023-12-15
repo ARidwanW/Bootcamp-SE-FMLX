@@ -169,16 +169,16 @@ public static class SimpleTest
 
             // 2 energi
             medusa,
-            starLord,
+            // starLord,
 
             //3 energi
             cyclops,
-            misterFantastic,
+            // misterFantastic,
             // thePunisher,
 
             //4 energi
             thing,
-            jessicaJones,
+            // jessicaJones,
 
             //5 energi
             abomination,
@@ -187,7 +187,7 @@ public static class SimpleTest
 
             //6 energi
             hulk,
-            spectrum
+            // spectrum
         };
 
         //* assign card to player deck
@@ -288,7 +288,7 @@ public static class SimpleTest
             AbstractCard choosedCard;
             AbstractLocation choosedLocation;
             int cardIndex = AnsiConsole.Prompt(
-            new TextPrompt<int>($"{currentTurn.Name}, Choose the card (index of your card): ")
+            new TextPrompt<int>($"[rapidblink yellow]{currentTurn.Name}[/], [bold green]Choose the card (index of your card): [/]")
                 .PromptStyle(Color.Green)
                 .ValidationErrorMessage("[red]That's not a valid card index[/]")
                 .Validate(index =>
@@ -307,7 +307,7 @@ public static class SimpleTest
                     return ValidationResult.Success();
                 }));
             int locationIndex = AnsiConsole.Prompt(
-            new TextPrompt<int>($"{currentTurn.Name}, Choose the location (index of your location): ")
+            new TextPrompt<int>($"[rapidblink yellow]{currentTurn.Name}[/], [bold green]Choose the location (index of your location): [/]")
                 .PromptStyle(Color.Green)
                 .ValidationErrorMessage("[red]That's not a valid location index[/]")
                 .Validate(index =>
@@ -329,9 +329,18 @@ public static class SimpleTest
         var winner = game.FindWinner();
         if (winner.Name != "Draw")
         {
-            AnsiConsole.Write(new Markup($"\n\n\nThe Winner is {winner.Name}!!\nCongrats!!").Centered());
+            if(winner == player1)
+            {
+            AnsiConsole.Write(new Markup($"\n\n\n[bold yellow]The Winner is [/][bold blue]{winner.Name}[/][bold yellow]!![/]\n"+
+                                "[bold yellow]Congrats!![/]\n\n\n").Centered());
+            }
+            else
+            {
+                AnsiConsole.Write(new Markup($"\n\n\n[bold yellow]The Winner is [/][bold red]{winner.Name}[/][bold yellow]!![/]\n"+
+                                "[bold yellow]Congrats!![/]\n\n\n").Centered());
+            }
         }else{
-            AnsiConsole.Write(new Markup($"\n\n\nThe Game is {winner.Name}!!").Centered());
+            AnsiConsole.Write(new Markup($"\n\n\nThe Game is {winner.Name}!!\n\n\n").Centered());
         }
     }
 }

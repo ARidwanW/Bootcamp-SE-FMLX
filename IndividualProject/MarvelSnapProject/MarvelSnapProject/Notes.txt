@@ -59,9 +59,6 @@ dlam method round check, apakah roundnya memenuhi untuk dieksekusi, jjika sudha 
 
 
 //!! yang belum:
-temporaryplayer card in location --> agar tidak nambah tiap round
-assign power player in location 
-invoke untuk kartu
-register action untuk ability location
-invoke untuk ability location
-test game
+medusa player 2 ability??
+ironman ability??
+negative zone??

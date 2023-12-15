@@ -29,7 +29,7 @@ public class Medusa : AbstractCard
         if (IsDeployed())
         {
             //* NextRound --> invoke --> round + 1
-            if (game.GetCurrentRound() != _roundDeployed + 1)
+            if (game.GetCurrentRound() > _roundDeployed)
             {
                 return false;
             }

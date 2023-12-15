@@ -10,10 +10,12 @@ public class NegativeZone : AbstractLocation
 
     public override bool SpecialAbilityOnGoing(GameController game)
     {
-        //* pisah card dari tiap pemain
-        foreach(var card in GetPlayerCards(game.GetCurrentTurn()))
+        foreach (var player in GetAllPlayersCards())
         {
-            card.SetPower(card.GetPower() - 3);
+            foreach (var card in GetPlayerCards(player.Key))
+            {
+                card.SetPower(card.GetPower() - 3);
+            }
         }
         return true;
     }
