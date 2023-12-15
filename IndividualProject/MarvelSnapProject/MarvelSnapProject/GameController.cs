@@ -97,6 +97,12 @@ public class GameController
         return true;
     }
 
+    public bool NextRound(int round, bool plan = true)
+    {
+        _round = round;
+        return true;
+    }
+
     public bool NextRound()
     {
         if (_round > _maxRound)
@@ -118,6 +124,12 @@ public class GameController
         RevealLocation(_round);
         SetPlayerEnergy(_round);
 
+        return true;
+    }
+
+    public bool NextRound(bool plan = true)
+    {
+        _round += 1;
         return true;
     }
 
