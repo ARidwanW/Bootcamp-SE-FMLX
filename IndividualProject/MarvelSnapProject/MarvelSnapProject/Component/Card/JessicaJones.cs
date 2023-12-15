@@ -51,13 +51,13 @@ public class JessicaJones : AbstractCard
 
     public override bool DeployCard(GameController game, IPlayer player, AbstractLocation location)
     {
-        if (!IsDeployed() && GetCardStatus() == CardStatus.OnHand)
+        if ((!IsDeployed()) && (GetCardStatus() == CardStatus.OnHand))
         {
-            SetCardStatus(CardStatus.OnLocation);
-            SetRoundDeployed(game.GetCurrentRound());
-            SetDeployer(player);
-            SetLocationDeployed(location);
-            RegisterSpecialAbilityOnReveal(game);
+            this.SetCardStatus(CardStatus.OnLocation);
+            this.SetRoundDeployed(game.GetCurrentRound());
+            this.SetDeployer(player);
+            this.SetLocationDeployed(location);
+            this.RegisterSpecialAbilityOnReveal(game);
             return true;
         }
         return false;

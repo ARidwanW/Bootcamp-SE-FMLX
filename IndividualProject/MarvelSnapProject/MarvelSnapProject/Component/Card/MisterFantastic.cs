@@ -51,12 +51,12 @@ public class MisterFantastic : AbstractCard
 
     public override bool DeployCard(GameController game, IPlayer player, AbstractLocation location)
     {
-        if (!IsDeployed() && GetCardStatus() == CardStatus.OnHand)
+        if ((!IsDeployed()) && (GetCardStatus() == CardStatus.OnHand))
         {
-            SetCardStatus(CardStatus.OnLocation);
-            SetDeployer(player);
-            SetLocationDeployed(location);
-            RegisterSpecialAbilityOnGoing(game);
+            this.SetCardStatus(CardStatus.OnLocation);
+            this.SetDeployer(player);
+            this.SetLocationDeployed(location);
+            this.RegisterSpecialAbilityOnGoing(game);
             return true;
         }
         return false;

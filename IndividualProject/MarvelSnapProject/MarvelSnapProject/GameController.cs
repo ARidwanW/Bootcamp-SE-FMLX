@@ -1,4 +1,5 @@
 using System.CodeDom.Compiler;
+using System.Diagnostics;
 using MarvelSnapProject.Component.Card;
 using MarvelSnapProject.Component.Location;
 using MarvelSnapProject.Component.Player;
@@ -297,7 +298,7 @@ public class GameController
         foreach (var card in cards)
         {
             //* player hand can have same card
-            var cardInDeck = GetPlayerDeck(player).Find(c => c.Name == card.Name);
+            var cardInDeck = GetPlayerCardInDeck(player, card);
             status = _players[player].AssignCardToHand(cardInDeck);
             if (status)
             {
@@ -764,17 +765,18 @@ public class GameController
             }
         }
 
-
         var cardInHand = GetPlayerCardInHand(player, card);
-        var status = location.AssignPlayerCardToLocation(player, cardInHand);
+        var cloneCard = cardInHand.Clone();
+        cloneCard.SetCardStatus(CardStatus.OnHand);
+        var status = location.AssignPlayerCardToLocation(player, cloneCard);
         if (status)
         {
-            var cardInLocation = GetPlayerCardInLocation(player, location, cardInHand);
+            var cardInLocation = GetPlayerCardInLocation(player, location, cloneCard);
+            // cardInLocation.SetCardStatus(CardStatus.OnLocation);
             if (registerAbility)
             {
                 if (cardInLocation._isOnReveal || cardInLocation._isOnGoing)
                 {
-                    // cardInLocation.DeployCard(this, player, location);
                     cardInLocation.DeployCard(this, player, location);
                 }
             }

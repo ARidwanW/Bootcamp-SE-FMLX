@@ -34,17 +34,18 @@ public class Sentinel : AbstractCard
                 return false;
             }
             return game.AssignCardToPlayerHand(_deployer, new Sentinel());
+            //?? set card status on hand here
         }
         return false;
     }
 
     public override bool DeployCard(GameController game, IPlayer player, AbstractLocation location)
     {
-        if (!IsDeployed() && GetCardStatus() == CardStatus.OnHand)
+        if ((!IsDeployed()) && (GetCardStatus() == CardStatus.OnHand))
         {
-            SetCardStatus(CardStatus.OnLocation);
-            SetRoundDeployed(game.GetCurrentRound());
-            RegisterSpecialAbilityOnReveal(game);
+            this.SetCardStatus(CardStatus.OnLocation);
+            this.SetRoundDeployed(game.GetCurrentRound());
+            this.RegisterSpecialAbilityOnReveal(game);
             return true;
         }
         return false;

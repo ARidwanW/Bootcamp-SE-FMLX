@@ -34,6 +34,7 @@ public class Spectrum : AbstractCard
                 return false;
             }
 
+            //! you can simply this
             var allDeployedLocations = game.GetAllDeployedLocations();
             List<AbstractCard> playerCards = new List<AbstractCard>();
             foreach (var location in allDeployedLocations)
@@ -55,11 +56,11 @@ public class Spectrum : AbstractCard
 
     public override bool DeployCard(GameController game, IPlayer player, AbstractLocation location)
     {
-        if (!IsDeployed() && GetCardStatus() == CardStatus.OnHand)
+        if ((!IsDeployed()) && (GetCardStatus() == CardStatus.OnHand))
         {
-            SetCardStatus(CardStatus.OnLocation);
-            SetRoundDeployed(game.GetCurrentRound());
-            RegisterSpecialAbilityOnReveal(game);
+            this.SetCardStatus(CardStatus.OnLocation);
+            this.SetRoundDeployed(game.GetCurrentRound());
+            this.RegisterSpecialAbilityOnReveal(game);
             return true;
         }
         return false;

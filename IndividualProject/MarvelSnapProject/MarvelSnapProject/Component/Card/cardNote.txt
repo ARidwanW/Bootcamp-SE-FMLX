@@ -15,3 +15,6 @@ ThePunisher = 14
 Thing = 15
 WhiteTiger = 16
 Squirrel = 17
+
+// dont use sentinel, not perfectly implement
+// not recoment spectrum also

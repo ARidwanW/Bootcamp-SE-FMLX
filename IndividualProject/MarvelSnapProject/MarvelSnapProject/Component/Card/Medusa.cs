@@ -58,10 +58,10 @@ public class Medusa : AbstractCard
     {
         if ((!IsDeployed()) && (GetCardStatus() == CardStatus.OnHand))
         {
-            SetCardStatus(CardStatus.OnLocation);
-            SetRoundDeployed(game.GetCurrentRound());
-            SetLocationDeployed(location);
-            RegisterSpecialAbilityOnReveal(game);
+            this.SetCardStatus(CardStatus.OnLocation);
+            this.SetRoundDeployed(game.GetCurrentRound());
+            this.SetLocationDeployed(location);
+            this.RegisterSpecialAbilityOnReveal(game);
             return true;
         }
         return false;

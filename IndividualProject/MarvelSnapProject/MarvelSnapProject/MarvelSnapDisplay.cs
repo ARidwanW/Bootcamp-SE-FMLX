@@ -95,7 +95,7 @@ public class MarvelSnapDisplay
                 table.AddRow(
                     (i+1).ToString(),
                     Markup.Escape((location.GetLocationStatus() == LocationStatus.Revealed) ? location.Name : "Hidden"),
-                    Markup.Escape(location.Description),
+                    Markup.Escape((location.GetLocationStatus() == LocationStatus.Revealed) ? location.Description : "Hidden"),
                     Markup.Escape(locationStatus),
                     Markup.Escape(playerStatusA),
                     Markup.Escape(string.Join(", ", cardStringsA)),
