@@ -62,3 +62,14 @@ dlam method round check, apakah roundnya memenuhi untuk dieksekusi, jjika sudha 
 medusa player 2 ability??
 ironman ability??
 negative zone??
+
+
+//!! Assign player
+- assign to deck parameter clone or not
+- assign to hand parameter clone or not
+- assign to location parameter clone or not
+- getplayercard in deck parameter clone or not
+- get player card in hand parameter clone or not
+- get player card in location parameter clone or not
+
+ironman dan next round saling assign

@@ -18,13 +18,13 @@ public static class SimpleTest
         var hawkeyeCard = hawkeye.Clone();
         Abomination abomination = new();
         game.AssignPlayer(Wawan);
-        game.AssignCardToPlayerDeck(Wawan, hawkeyeCard);
+        game.AssignCardToPlayerDeck(Wawan, true, true, hawkeyeCard);
         var wawanDeck = game.GetPlayerDeck(Wawan);
         foreach (var card in wawanDeck)
         {
             Console.WriteLine(card.Name + card.GetCardStatus());
         }
-        var assignCardToWawan = game.AssignCardToPlayerHand(Wawan, hawkeyeCard);
+        var assignCardToWawan = game.AssignCardToPlayerHand(Wawan, true, cards: hawkeyeCard);
         Console.WriteLine(assignCardToWawan);
         foreach (var card in game.GetPlayerHand(Wawan))
         {
@@ -39,14 +39,15 @@ public static class SimpleTest
         MSPlayer Wawan = new(1, "Wawan");
         Hawkeye hawkeye = new();
         Abomination abomination = new();
+        AbstractCard[] twoCards = {hawkeye, abomination};
         game.AssignPlayer(Wawan);
-        game.AssignCardToPlayerDeck(Wawan, hawkeye, abomination);
+        game.AssignCardToPlayerDeck(Wawan, true, true, hawkeye, abomination);
         var wawanDeck = game.GetPlayerDeck(Wawan);
         foreach (var card in wawanDeck)
         {
             Console.WriteLine(card.Name + card.GetCardStatus());
         }
-        var assignCardToWawan = game.AssignCardToPlayerHand(Wawan, hawkeye, abomination);
+        var assignCardToWawan = game.AssignCardToPlayerHand(Wawan, true, cards: twoCards);
         Console.WriteLine(assignCardToWawan);
         foreach (var card in game.GetPlayerHand(Wawan))
         {
@@ -195,7 +196,7 @@ public static class SimpleTest
         {
             foreach (var card in listCards)
             {
-                game.AssignCardToPlayerDeck(player, card);
+                game.AssignCardToPlayerDeck(player, true, true, card);
             }
         }
 
@@ -204,8 +205,8 @@ public static class SimpleTest
         List<AbstractCard> deckPlayer2 = game.GetPlayerDeck(player2);
 
         //* assign card to player hand
-        game.AssignCardToPlayerHand(player1, listCards.ToArray());
-        game.AssignCardToPlayerHand(player2, listCards.ToArray());
+        game.AssignCardToPlayerHand(player1, true, cards: listCards.ToArray());
+        game.AssignCardToPlayerHand(player2, true, cards: listCards.ToArray());
 
 
         //* locations
@@ -252,15 +253,18 @@ public static class SimpleTest
         game.NextTurn(player2);
         while (game.GetCurrentGameStatus() == GameStatus.Running)
         {
-            
+
             if (game.GetCurrentTurn() == game.GetPlayer(game.GetAllPlayers().Count - 1))
             {
                 game.NextRound();
             }
-            
+
             if (game.GetCurrentRound() == 7)
             {
                 game.SetGameStatus(GameStatus.Finished);
+                Console.Clear();
+                marvelSnapDisplay.Intro();
+                marvelSnapDisplay.DisplayLocation(game);
                 break;
             }
 
@@ -289,7 +293,6 @@ public static class SimpleTest
             AbstractLocation choosedLocation;
             int cardIndex = AnsiConsole.Prompt(
             new TextPrompt<int>($"[rapidblink yellow]{currentTurn.Name}[/], [bold green]Choose the card (index of your card): [/]")
-                .PromptStyle(Color.Green)
                 .ValidationErrorMessage("[red]That's not a valid card index[/]")
                 .Validate(index =>
                 {
@@ -308,7 +311,6 @@ public static class SimpleTest
                 }));
             int locationIndex = AnsiConsole.Prompt(
             new TextPrompt<int>($"[rapidblink yellow]{currentTurn.Name}[/], [bold green]Choose the location (index of your location): [/]")
-                .PromptStyle(Color.Green)
                 .ValidationErrorMessage("[red]That's not a valid location index[/]")
                 .Validate(index =>
                 {
@@ -322,24 +324,26 @@ public static class SimpleTest
             choosedCard = game.GetPlayerHand(currentTurn)[cardIndex - 1];
             choosedLocation = game.GetDeployedLocation(locationIndex - 1);
 
-            game.AssignPlayerCardToLocation(currentTurn, choosedCard, choosedLocation, true);
+            game.AssignPlayerCardToLocation(currentTurn, choosedCard, choosedLocation, byName: false, registerAbility: true);
             Console.ReadKey();
         }
 
         var winner = game.FindWinner();
         if (winner.Name != "Draw")
         {
-            if(winner == player1)
+            if (winner == player1)
             {
-            AnsiConsole.Write(new Markup($"\n\n\n[bold yellow]The Winner is [/][bold blue]{winner.Name}[/][bold yellow]!![/]\n"+
-                                "[bold yellow]Congrats!![/]\n\n\n").Centered());
+                AnsiConsole.Write(new Markup($"\n\n\n[bold yellow]The Winner is [/][bold blue]{winner.Name}[/][bold yellow]!![/]\n" +
+                                    "[bold yellow]Congrats!![/]\n\n\n").Centered());
             }
             else
             {
-                AnsiConsole.Write(new Markup($"\n\n\n[bold yellow]The Winner is [/][bold red]{winner.Name}[/][bold yellow]!![/]\n"+
+                AnsiConsole.Write(new Markup($"\n\n\n[bold yellow]The Winner is [/][bold red]{winner.Name}[/][bold yellow]!![/]\n" +
                                 "[bold yellow]Congrats!![/]\n\n\n").Centered());
             }
-        }else{
+        }
+        else
+        {
             AnsiConsole.Write(new Markup($"\n\n\nThe Game is {winner.Name}!!\n\n\n").Centered());
         }
     }

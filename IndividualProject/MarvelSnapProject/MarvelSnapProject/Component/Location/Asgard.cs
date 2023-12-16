@@ -56,7 +56,7 @@ public class Asgard : AbstractLocation
             for (int i = 0; i < 2; i++)
             {
                 var randomCard = game.GetShuffleCard();
-                game.AssignCardToPlayerHand(winner, randomCard);
+                game.AssignCardToPlayerHand(winner, false, false, true, false, randomCard);
             }
         }
         return true;

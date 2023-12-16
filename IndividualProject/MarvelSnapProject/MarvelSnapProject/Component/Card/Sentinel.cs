@@ -33,7 +33,7 @@ public class Sentinel : AbstractCard
             {
                 return false;
             }
-            return game.AssignCardToPlayerHand(_deployer, new Sentinel());
+            return game.AssignCardToPlayerHand(_deployer, false, false, true, false, new Sentinel());
             //?? set card status on hand here
         }
         return false;
