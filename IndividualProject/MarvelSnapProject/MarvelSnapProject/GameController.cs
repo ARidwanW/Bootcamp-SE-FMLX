@@ -12,141 +12,246 @@ namespace MarvelSnapProject;
 
 public class GameController
 {
+    /// <summary>
+    /// GameController logger instance.
+    /// </summary>
     private readonly Logger _logger;
+    /// <summary>
+    /// Enum GameStatus [None, Running, Finished].
+    /// </summary>
     private GameStatus _gameStatus;
+    /// <summary>
+    /// Round of the game.
+    /// </summary>
     private int _round;
+    /// <summary>
+    /// Maximum round of the game. 
+    /// When the game is created, the default is 6 rounds.
+    /// </summary>
     private int _maxRound;
+    /// <summary>
+    /// A Dictionary of players and their info.
+    /// PlayerInfo save card in deck and hand, energy, max deck,
+    /// total win, and player status.
+    /// </summary>
     private Dictionary<IPlayer, PlayerInfo> _players;
+    /// <summary>
+    /// Deployed locations. Deployed location is
+    /// a location used or implemented in the game.
+    /// </summary>
     private List<AbstractLocation> _locations;
+    /// <summary>
+    /// Maximum deployable locations.
+    /// The default is 3.
+    /// </summary>
     private int _maxLocation = 3;
+    /// <summary>
+    /// All the locations that the game has.
+    /// </summary>
     private List<AbstractLocation> _allLocations;
+    /// <summary>
+    /// all card that the game has.
+    /// </summary>
     private List<AbstractCard> _allCards;
+    /// <summary>
+    /// Current player turn.
+    /// </summary>
     private IPlayer _currentTurn;
+    /// <summary>
+    /// Winner of the game.
+    /// </summary>
     private IPlayer _winner;
+    /// <summary>
+    /// Handle update to the status of a card.
+    /// </summary>
     public Action<AbstractCard, CardStatus>? OnCardStatusUpdate;
+    /// <summary>
+    /// Handle update to the status of a location.
+    /// </summary>
     public Action<AbstractLocation, LocationStatus>? OnLocationStatusUpdate;
+    /// <summary>
+    /// Handle update to the status of a player.
+    /// </summary>
     public Action<IPlayer, PlayerStatus>? OnPlayerStatusUpdate;
+    /// <summary>
+    /// Handle update to a location.
+    /// </summary>
     public Action<AbstractLocation>? OnLocationUpdate;
+    /// <summary>
+    /// Handle update to a player's information.
+    /// </summary>
     public Action<IPlayer, PlayerInfo>? OnPlayerUpdate;
-    public event Func<GameController, bool>? OnRevealCardAbilityCall;        // invoke every round, chek apakah ada sub, jika iya bakal di invoke dan chek apakah roundnya sudah selanjutnya
+    /// <summary>
+    /// Handle on reveal card ability. Default Invoke in method NextRound().
+    /// </summary>
+    public event Func<GameController, bool>? OnRevealCardAbilityCall;
+    /// <summary>
+    /// Handle on reveal location ability. Default Invoke in method NextRound().
+    /// </summary>
     public event Func<GameController, bool>? OnRevealLocationAbilityCall;
+    /// <summary>
+    /// Handle on going card ability. Default Invoke in method NextRound().
+    /// </summary>
     public event Func<GameController, bool>? OnGoingCardAbilityCall;
+    /// <summary>
+    /// Handle on going lcoation ability. Default Invoke in method NextRound().
+    /// </summary>
     public event Func<GameController, bool>? OnGoingLocationAbilityCall;
 
-
+    /// <summary>
+    /// Contructor of GameController. Will create default parameter to variable.
+    /// </summary>
+    /// <param name="log">Logger instance like NLog</param>
     public GameController(Logger? log = null)
     {
         _logger = log;
+        _logger?.Info("Creating Game.");
         _gameStatus = GameStatus.None;
+        _logger?.Info("Set GameStatus to None.");
         _players = new Dictionary<IPlayer, PlayerInfo>();
+        _logger?.Info("Create new Dictionary of _players.");
         _locations = new List<AbstractLocation>();
+        _logger?.Info("Create new List of _locations.");
         _allLocations = new List<AbstractLocation>();
+        _logger?.Info("Create new List of _allLocations.");
         _allCards = new List<AbstractCard>();
+        _logger?.Info("Create new List of _allCards.");
         _round = 0;
+        _logger?.Info("Set round to 0.");
         _maxRound = 6;
+        _logger?.Info("Game created.");
 
-        _logger?.Info("Game created");
+
     }
 
     public void StartGame()
     {
+        _logger?.Info("StartGame method has been called.");
         SetGameStatus(GameStatus.Running);
     }
 
     public void EndGame()
     {
+        _logger?.Info("EndGame method has been called.");
         SetGameStatus(GameStatus.Finished);
     }
 
     public GameStatus GetCurrentGameStatus()
     {
+        _logger?.Info($"Get current GameStatus: {_gameStatus}.");
         return _gameStatus;
     }
 
     public bool SetGameStatus(GameStatus status)
     {
+        _logger?.Info($"Set GameStatus from {_gameStatus} to {status}.");
         _gameStatus = status;
+        _logger?.Info("Returning true.");
         return true;
     }
 
     public int GetCurrentRound()
     {
+        _logger?.Info($"Get current round: {_round}.");
         return _round;
     }
 
     public bool NextRound(int round)
     {
-        if (round > _maxRound)
-        {
-            _gameStatus = GameStatus.Finished;
-            return false;
-        }
+        _logger?.Info("Next round method with round parameter has been called.");
         _gameStatus = GameStatus.Running;
+        _logger?.Info($"Set GameStatus to {_gameStatus}.");
 
         OnRevealLocationAbilityCall?.Invoke(this);
+        _logger?.Info("On reveal location ability has been invoked.");
         OnGoingLocationAbilityCall?.Invoke(this);
+        _logger?.Info("On going location ability has been invoked.");
         OnRevealCardAbilityCall?.Invoke(this);
+        _logger?.Info("On reveal card ability has been invoked.");
         OnGoingCardAbilityCall?.Invoke(this);
-        
+        _logger?.Info("On going card ability has been invoked.");
+
 
         AssignPlayerPowerToLocation();
         FindWinnerInLocation();
 
         _round = round;
+        _logger?.Info($"Set round {_round} to {round}.");
         RevealLocation(round, true);
         SetPlayerEnergy(_round);
 
+        _logger?.Info("Returning true.");
         return true;
     }
 
     public bool NextRound(int round, bool plain)
     {
+        _logger?.Info("Plain NextRound method with round parameter has been called.");
         _round = round;
+        _logger?.Info($"Set round {_round} to {round}");
+        _logger?.Info("Returning true.");
         return true;
     }
 
     public bool NextRound()
     {
+        _logger?.Info("Next round method without parameter has been called.");
         _gameStatus = GameStatus.Running;
+        _logger?.Info($"Set game status to {_gameStatus}");
 
         OnRevealLocationAbilityCall?.Invoke(this);
+        _logger?.Info("On reveal location ability has been invoked.");
         OnGoingLocationAbilityCall?.Invoke(this);
+        _logger?.Info("On going location ability has been invoked.");
         OnRevealCardAbilityCall?.Invoke(this);
+        _logger?.Info("On reveal card ability has been invoked.");
         OnGoingCardAbilityCall?.Invoke(this);
-        
+        _logger?.Info("On going card ability has been invoked.");
+
 
         AssignPlayerPowerToLocation();
         FindWinnerInLocation();
 
         _round += 1;
+        _logger?.Info($"Add round by 1, round: {_round}");
         RevealLocation(_round);
         SetPlayerEnergy(_round);
 
+        _logger?.Info("Returning true.");
         return true;
     }
 
     public bool NextRound(bool plain)
     {
+        _logger?.Info("Plain NextRound method without parameter has been called.");
         _round += 1;
+        _logger?.Info($"Add round by 1, round: {_round}");
+        _logger?.Info("Returning true.");
         return true;
     }
 
     public bool HiddenLocation(AbstractLocation location)
     {
+        _logger?.Info("HiddenLocation method has been called.");
         return location.SetLocationStatus(LocationStatus.Hidden);
     }
 
     public bool RevealLocation(AbstractLocation location)
     {
+        _logger?.Info("RevealLocation method has been called.");
         return location.SetLocationStatus(LocationStatus.Revealed);
     }
 
     public bool RevealLocation(int index, bool isLoop = false)
     {
+        _logger?.Info("RevealLocation method with parameter has been called.");
+        _logger?.Info($"With index: {index} and isLoop: {isLoop}.");
         if (index >= _maxLocation + 1)
         {
+            _logger?.Warn("Index for reveal location is out of maximum deployable locations.");
             return false;
         }
+
         if (!isLoop)
         {
             var currentLocation = GetDeployedLocation(index - 1);
@@ -157,13 +262,16 @@ public class GameController
             }
             return true;
         }
-        for (int i = 0; i < index; i++)
+        else
         {
-            var currentLocation = GetDeployedLocation(i);
-            currentLocation.SetLocationStatus(LocationStatus.Revealed);
-            if (currentLocation._isOnReveal || currentLocation._isOnGoing)
+            for (int i = 0; i < index; i++)
             {
-                currentLocation.RegisterAbility(this);
+                var currentLocation = GetDeployedLocation(i);
+                currentLocation.SetLocationStatus(LocationStatus.Revealed);
+                if (currentLocation._isOnReveal || currentLocation._isOnGoing)
+                {
+                    currentLocation.RegisterAbility(this);
+                }
             }
         }
         return true;
@@ -171,22 +279,27 @@ public class GameController
 
     public int GetMaxRound()
     {
+        _logger?.Info($"Get max round: {_maxRound}.");
         return _maxRound;
     }
 
     public bool SetMaxRound(int maxround)
     {
+        _logger?.Info($"Set max round from {_maxRound} to {maxround}.");
         _maxRound = maxround;
+        _logger?.Info("Returning true.");
         return true;
     }
 
     public Dictionary<IPlayer, PlayerInfo> GetAllPlayersInfo()
     {
+        _logger?.Info("GetAllPlayersInfo method has been called.");
         return _players;
     }
 
     public List<IPlayer> GetAllPlayers()
     {
+        _logger?.Info("GetAllPlayers method has been called.");
         return _players.Keys.ToList();
     }
 
@@ -309,7 +422,7 @@ public class GameController
     }
 
     public bool AssignCardToPlayerHand(IPlayer player, bool fromDeck = true, bool byDeckName = true,
-                                        bool clone = true, bool byName = true, 
+                                        bool clone = true, bool byName = true,
                                         params AbstractCard[] cards)
     {
         bool status = false;
@@ -507,7 +620,7 @@ public class GameController
         return GetPlayerCardInLocation(location)[player];
     }
 
-    public AbstractCard GetPlayerCardInLocation(IPlayer player, AbstractLocation location, 
+    public AbstractCard GetPlayerCardInLocation(IPlayer player, AbstractLocation location,
                                                 AbstractCard card, bool byName = true)
     {
         var playerCards = GetPlayerCardInLocation(player, location);
@@ -770,7 +883,7 @@ public class GameController
         return random.Next(max);
     }
 
-    public bool AssignPlayerCardToLocation(IPlayer player, AbstractCard card, 
+    public bool AssignPlayerCardToLocation(IPlayer player, AbstractCard card,
                                             AbstractLocation location)
     {
         if (!_players.ContainsKey(player))
@@ -791,11 +904,11 @@ public class GameController
         return location.AssignPlayerCardToLocation(player, card);
     }
 
-    public bool AssignPlayerCardToLocation(IPlayer player, AbstractCard card, 
+    public bool AssignPlayerCardToLocation(IPlayer player, AbstractCard card,
                                             AbstractLocation location, bool fromHand = true,
-                                            bool byHandName = true, bool clone = true, 
+                                            bool byHandName = true, bool clone = true,
                                             bool byName = true,
-                                            bool registerAbility = false, 
+                                            bool registerAbility = false,
                                             bool usingEnergy = true)
     {
         if (!_players.ContainsKey(player))
