@@ -201,9 +201,6 @@ In this Marvel Snap Game Project is to build a back end clone of Marvel Snap.
 
 * New Class Diagram, by: ARW
 
-<!-- [MermaidChart: aed24c2d-9afb-43a3-8dd6-27338916697e] -->
-
-
 ```
     classDiagram
     class GameStatus {
