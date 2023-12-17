@@ -1130,7 +1130,7 @@ public class GameController
                 SetPlayerStatus(player.Key, PlayerStatus.Lose);
             }
         }
-
+        _logger?.Info($"The winner is {winner.Name}, id: {winner.Id}");
         return winner;
     }
 
