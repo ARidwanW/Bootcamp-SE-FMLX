@@ -7,69 +7,70 @@ namespace MarvelSnapProject.Component.Card;
 public abstract class AbstractCard
 {
     /// <summary>
-    /// Readonly property Id of Card
+    /// Gets the identifier of the card.
     /// </summary>
     /// <value>int</value>
     public int Id { get; private set; }
 
     /// <summary>
-    /// Readonly property Name of Card
+    /// Gets the name of the card.
     /// </summary>
     /// <value>string</value>
     public string Name { get; private set; }
 
     /// <summary>
-    /// Readonly property Description of Card
+    /// Gets the description of the card.
     /// </summary>
     /// <value>string</value>
     public string Description { get; private set; }
 
     /// <summary>
-    /// Private variable Cost of Card
+    /// Represents the cost of the card.
     /// </summary>
     /// <value>int</value>
     private int _cost;
 
     /// <summary>
-    /// Private variable Power of Card
+    /// Represents the power of the card.
     /// </summary>
     /// <value>int</value>
     private int _power;
 
     /// <summary>
-    /// Readonly property Ability of Card
+    /// Gets the abilities associated with the card.
     /// </summary>
     /// <value>CardAbility</value>
     public CardAbility CardAbility { get; private set; }
 
     /// <summary>
-    /// Private variable Status of Card
+    /// Represents the status of the card.
     /// </summary>
     private CardStatus _cardStatus;
 
     /// <summary>
-    /// Readonly Property OnGoing ability of Card
+    /// Gets a value indicating whether the card has the ongoing ability.
     /// </summary>
     /// <value>bool</value>
     public bool _isOnGoing { get; private set; }
 
     /// <summary>
-    /// Readonly Property OnReveal ability of Card
+    /// Gets a value indicating whether the card has the on reveal ability.
     /// </summary>
     /// <value>bool</value>
     public bool _isOnReveal { get; private set; }
 
     /// <summary>
-    /// Abstract Class of Card
+    /// Initializes a new instance of the AbstractCard class.
     /// </summary>
-    /// <param name="id">Id of Card</param>
-    /// <param name="name">Name of Card</param>
-    /// <param name="description">Description of Card Ability</param>
-    /// <param name="cost">Cost or Energy of Card</param>
-    /// <param name="power">Power or Point of Card</param>
-    /// <param name="cardAbility">Ability type of Card</param>
-    /// <param name="isOnGoing">Boolean: true if ability is OnGoing type</param>
-    /// <param name="isOnReveal">Boolean: true if ability is OnReveal type</param>
+    /// <param name="id">The identifier of the card.</param>
+    /// <param name="name">The name of the card.</param>
+    /// <param name="description">The description of the card's ability.</param>
+    /// <param name="cost">The cost or energy required to use the card.</param>
+    /// <param name="power">The power or point value of the card.</param>
+    /// <param name="cardAbility">The type of ability the card has.</param>
+    /// <param name="cardStatus">The status of the card (default is None).</param>
+    /// <param name="isOnGoing">A value indicating whether the card has the ongoing ability.</param>
+    /// <param name="isOnReveal">A value indicating whether the card has the on reveal ability.</param>
     public AbstractCard(int id, string name, string description,
                         int cost, int power, CardAbility cardAbility,
                         CardStatus cardStatus = CardStatus.None,
@@ -81,45 +82,47 @@ public abstract class AbstractCard
         _cost = cost;
         _power = power;
         CardAbility = cardAbility;
+        _cardStatus = cardStatus;
         _isOnGoing = isOnGoing;
         _isOnReveal = isOnReveal;
     }
 
+    /// <summary>
+    /// Creates a copy of the card.
+    /// </summary>
+    /// <returns>A copy of the card.</returns>
     public abstract AbstractCard Clone();
 
     /// <summary>
-    /// Abstract method for special ability on going.
+    /// Executes the ongoing special ability of the card.
     /// </summary>
-    /// <param name="game">Game Controller</param>
-    /// <param name="player">IPlayer implementation of players</param>
-    /// <param name="location">AbstractLocation implementation of locations</param>
-    /// <returns>true: if card successfully doing its ability on going</returns>
+    /// <param name="game">The game controller instance.</param>
+    /// <returns>True if the ongoing ability was successfully executed; 
+    /// otherwise false.</returns>
     public abstract bool SpecialAbilityOnGoing(GameController game);
 
-
     /// <summary>
-    /// Abstract method for special ability on reveal.
+    /// Executes the on reveal special ability of the card.
     /// </summary>
-    /// <param name="game">Game Controller</param>
-    /// <param name="player">IPlayer implementation of players</param>
-    /// <param name="location">AbstractLocation implementation of locations</param>
-    /// <returns>true: if card has on reveal special ability</returns>
+    /// <param name="game">The game controller instance.</param>
+    /// <returns>True if the on reveal ability was successfully executed; 
+    /// otherwise false.</returns>
     public abstract bool SpecialAbilityOnReveal(GameController game);
 
     /// <summary>
-    /// Getter status of Card
+    /// Gets the current status of the card.
     /// </summary>
-    /// <returns>CardStatus</returns>
+    /// <returns>The current status of the card.</returns>
     public CardStatus GetCardStatus()
     {
         return _cardStatus;
     }
 
     /// <summary>
-    /// Setter status of Card
+    /// Sets the status of the card.
     /// </summary>
-    /// <param name="status">Changed status</param>
-    /// <returns>true: if card status successfully changed</returns>
+    /// <param name="status">The new status to set.</param>
+    /// <returns>True if successfully setting the new status; otherwise false.</returns>
     public bool SetCardStatus(CardStatus status)
     {
         _cardStatus = status;
@@ -127,19 +130,19 @@ public abstract class AbstractCard
     }
 
     /// <summary>
-    /// Getter cost of Card
+    /// Gets the cost of the card.
     /// </summary>
-    /// <returns>Integer</returns>
+    /// <returns>The cost of the card.</returns>
     public int GetCost()
     {
         return _cost;
     }
-    
+
     /// <summary>
-    /// Setter cost of Card
+    /// Sets the cost of the card.
     /// </summary>
-    /// <param name="cost">cost of the card</param>
-    /// <returns>true: if successfully set the cost</returns>
+    /// <param name="cost">The new cost to set.</param>
+    /// <returns>True if successfully setting the new cost; otherwise false.</returns>
     public bool SetCost(int cost)
     {
         _cost = cost;
@@ -147,25 +150,29 @@ public abstract class AbstractCard
     }
 
     /// <summary>
-    /// Getter power of Card
+    /// Gets the power of the card.
     /// </summary>
-    /// <returns>Integer</returns>
+    /// <returns>The power of the card.</returns>
     public int GetPower()
     {
         return _power;
     }
 
     /// <summary>
-    /// Setter power of Card
+    /// Sets the power of the card.
     /// </summary>
-    /// <param name="power">power of the card</param>
-    /// <returns>true: if successfully set the power</returns>
+    /// <param name="power">The new power to set.</param>
+    /// <returns>True if successfully setting the new power; otherwise false.</returns>
     public bool SetPower(int power)
     {
         _power = power;
         return true;
     }
 
+    /// <summary>
+    /// Checks if the card is deployed.
+    /// </summary>
+    /// <returns>True if the card is deployed; otherwise false.</returns>
     public bool IsDeployed()
     {
         if (GetCardStatus() == CardStatus.OnLocation)
@@ -175,6 +182,13 @@ public abstract class AbstractCard
         return false;
     }
 
+    /// <summary>
+    /// Deploys the card.
+    /// </summary>
+    /// <param name="game">The game controller instance.</param>
+    /// <param name="player">The player deploying the card.</param>
+    /// <param name="location">The location where the card is deployed.</param>
+    /// <returns>True if the card was successfully deployed; otherwise false.</returns>
     public virtual bool DeployCard(GameController game, IPlayer player, AbstractLocation location)
     {
         return true;

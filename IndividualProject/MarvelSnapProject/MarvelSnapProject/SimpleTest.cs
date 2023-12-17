@@ -68,7 +68,7 @@ public static class SimpleTest
             Console.WriteLine(card.Name);
         }
         Console.WriteLine(playerInfo.AssignCardToHand(ironMan));
-        Console.WriteLine(playerInfo.RetrieveCardFromDeck(ironMan));
+        Console.WriteLine(playerInfo.RemoveCardFromDeck(ironMan));
         var hand = playerInfo.GetHandCards();
         foreach (var card in hand)
         {
@@ -360,7 +360,5 @@ public static class SimpleTest
         {
             AnsiConsole.Write(new Markup($"\n\n\nThe Game is {winner.Name}!!\n\n\n").Centered());
         }
-
-        LogManager.Flush();
     }
 }

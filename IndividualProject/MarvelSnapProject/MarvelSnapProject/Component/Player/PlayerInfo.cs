@@ -6,35 +6,40 @@ namespace MarvelSnapProject.Component.Player;
 public class PlayerInfo
 {
     /// <summary>
-    /// Private variable list of abstract card in player deck
+    /// Represents the deck of cards held by the player.
     /// </summary>
     private List<AbstractCard> _deck;
 
     /// <summary>
-    /// Private variable list of abstract card in player hand
+    /// Represents the cards currently in the player's hand.
     /// </summary>
     private List<AbstractCard> _handCards;
 
     /// <summary>
-    /// Private variable integer energy of player
+    /// Represents the current energy that the player has.
     /// </summary>
     private int _energy;
 
     /// <summary>
-    /// Private variable integer max card in player deck
+    /// Represents the maximum number of cards allowed in the player's deck.
+    /// The default is 12.
     /// </summary>
     private int _maxDeck = 12;
 
     /// <summary>
-    /// Private variable integer total win location of player
+    /// Represents the total number of locations won by the player.
     /// </summary>
     private int _totalWin;
 
     /// <summary>
-    /// Private variabel status of player
+    /// Represents the current status of the player.
     /// </summary>
     private PlayerStatus _playerStatus;
 
+
+    /// <summary>
+    /// Initializes a new instance of the PlayerInfo class.
+    /// </summary>
     public PlayerInfo()
     {
         _deck = new List<AbstractCard>();
@@ -42,18 +47,18 @@ public class PlayerInfo
     }
 
     /// <summary>
-    /// A method to get the list of abstract card in player deck
+    /// Retrieves the list of cards in the player's deck.
     /// </summary>
-    /// <returns>List of AbstractCard</returns>
+    /// <returns>A list of cards in the player's deck.</returns>
     public List<AbstractCard> GetDeck()
     {
         return _deck;
     }
 
     /// <summary>
-    /// A method to check if card in player deck is full
+    /// Checks if the player's deck is full.
     /// </summary>
-    /// <returns>true: if full; otherwise, false</returns>
+    /// <returns>True if the deck is full; otherwise, false.</returns>
     public bool IsDeckFull()
     {
         if (_deck.Count < _maxDeck)
@@ -64,15 +69,14 @@ public class PlayerInfo
     }
 
     /// <summary>
-    /// A Method to assign card to deck.
-    /// if deck contain any card in cards, it will continue to the next card, 
-    /// but return false (means one or more card(s) cannot be assign)
+    /// Assigns cards to the player's deck. If the deck already contains any of the cards, 
+    /// it will continue to the next card, but return false (indicating that one or more cards could not be assigned).
     /// </summary>
-    /// <param name="cards">can be one or more card(s) of AbstractCard</param>
-    /// <returns>true: if all card successfully assigned to deck; otherwise, false</returns>
+    /// <param name="cards">One or more cards to assign to the deck.</param>
+    /// <returns>True if all cards were successfully assigned to the deck; otherwise, false.</returns>
     public bool AssignCardToDeck(params AbstractCard[] cards)
     {
-        int status = 0;
+        bool status = true;
         foreach (var card in cards)
         {
             if (IsDeckFull())
@@ -82,22 +86,24 @@ public class PlayerInfo
 
             if (_deck.Contains(card))
             {
-                status++;
+                status = false;
                 continue;
             }
             _deck.Add(card);
         }
-        return (status > 0) ? false : true;     // ?? if deck contain any card in cards, it will continue to the next card, but return false (means one or more card cannot be assign)
+        return status;
     }
 
     /// <summary>
-    /// A method to retrieve or remove card from player deck.
-    /// if deck NOT contain any card in cards, it will continue to the next card,
-    /// but return false (means one or more card(s) cannot be retrieve because there is no card in deck)
+    /// Removes cards from the player's deck. If the deck does not contain any of the cards, 
+    /// it will continue to the next card, but return false 
+    /// (indicating that one or more cards could not be Removed 
+    /// because they are not in the deck).
     /// </summary>
-    /// <param name="cards">can be one or more card(s) of AbstractCard</param>
-    /// <returns>true: if all card successfully retrieved from deck; otherwise, false</returns>
-    public bool RetrieveCardFromDeck(params AbstractCard[] cards)
+    /// <param name="cards">The card(s) to remove from the deck.</param>
+    /// <returns>True if all card(s) were successfully removed from the deck; 
+    /// otherwise, false.</returns>
+    public bool RemoveCardFromDeck(params AbstractCard[] cards) //?? remove
     {
         var cardNames = new HashSet<string>(cards.Select(card => card.Name));
 
@@ -109,42 +115,37 @@ public class PlayerInfo
     }
 
     /// <summary>
-    /// A method to get list of abstract card in player hand
+    /// Retrieves the list of cards in the player's hand.
     /// </summary>
-    /// <returns>List of AbstractCard</returns>
+    /// <returns>A list of cards in the player's hand.</returns>
     public List<AbstractCard> GetHandCards()
     {
         return _handCards;
     }
 
     /// <summary>
-    /// A Method to assign card to player hand.
-    /// player hand can have a duplicate cards
+    /// Assigns card(s) to the player's hand. The player's hand can contain duplicate cards.
     /// </summary>
-    /// <param name="cards">can be one or more card(s) of AbstractCard</param>
-    /// <returns>true: if all card is successfully assigned to player hand; otherwise, false</returns>
+    /// <param name="cards">The card(s) to assign to the player's hand.</param>
+    /// <returns>True if all card(s) were successfully assigned to the player's hand; otherwise, false.</returns>
     public bool AssignCardToHand(params AbstractCard[] cards)
     {
-        int status = 0;
         foreach (var card in cards)
         {
-            // if (_deck.Contains(card))
-            // {
-            //     status++;
-            //     _handCards.Add(card);
-            // }
             _handCards.Add(card);
         }
-        return (status > 0) ? true : false;
+        return true;
     }
 
     /// <summary>
-    /// A method to retrieve or remove card from player hand.
-    /// if player hand NOT contain any card in cards, it will continue to the next card,
-    /// but return false (means one or more card(s) cannot be retrieve because there is no card in hand)
+    /// Removes card(s) from the player's hand. 
+    /// If the player's hand does not contain any of the card(s), 
+    /// it will continue to the next card, but return false 
+    /// (indicating that one or more card(s) could not be removed 
+    /// because they are not in the hand).
     /// </summary>
-    /// <param name="cards">can be one or more card(s) of AbstractCard</param>
-    /// <returns>true: if all card successfully retrieved from hand; otherwise, false</returns>
+    /// <param name="cards">The card(s) to remove from the player's hand.</param>
+    /// <returns>True if all card(s) were successfully removed from the hand; otherwise, false.</returns>
     public bool RetrieveCardFromHand(params AbstractCard[] cards)
     {
         var cardNames = new HashSet<string>(cards.Select(card => card.Name));
@@ -157,19 +158,19 @@ public class PlayerInfo
     }
 
     /// <summary>
-    /// Getter of player energy
+    /// Retrieves the current energy of the player.
     /// </summary>
-    /// <returns>Integer of player energy</returns>
+    /// <returns>The current energy of the player.</returns>
     public int GetEnergy()
     {
         return _energy;
     }
 
     /// <summary>
-    /// Setter of player energy
+    /// Sets the energy of the player.
     /// </summary>
-    /// <param name="energy"></param>
-    /// <returns>true: if successfully set the energy</returns>
+    /// <param name="energy">The new energy to set.</param>
+    /// <returns>True if successfully setting the new energy.</returns>
     public bool SetEnergy(int energy)
     {
         _energy = energy;
@@ -177,19 +178,19 @@ public class PlayerInfo
     }
 
     /// <summary>
-    /// Getter of player max deck
+    /// Retrieves the maximum number of cards allowed in the player's deck.
     /// </summary>
-    /// <returns>Integer of player max deck</returns>
+    /// <returns>The maximum number of cards allowed in the player's deck.</returns>
     public int GetMaxDeck()
     {
         return _maxDeck;
     }
 
     /// <summary>
-    /// Setter of player max deck
+    /// Sets the maximum number of cards allowed in the player's deck.
     /// </summary>
-    /// <param name="maxDeck"></param>
-    /// <returns>true: if successfully set the player max deck</returns>
+    /// <param name="maxDeck">The new maximum number of cards to set.</param>
+    /// <returns>True if successfully setting the new maximum number of cards.</returns>
     public bool SetMaxDeck(int maxDeck)
     {
         _maxDeck = maxDeck;
@@ -197,30 +198,43 @@ public class PlayerInfo
     }
 
     /// <summary>
-    /// A method to get the player total win of location
+    /// Retrieves the total number of locations won by the player.
     /// </summary>
-    /// <returns>Integer of total win</returns>
+    /// <returns>The total number of locations won by the player.</returns>
     public int GetTotalWin()
     {
         return _totalWin;
     }
 
     /// <summary>
-    /// A method to add player total win by 1
+    /// Increases the total number of locations won by the player by 1.
     /// </summary>
-    /// <returns>true: if successfully add player total win by 1 </returns>
+    /// <returns>True if successfully increasing the total win count by 1; 
+    /// otherwise false.</returns>
     public bool AddTotalWin()
     {
         _totalWin += 1;
         return true;
     }
 
+    /// <summary>
+    /// Increases the total number of locations won by the player by a specified number.
+    /// </summary>
+    /// <param name="addWin">The number to increase the total win count by.</param>
+    /// <returns>True if successfully increasing the total win count; 
+    /// otherwise false.</returns>
     public bool AddTotalWin(int addWin)
     {
         _totalWin += addWin;
         return true;
     }
 
+    /// <summary>
+    /// Sets the total number of locations won by the player.
+    /// </summary>
+    /// <param name="totalWin">The new total number of wins to set.</param>
+    /// <returns>True if successfully setting the new total win count; 
+    /// otherwise false.</returns>
     public bool SetTotalWin(int totalWin)
     {
         _totalWin = totalWin;
@@ -228,19 +242,19 @@ public class PlayerInfo
     }
 
     /// <summary>
-    /// Getter of player status (win, lose, draw)
+    /// Retrieves the current status of the player (none, win, lose, draw).
     /// </summary>
-    /// <returns>status player of PlayerStatus</returns>
+    /// <returns>The current status of the player.</returns>
     public PlayerStatus GetPlayerStatus()
     {
         return _playerStatus;
     }
 
     /// <summary>
-    /// Setter of player status (win, lose, draw)
+    /// Sets the status of the player (none, win, lose, draw).
     /// </summary>
-    /// <param name="status">Win, Lose, Draw</param>
-    /// <returns>true: if successfully set the player status</returns>
+    /// <param name="status">The new status to set (None, Win, Lose, Draw).</param>
+    /// <returns>True if successfully setting the new status; otherwise false.</returns>
     public bool SetPlayerStatus(PlayerStatus status)
     {
         _playerStatus = status;

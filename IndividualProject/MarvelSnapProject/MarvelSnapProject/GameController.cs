@@ -10,95 +10,118 @@ namespace MarvelSnapProject;
 public class GameController
 {
     /// <summary>
-    /// GameController logger instance.
+    /// Instance of GameController logger.
     /// </summary>
     private readonly Logger _logger;
+
     /// <summary>
-    /// Enum GameStatus [None, Running, Finished].
+    /// Game status (None, Running, Finished).
     /// </summary>
     private GameStatus _gameStatus;
+
     /// <summary>
-    /// Round of the game.
+    /// Current round of the game.
     /// </summary>
     private int _round;
+
     /// <summary>
-    /// Maximum round of the game. 
-    /// When the game is created, the default is 6 rounds.
+    /// Maximum rounds in the game. 
+    /// Default is 6 rounds when the game is created.
     /// </summary>
     private int _maxRound;
+
     /// <summary>
-    /// A Dictionary of players and their info.
-    /// PlayerInfo save card in deck and hand, energy, max deck,
-    /// total win, and player status.
+    /// Dictionary of players and their information. 
+    /// PlayerInfo stores card in deck and hand, energy, 
+    /// max deck, total wins, and player status.
     /// </summary>
     private Dictionary<IPlayer, PlayerInfo> _players;
+
     /// <summary>
-    /// Deployed locations. Deployed location is
-    /// a location used or implemented in the game.
+    /// List of deployed locations. 
+    /// A deployed location is a location used or implemented in the game.
     /// </summary>
     private List<AbstractLocation> _locations;
+
     /// <summary>
-    /// Maximum deployable locations.
-    /// The default is 3.
+    /// Maximum number of deployable locations. Default is 3.
     /// </summary>
     private int _maxLocation = 3;
+
     /// <summary>
-    /// All the locations that the game has.
+    /// List of all locations in the game.
     /// </summary>
     private List<AbstractLocation> _allLocations;
+
     /// <summary>
-    /// all card that the game has.
+    /// List of all cards in the game.
     /// </summary>
     private List<AbstractCard> _allCards;
+
     /// <summary>
-    /// Current player turn.
+    /// The player whose turn it currently is.
     /// </summary>
     private IPlayer _currentTurn;
+
     /// <summary>
     /// Winner of the game.
     /// </summary>
     private IPlayer _winner;
+
     /// <summary>
-    /// Handle update to the status of a card.
+    /// Action to handle updates to the status of a card.
     /// </summary>
     public Action<AbstractCard, CardStatus>? OnCardStatusUpdate;
+
     /// <summary>
-    /// Handle update to the status of a location.
+    /// Action to handle updates to the status of a location.
     /// </summary>
     public Action<AbstractLocation, LocationStatus>? OnLocationStatusUpdate;
+
     /// <summary>
-    /// Handle update to the status of a player.
+    /// Action to handle updates to the status of a player.
     /// </summary>
     public Action<IPlayer, PlayerStatus>? OnPlayerStatusUpdate;
+
     /// <summary>
-    /// Handle update to a location.
+    /// Action to handle updates to a location.
     /// </summary>
     public Action<AbstractLocation>? OnLocationUpdate;
+
     /// <summary>
-    /// Handle update to a player's information.
+    /// Action to handle updates to a player's information.
     /// </summary>
     public Action<IPlayer, PlayerInfo>? OnPlayerUpdate;
+
     /// <summary>
-    /// Handle on reveal card ability. Default Invoke in method NextRound().
+    /// Event to handle the reveal of a card's ability. 
+    /// Invoked by default in the NextRound() method.
     /// </summary>
     public event Func<GameController, bool>? OnRevealCardAbilityCall;
+
     /// <summary>
-    /// Handle on reveal location ability. Default Invoke in method NextRound().
+    /// Event to handle the reveal of a location's ability. 
+    /// Invoked by default in the NextRound() method.
     /// </summary>
     public event Func<GameController, bool>? OnRevealLocationAbilityCall;
+
     /// <summary>
-    /// Handle on going card ability. Default Invoke in method NextRound().
+    /// Event to handle ongoing card abilities. 
+    /// Invoked by default in the NextRound() method.
     /// </summary>
     public event Func<GameController, bool>? OnGoingCardAbilityCall;
+
     /// <summary>
-    /// Handle on going lcoation ability. Default Invoke in method NextRound().
+    /// Event to handle ongoing location abilities. 
+    /// Invoked by default in the NextRound() method.
     /// </summary>
     public event Func<GameController, bool>? OnGoingLocationAbilityCall;
 
+
     /// <summary>
-    /// Contructor of GameController. Will create default parameter to variable.
+    /// Constructor for GameController. Initializes default parameters.
     /// </summary>
-    /// <param name="log">Logger instance like NLog</param>
+    /// <param name="log">Instance of Logger, such as NLog.</param>
     public GameController(Logger? log = null)
     {
         _logger = log;
@@ -120,7 +143,7 @@ public class GameController
     }
 
     /// <summary>
-    /// Set game status to Running. enum GameStatus [None, Running, Finished].
+    /// Sets the game status to Running.
     /// </summary>
     public void StartGame()
     {
@@ -129,7 +152,7 @@ public class GameController
     }
 
     /// <summary>
-    /// Set game status to Finished. enum GameStatus [None, Running, Finished].
+    /// Sets the game status to Finished.
     /// </summary>
     public void EndGame()
     {
@@ -138,9 +161,9 @@ public class GameController
     }
 
     /// <summary>
-    /// Get the current game status from enum GameStatus.
+    /// Retrieves the current game status.
     /// </summary>
-    /// <returns>Enum GameStatus [None, Running, Finished]</returns>
+    /// <returns>Current game status.</returns>
     public GameStatus GetCurrentGameStatus()
     {
         _logger?.Info($"Get current GameStatus: {_gameStatus}.");
@@ -148,10 +171,11 @@ public class GameController
     }
 
     /// <summary>
-    /// Set the current game status to enum GameStatus.
+    /// Sets the current game status.
     /// </summary>
-    /// <param name="status">Enum GameStatus [None, Running, Finished]</param>
-    /// <returns>true if successfully set the current game status; otherwise, throw error</returns>
+    /// <param name="status">Desired game status.</param>
+    /// <returns>True if the game status was successfully set; 
+    /// otherwise, an error is thrown.</returns>
     public bool SetGameStatus(GameStatus status)
     {
         _gameStatus = status;
@@ -160,9 +184,9 @@ public class GameController
     }
 
     /// <summary>
-    /// Get the current round of the game.
+    /// Retrieves the current round of the game.
     /// </summary>
-    /// <returns>Int _round</returns>
+    /// <returns>The current round as an integer.</returns>
     public int GetCurrentRound()
     {
         _logger?.Info($"Get current round: {_round}.");
@@ -170,15 +194,17 @@ public class GameController
     }
 
     /// <summary>
-    /// Next round by set the current round to any given integer argument.
-    /// This method will set the game status to Running, 
-    /// invoke all card and location special ability,
-    /// assign player power to location, find winner in every location, 
-    /// reveal all location by index below given round argument, 
-    /// and set player enegy by given round argument.
+    /// Advances the game to the specified round. 
+    /// This method sets the game status to Running, 
+    /// invokes all card and location special abilities, 
+    /// assigns player power to location, 
+    /// finds the winner in every location, 
+    /// reveals all locations by index below the given round argument, 
+    /// and sets player energy by the given round argument.
     /// </summary>
-    /// <param name="round">Int round that will be set</param>
-    /// <returns>true if successfully next round; otherwise, throw error</returns>
+    /// <param name="round">The round to advance to.</param>
+    /// <returns>True if the round was successfully advanced; 
+    /// otherwise, an error is thrown.</returns>
     public bool NextRound(int round)
     {
         _gameStatus = GameStatus.Running;
@@ -206,12 +232,13 @@ public class GameController
     }
 
     /// <summary>
-    /// Next round by given integer round argument.
-    /// This method only reassign current round by the given argument.
+    /// Advances the game to the specified round. 
+    /// This method only reassigns the current round to the given argument.
     /// </summary>
-    /// <param name="round">Integer round to be set</param>
-    /// <param name="plain">Boolean plain, set true of false to use this overloading method</param>
-    /// <returns>true if successfully set the round; otherwise, throw error</returns>
+    /// <param name="round">The round to advance to.</param>
+    /// <param name="plain">If true, uses this overload method.</param>
+    /// <returns>True if the round was successfully set; 
+    /// otherwise, an error is thrown.</returns>
     public bool NextRound(int round, bool plain)
     {
         _round = round;
@@ -220,10 +247,11 @@ public class GameController
     }
 
     /// <summary>
-    /// Next round by +1 and automatically call the game flow.
-    /// Use this if you want to automatically call the game flow.
+    /// Advances the game to the next round by incrementing the current round by 1. 
+    /// This method automatically calls the game flow.
     /// </summary>
-    /// <returns>true if successfully next round; otherwise, throw error</returns>
+    /// <returns>True if the round was successfully advanced; 
+    /// otherwise, an error is thrown.</returns>
     public bool NextRound()
     {
         _gameStatus = GameStatus.Running;
@@ -251,12 +279,12 @@ public class GameController
     }
 
     /// <summary>
-    /// Next round by +1.
-    /// This method only add the current round by 1,
-    /// without call any game flow.
+    /// Advances the game to the next round by incrementing the current round by 1. 
+    /// This method does not call any game flow.
     /// </summary>
-    /// <param name="plain">Boolean plain, set true of false to use this overloading method</param>
-    /// <returns></returns>
+    /// <param name="plain">If true, uses this overload method.</param>
+    /// <returns>True if the round was successfully advanced; 
+    /// otherwise, an error is thrown.</returns>
     public bool NextRound(bool plain)
     {
         _round += 1;
@@ -265,38 +293,46 @@ public class GameController
     }
 
     /// <summary>
-    /// Hide the given location argument.
+    /// Hides the specified location.
     /// </summary>
-    /// <param name="location">AbstractLocation of location that want to be hide</param>
-    /// <returns>true if successfully hide the location; otherwise, throw error</returns>
+    /// <param name="location">The location to hide.</param>
+    /// <returns>True if the location was successfully hidden; 
+    /// otherwise, an error is thrown.</returns>
     public bool HiddenLocation(AbstractLocation location)
     {
         _logger?.Info($"Hide location: {location.Name} with HashCode: {location.GetHashCode()}.");
+        OnLocationStatusUpdate?.Invoke(location, LocationStatus.Hidden);
         return location.SetLocationStatus(LocationStatus.Hidden);
     }
 
     /// <summary>
-    /// Reveal the givel location argument.
+    /// Reveals the specified location.
     /// </summary>
-    /// <param name="location">AbstractLocation of location that want to be reveal</param>
-    /// <returns>true if successfully reveal the location; otherwise, throw error</returns>
+    /// <param name="location">The location to reveal.</param>
+    /// <returns>True if the location was successfully revealed; 
+    /// otherwise, an error is thrown.</returns>
     public bool RevealLocation(AbstractLocation location)
     {
         _logger?.Info($"Reveal location: {location.Name}. with HashCode: {location.GetHashCode()}");
+        OnLocationStatusUpdate?.Invoke(location, LocationStatus.Revealed);
         return location.SetLocationStatus(LocationStatus.Revealed);
     }
 
     /// <summary>
-    /// 
+    /// Reveals the location at the specified index from the deployed locations. 
+    /// If the index is out of maximul deployable location, it returns false. 
+    /// The second argument determines whether to loop 
+    /// through all indexes below the given index or not.
     /// </summary>
-    /// <param name="index"></param>
-    /// <param name="isLoop"></param>
-    /// <returns></returns>
+    /// <param name="index">The index of the location in the deployed locations.</param>
+    /// <param name="isLoop">Determines whether 
+    /// to loop through all indexes below the given index or not.</param>
+    /// <returns>True if the location was successfully revealed; otherwise, false.</returns>
     public bool RevealLocation(int index, bool isLoop = false)
     {
         _logger?.Info($"Reveal location from deployed location and register ability...");
         _logger?.Info($"With index: {index} and isLoop: {isLoop}.");
-        if (index >= _maxLocation + 1)
+        if (index > _maxLocation)
         {
             _logger?.Warn("Index for reveal location is out of maximum deployable locations.");
             return false;
@@ -307,6 +343,7 @@ public class GameController
             var currentLocation = GetDeployedLocation(index - 1);
             _logger?.Info($"Reveal location from deployed location, location: {currentLocation.Name}.");
             currentLocation.SetLocationStatus(LocationStatus.Revealed);
+            OnLocationStatusUpdate?.Invoke(currentLocation, LocationStatus.Revealed);
             if (currentLocation._isOnReveal || currentLocation._isOnGoing)
             {
                 _logger?.Info($"Register ability of {currentLocation.Name}.");
@@ -321,6 +358,7 @@ public class GameController
                 var currentLocation = GetDeployedLocation(i);
                 _logger?.Info($"Reveal location from deployed location, location: {currentLocation.Name}.");
                 currentLocation.SetLocationStatus(LocationStatus.Revealed);
+                OnLocationStatusUpdate?.Invoke(currentLocation, LocationStatus.Revealed);
                 if (currentLocation._isOnReveal || currentLocation._isOnGoing)
                 {
                     _logger?.Info($"Register ability of {currentLocation.Name}.");
@@ -331,12 +369,22 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Retrieves the maximum round of the game.
+    /// </summary>
+    /// <returns>The maximum round as an integer.</returns>
     public int GetMaxRound()
     {
         _logger?.Info($"Get max round: {_maxRound}.");
         return _maxRound;
     }
 
+    /// <summary>
+    /// Sets the maximum round of the game to the specified value.
+    /// </summary>
+    /// <param name="maxround">The maximum round to set.</param>
+    /// <returns>True if the maximum round was successfully set; 
+    /// otherwise, an error is thrown.</returns>
     public bool SetMaxRound(int maxround)
     {
         _logger?.Info($"Set max round from {_maxRound} to {maxround}.");
@@ -344,31 +392,49 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Retrieve information about all players.
+    /// </summary>
+    /// <returns>A dictionary containing player information, with each player as the key and their information as the value</returns>
     public Dictionary<IPlayer, PlayerInfo> GetAllPlayersInfo()
     {
         _logger?.Info("Getting all players info.");
         return _players;
     }
 
+    /// <summary>
+    /// Retrieves a list of all players without player infomation.
+    /// </summary>
+    /// <returns>A list of all players without player information.</returns>
     public List<IPlayer> GetAllPlayers()
     {
         _logger?.Info("Getting all players.");
         return _players.Keys.ToList();
     }
 
+    /// <summary>
+    /// Retrieves a player based on the provided player instance.
+    /// </summary>
+    /// <param name="player">The player instance to search for.</param>
+    /// <returns>The found player.</returns>
+    /// <exception cref="PlayerNotFoundException">Thrown when the player is not found.</exception>
     public IPlayer GetPlayer(IPlayer player)
     {
         var foundPlayer = GetAllPlayers().Find(p => p.Id == player.Id);
         _logger?.Info($"Find player: {player.Name} by id: {player.Id}.");
         if (foundPlayer == null)
         {
-            _logger?.Warn($"No found player of {player.Name} with id: {player.Id}.");
-            _logger?.Warn($"Instead, A new player create with index 0 and player name of None.");
-            return new MSPlayer(0, "None");
+            _logger?.Error($"Player: {player.Name}, id: {player.Id} is not found.");
+            throw new Exception("Player not found.");
         }
         return foundPlayer;
     }
 
+    /// <summary>
+    /// Retrieves a player based on the provided index from list of all players.
+    /// </summary>
+    /// <param name="index">The index of the player to retrieve.</param>
+    /// <returns>The player at the given index.</returns>
     public IPlayer GetPlayer(int index)
     {
         var getPlayerIndex = GetAllPlayers()[index];
@@ -376,6 +442,11 @@ public class GameController
         return getPlayerIndex;
     }
 
+    /// <summary>
+    /// Retrieves the information of a player.
+    /// </summary>
+    /// <param name="player">The player whose information is to be retrieved.</param>
+    /// <returns>The information of the player.</returns>
     public PlayerInfo GetPlayerInfo(IPlayer player)
     {
         var getPlayerFromInfo = GetAllPlayersInfo()[player];
@@ -383,22 +454,35 @@ public class GameController
         return getPlayerFromInfo;
     }
 
-    public IPlayer CreatePlayer(int id, string name)
-    {
-        _logger?.Info($"Creating new MSPlayer by id: {id}, name: {name}.");
-        return new MSPlayer(id, name);
-    }
-
+    /// <summary>
+    /// Assigns player(s) to the game.
+    /// </summary>
+    /// <param name="players">The player(s) to be assigned.</param>
+    /// <returns>True if all players were successfully assigned; 
+    /// otherwise, false.</returns>
     public bool AssignPlayer(params IPlayer[] players)
     {
         var newPlayers = players.Where(player => !_players.ContainsKey(player)).ToList();
         _logger?.Info($"Searching new player from [{string.Join(", ", players.Select(p => p.Name))}].");
         _logger?.Info($"Creating List of new player : [{string.Join(", ", newPlayers.Select(p => p.Name))}].");
         newPlayers.ForEach(player => _players.Add(player, new PlayerInfo()));
+        newPlayers.ForEach(player =>
+        {
+            if (player != null)
+            {
+                OnPlayerUpdate?.Invoke(player, new PlayerInfo());
+            }
+        });
         _logger?.Info($"Assign every new player to a game, as a key to dictionary with new player info.");
         return newPlayers.Count == players.Length;
     }
 
+    /// <summary>
+    /// Removes player(s) from the game.
+    /// </summary>
+    /// <param name="players">The player(s) to be removed.</param>
+    /// <returns>True if all players were successfully removed;
+    /// otherwise, false.</returns>
     public bool RemovePlayer(params IPlayer[] players)
     {
         _logger?.Info("Removing players...");
@@ -414,6 +498,11 @@ public class GameController
         return allRemoved;
     }
 
+    /// <summary>
+    /// Retrieves the deck of a player.
+    /// </summary>
+    /// <param name="player">The player whose deck is to be retrieved.</param>
+    /// <returns>The deck of the player.</returns>
     public List<AbstractCard> GetPlayerDeck(IPlayer player)
     {
         var getPlayerDeck = GetPlayerInfo(player).GetDeck();
@@ -421,6 +510,15 @@ public class GameController
         return getPlayerDeck;
     }
 
+    /// <summary>
+    /// Retrieves a card from a player's deck.
+    /// </summary>
+    /// <param name="player">The player whose deck is to be searched.</param>
+    /// <param name="card">The card to search for.</param>
+    /// <param name="byName">If true, search by card name; 
+    /// otherwise, search by card instance.</param>
+    /// <returns>The found card.</returns>
+    /// <exception cref="CardNotFoundException">Thrown when the card is not found.</exception>
     public AbstractCard GetPlayerCardInDeck(IPlayer player, AbstractCard card, bool byName = true)
     {
         var playerDeck = GetPlayerDeck(player);
@@ -430,13 +528,19 @@ public class GameController
 
         if (foundCard == null)
         {
-            _logger?.Warn($"No card found. Instead, create a new NoneCard.");
-            return new NoneCard();
+            _logger?.Error($"Card: {card.Name} is not found.");
+            throw new Exception("Card not found.");
         }
 
         return foundCard;
     }
 
+    /// <summary>
+    /// Assigns card(s) to a player's deck.
+    /// </summary>
+    /// <param name="player">The player to whom the cards will be assigned.</param>
+    /// <param name="cards">The card(s) to be assigned.</param>
+    /// <returns>True if the cards were successfully assigned; otherwise, false.</returns>
     public bool AssignCardToPlayerDeck(IPlayer player, params AbstractCard[] cards)
     {
         var assignCardToPlayerDeck = GetPlayerInfo(player).AssignCardToDeck(cards);
@@ -444,6 +548,15 @@ public class GameController
         return assignCardToPlayerDeck;
     }
 
+    /// <summary>
+    /// Assigns cards to a player's deck 
+    /// with options to clone cards and search by name.
+    /// </summary>
+    /// <param name="player">The player to whom the cards will be assigned.</param>
+    /// <param name="clone">If true, the cards will be cloned before assignment.</param>
+    /// <param name="byName">If true, the cards will be searched by name.</param>
+    /// <param name="cards">The card(s) to be assigned.</param>
+    /// <returns>True if the cards were successfully assigned; otherwise, false.</returns>
     public bool AssignCardToPlayerDeck(IPlayer player, bool clone = true, bool byName = true, params AbstractCard[] cards)
     {
         _logger?.Info($"Assigning card of [{string.Join(", ", cards.Select(c => c.Name))}] to deck player: {player.Name}, id: {player.Id}...");
@@ -463,20 +576,32 @@ public class GameController
             _logger?.Info($"Assign card: {card.Name} to player: {player.Name}, id: {player.Id} deck.");
             if (status)
             {
-                GetPlayerCardInDeck(player, card, byName).SetCardStatus(CardStatus.OnDeck);
+                GetPlayerCardInDeck(player, cloneCard, byName).SetCardStatus(CardStatus.OnDeck);
+                OnCardStatusUpdate?.Invoke(cloneCard, CardStatus.OnDeck);
                 _logger?.Info($"Set card status of {card.Name} to {card.GetCardStatus()}.");
             }
         }
         return status;
     }
 
-    public bool RetrievePlayerCardFromDeck(IPlayer player, params AbstractCard[] cards)
+    /// <summary>
+    /// Removes card(s) from a player's deck.
+    /// </summary>
+    /// <param name="player">The player whose deck will be searched.</param>
+    /// <param name="cards">The card(s) to be removed.</param>
+    /// <returns>True if the cards were successfully Removed; otherwise, false.</returns>
+    public bool RemovePlayerCardFromDeck(IPlayer player, params AbstractCard[] cards)
     {
-        var retrieveCard = GetPlayerInfo(player).RetrieveCardFromDeck(cards);
+        var retrieveCard = GetPlayerInfo(player).RemoveCardFromDeck(cards);
         _logger?.Info($"Retrieve card: [{string.Join(", ", cards.Select(c => c.Name))}].");
         return retrieveCard;
     }
 
+    /// <summary>
+    /// Retrieves the cards in a player's hand.
+    /// </summary>
+    /// <param name="player">The player whose hand will be retrieved.</param>
+    /// <returns>A list of cards in the player's hand.</returns>
     public List<AbstractCard> GetPlayerHand(IPlayer player)
     {
         var getHand = GetPlayerInfo(player).GetHandCards();
@@ -484,6 +609,14 @@ public class GameController
         return getHand;
     }
 
+    /// <summary>
+    /// Retrieves a card from a player's hand.
+    /// </summary>
+    /// <param name="player">The player whose hand will be searched.</param>
+    /// <param name="card">The card to be retrieved.</param>
+    /// <param name="byName">If true, the card will be searched by name.</param>
+    /// <returns>The found card.</returns>
+    /// <exception cref="CardNotFoundException">Thrown when the card is not found.</exception>
     public AbstractCard GetPlayerCardInHand(IPlayer player, AbstractCard card, bool byName = true)
     {
         var playerHand = GetPlayerHand(player);
@@ -493,12 +626,19 @@ public class GameController
 
         if (foundCard == null)
         {
-            _logger?.Warn($"No card found. Instead, create a new NoneCard.");
-            return new NoneCard();
+            _logger?.Error($"Card: {card.Name} is not found");
+            throw new Exception("Card not found.");
         }
         return foundCard;
     }
 
+    /// <summary>
+    /// Assigns card(s) to a player's hand.
+    /// </summary>
+    /// <param name="player">The player to whom the cards will be assigned.</param>
+    /// <param name="cards">The card(s) to be assigned.</param>
+    /// <returns>True if the cards were successfully assigned; 
+    /// otherwise, false.</returns>
     public bool AssignCardToPlayerHand(IPlayer player, params AbstractCard[] cards)
     {
         var assignCardtoHand = GetPlayerInfo(player).AssignCardToHand(cards);
@@ -506,6 +646,17 @@ public class GameController
         return assignCardtoHand;
     }
 
+    /// <summary>
+    /// Assigns card(s) to a player's hand with options to clone cards 
+    /// and search by name. It can also assign cards from the deck.
+    /// </summary>
+    /// <param name="player">The player to whom the cards will be assigned.</param>
+    /// <param name="fromDeck">If true, the cards will be assigned from the deck.</param>
+    /// <param name="byDeckName">If true, the cards will be searched in the deck by name.</param>
+    /// <param name="clone">If true, the cards will be cloned before assignment.</param>
+    /// <param name="byName">If true, the cards will be searched by name.</param>
+    /// <param name="cards">The card(s) to be assigned.</param>
+    /// <returns>True if the cards were successfully assigned; otherwise, false.</returns>
     public bool AssignCardToPlayerHand(IPlayer player, bool fromDeck = true, bool byDeckName = true,
                                         bool clone = true, bool byName = true,
                                         params AbstractCard[] cards)
@@ -527,7 +678,8 @@ public class GameController
             _logger?.Info($"Assign card: {cloneCard.Name} to player: {player.Name}, id: {player.Id} hand.");
             if (status)
             {
-                GetPlayerCardInHand(player, cardInDeck, byName).SetCardStatus(CardStatus.OnHand);
+                GetPlayerCardInHand(player, cloneCard, byName).SetCardStatus(CardStatus.OnHand);
+                OnCardStatusUpdate?.Invoke(cloneCard, CardStatus.OnHand);
                 _logger?.Info($"Set card status of {card.Name} to {card.GetCardStatus()}.");
             }
 
@@ -535,13 +687,24 @@ public class GameController
         return status;
     }
 
-    public bool RetrievePlayerCardFromHand(IPlayer player, params AbstractCard[] cards)
+    /// <summary>
+    /// Removes card(s) from a player's hand.
+    /// </summary>
+    /// <param name="player">The player whose hand the cards will be removed from.</param>
+    /// <param name="cards">The card(s) to be removed.</param>
+    /// <returns>True if the cards were successfully removed; otherwise, false.</returns>
+    public bool RemovePlayerCardFromHand(IPlayer player, params AbstractCard[] cards)
     {
-        var retrieveHandCard = GetPlayerInfo(player).RetrieveCardFromHand(cards);
+        var RemoveHandCard = GetPlayerInfo(player).RetrieveCardFromHand(cards);
         _logger?.Info($"Retrieveing {player.Name}, id: {player.Id} card: [{cards.Select(c => c.Name)}] from  hand.");
-        return retrieveHandCard;
+        return RemoveHandCard;
     }
 
+    /// <summary>
+    /// Retrieves the energy of a player.
+    /// </summary>
+    /// <param name="player">The player whose energy is to be retrieved.</param>
+    /// <returns>The energy of the player.</returns>
     public int GetPlayerEnergy(IPlayer player)
     {
         var playerEnergy = GetPlayerInfo(player).GetEnergy();
@@ -549,6 +712,10 @@ public class GameController
         return playerEnergy;
     }
 
+    /// <summary>
+    /// Sets the energy of all players to the specified value.
+    /// </summary>
+    /// <param name="energy">The energy to set.</param>
     public bool SetPlayerEnergy(int energy)
     {
         foreach (var player in GetAllPlayers())
@@ -558,6 +725,12 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Sets the energy of a player to the specified value.
+    /// </summary>
+    /// <param name="player">The player whose energy is to be set.</param>
+    /// <param name="energy">The energy to set.</param>
+    /// <returns>True if the energy was successfully set for the player.</returns>
     public bool SetPlayerEnergy(IPlayer player, int energy)
     {
         var playerEnergy = GetPlayerInfo(player).SetEnergy(energy);
@@ -565,16 +738,32 @@ public class GameController
         return playerEnergy;
     }
 
+    /// <summary>
+    /// Increases the energy of a player by 1.
+    /// </summary>
+    /// <param name="player">The player whose energy is to be increased.</param>
+    /// <returns>True if the energy was successfully increased for the player.</returns>
     public bool AddPlayerEnergy(IPlayer player)
     {
         return SetPlayerEnergy(player, GetPlayerEnergy(player) + 1);
     }
 
+    /// <summary>
+    /// Increases the energy of a player by the specified value.
+    /// </summary>
+    /// <param name="player">The player whose energy is to be increased.</param>
+    /// <param name="addEnergy">The amount of energy to add.</param>
+    /// <returns>True if the energy was successfully increased for the player.</returns>
     public bool AddPlayerEnergy(IPlayer player, int addEnergy)
     {
         return SetPlayerEnergy(player, GetPlayerEnergy(player) + addEnergy);
     }
 
+    /// <summary>
+    /// Retrieves the maximum deck size of a player.
+    /// </summary>
+    /// <param name="player">The player whose maximum deck size is to be retrieved.</param>
+    /// <returns>The maximum deck size of the player.</returns>
     public int GetPlayerMaxDeck(IPlayer player)
     {
         var maxDeck = GetPlayerInfo(player).GetMaxDeck();
@@ -582,6 +771,12 @@ public class GameController
         return maxDeck;
     }
 
+    /// <summary>
+    /// Sets the maximum deck size of a player to the specified value.
+    /// </summary>
+    /// <param name="player">The player whose maximum deck size is to be set.</param>
+    /// <param name="maxDeck">The maximum deck size to set.</param>
+    /// <returns>True if the maximum deck size was successfully set for the player.</returns>
     public bool SetPlayerMaxDeck(IPlayer player, int maxDeck)
     {
         var setMaxDeck = GetPlayerInfo(player).SetMaxDeck(maxDeck);
@@ -589,6 +784,11 @@ public class GameController
         return setMaxDeck;
     }
 
+    /// <summary>
+    /// Retrieves the total wins of a player.
+    /// </summary>
+    /// <param name="player">The player whose total wins are to be retrieved.</param>
+    /// <returns>The total wins of the player.</returns>
     public int GetPlayerTotalWin(IPlayer player)
     {
         var totalWin = GetPlayerInfo(player).GetTotalWin();
@@ -596,6 +796,12 @@ public class GameController
         return totalWin;
     }
 
+    /// <summary>
+    /// Sets the total wins of a player to the specified value.
+    /// </summary>
+    /// <param name="player">The player whose total wins are to be set.</param>
+    /// <param name="totalWin">The total wins to set.</param>
+    /// <returns>True if the total wins were successfully set for the player.</returns>
     public bool SetPlayerTotalWin(IPlayer player, int totalWin)
     {
         var setTotalWin = GetPlayerInfo(player).SetTotalWin(totalWin);
@@ -603,6 +809,11 @@ public class GameController
         return setTotalWin;
     }
 
+    /// <summary>
+    /// Increases the total wins of a player by 1.
+    /// </summary>
+    /// <param name="player">The player whose total wins are to be increased.</param>
+    /// <returns>True if the total wins were successfully increased for the player.</returns>
     public bool AddPlayerTotalWin(IPlayer player)
     {
         var addTotalWin = GetPlayerInfo(player).AddTotalWin();
@@ -610,6 +821,12 @@ public class GameController
         return addTotalWin;
     }
 
+    /// <summary>
+    /// Increases the total wins of a player by the specified value.
+    /// </summary>
+    /// <param name="player">The player whose total wins are to be increased.</param>
+    /// <param name="addWin">The amount of wins to add.</param>
+    /// <returns>True if the total wins were successfully increased for the player.</returns>
     public bool AddPlayerTotalWin(IPlayer player, int addWin)
     {
         var addTotalWin = GetPlayerInfo(player).AddTotalWin(addWin);
@@ -617,6 +834,11 @@ public class GameController
         return addTotalWin;
     }
 
+    /// <summary>
+    /// Retrieves the status of a player.
+    /// </summary>
+    /// <param name="player">The player whose status is to be retrieved.</param>
+    /// <returns>The status of the player.</returns>
     public PlayerStatus GetPlayerStatus(IPlayer player)
     {
         var status = GetPlayerInfo(player).GetPlayerStatus();
@@ -624,19 +846,37 @@ public class GameController
         return status;
     }
 
+    /// <summary>
+    /// Sets the status of a player to the specified value.
+    /// </summary>
+    /// <param name="player">The player whose status is to be set.</param>
+    /// <param name="status">The status to set.</param>
+    /// <returns>True if the status was successfully set for the player.</returns>
     public bool SetPlayerStatus(IPlayer player, PlayerStatus status)
     {
         var setStatus = GetPlayerInfo(player).SetPlayerStatus(status);
+        OnPlayerStatusUpdate?.Invoke(player, status);
         _logger?.Info($"Set {player.Name}, id: {player.Id} status to {status}.");
         return setStatus;
     }
 
+    /// <summary>
+    /// Retrieves all deployed locations.
+    /// </summary>
+    /// <returns>A list of all deployed locations.</returns>
     public List<AbstractLocation> GetAllDeployedLocations()
     {
         _logger?.Info($"Get all deployed locations.");
         return _locations;
     }
 
+    /// <summary>
+    /// Retrieves a deployed location based on the provided location instance.
+    /// </summary>
+    /// <param name="location">The location instance to search for.</param>
+    /// <param name="byName">If true, search by location name; otherwise, search by location instance.</param>
+    /// <returns>The found location.</returns>
+    /// <exception cref="LocationNotFoundException">Thrown when the location is not found.</exception>
     public AbstractLocation GetDeployedLocation(AbstractLocation location, bool byName = true)
     {
         var deployedLocations = GetAllDeployedLocations();
@@ -646,12 +886,17 @@ public class GameController
 
         if (foundLocation == null)
         {
-            _logger?.Warn($"No location found. Instead, create a new NoneLocation.");
-            return new NoneLocation();
+            _logger?.Error($"Location: {location.Name} is not found.");
+            throw new Exception("Location not found.");
         }
         return foundLocation;
     }
 
+    /// <summary>
+    /// Retrieves a deployed location based on the provided index.
+    /// </summary>
+    /// <param name="index">The index of the location to retrieve.</param>
+    /// <returns>The location at the given index.</returns>
     public AbstractLocation GetDeployedLocation(int index)
     {
         var deployedLocation = GetAllDeployedLocations()[index];
@@ -659,14 +904,28 @@ public class GameController
         return deployedLocation;
     }
 
+    /// <summary>
+    /// Assigns location(s) to the game.
+    /// </summary>
+    /// <param name="locations">The location(s) to be assigned.</param>
+    /// <returns>True if all locations were successfully assigned; otherwise, false.</returns>
     public bool AssignLocation(params AbstractLocation[] locations)
     {
         var newLocations = locations.Where(location => !_locations.Contains(location)).ToList();
         newLocations.ForEach(location => _locations.Add(location));
+        newLocations.ForEach(location =>
+        {
+            OnLocationUpdate?.Invoke(location);
+        });
         _logger?.Info($"Assign new location of [{string.Join(", ", newLocations.Select(l => l.Name))}].");
         return newLocations.Count == locations.Length;
     }
 
+    /// <summary>
+    /// Removes location(s) from the game.
+    /// </summary>
+    /// <param name="locations">The location(s) to be removed.</param>
+    /// <returns>True if all locations were successfully removed; otherwise, false.</returns>
     public bool RemoveLocation(params AbstractLocation[] locations)
     {
         bool allRemoved = true;
@@ -681,36 +940,72 @@ public class GameController
         return allRemoved;
     }
 
+    /// <summary>
+    /// Retrieves the status of a location.
+    /// </summary>
+    /// <param name="location">The location whose status is to be retrieved.</param>
+    /// <returns>The status of the location.</returns>
     public LocationStatus GetLocationStatus(AbstractLocation location)
     {
         _logger?.Info($"Getting {location.Name} status: {location.GetLocationStatus()}.");
         return location.GetLocationStatus();
     }
 
+    /// <summary>
+    /// Sets the status of a location to the specified value.
+    /// </summary>
+    /// <param name="location">The location whose status is to be set.</param>
+    /// <param name="status">The status to set.</param>
+    /// <returns>True if the status was successfully set for the location.</returns>
     public bool SetLocationStatus(AbstractLocation location, LocationStatus status)
     {
         _logger?.Info($"Set {location.Name} status to {status}.");
+        OnLocationStatusUpdate?.Invoke(location, status);
         return location.SetLocationStatus(status);
     }
 
+    /// <summary>
+    /// Checks if a location is valid.
+    /// </summary>
+    /// <param name="location">The location to check.</param>
+    /// <returns>True if the location is valid; otherwise, false.</returns>
     public bool IsLocationValid(AbstractLocation location)
     {
         _logger?.Info($"Check location valid: {location.IsLocationValid()}.");
         return location.IsLocationValid();
     }
 
+    /// <summary>
+    /// Sets the validity of a location.
+    /// </summary>
+    /// <param name="location">The location whose validity is to be set.</param>
+    /// <param name="isValid">The validity to set.</param>
+    /// <returns>True if the validity was successfully set for the location.</returns>
     public bool SetLocationValid(AbstractLocation location, bool isValid)
     {
         _logger?.Info($"Set {location.Name} valid to {isValid}.");
         return location.SetLocationValid(isValid);
     }
 
+    /// <summary>
+    /// Retrieves all cards in a location.
+    /// </summary>
+    /// <param name="location">The location whose cards are to be retrieved.</param>
+    /// <returns>A list of all cards in the location.</returns>
     public List<AbstractCard> GetAllCardsInLocation(AbstractLocation location)
     {
         _logger?.Info($"Getting all cards in {location.Name}.");
         return location.GetAllCards();
     }
 
+    /// <summary>
+    /// Retrieves a card from a location based on the provided card instance.
+    /// </summary>
+    /// <param name="location">The location to search for the card.</param>
+    /// <param name="card">The card to be retrieved.</param>
+    /// <param name="byName">If true, search by card name; otherwise, search by card instance.</param>
+    /// <returns>The found card.</returns>
+    /// <exception cref="CardNotFoundException">Thrown when the card is not found.</exception>
     public AbstractCard GetCardInLocation(AbstractLocation location, AbstractCard card, bool byName = true)
     {
         var allCardsInLocation = GetAllCardsInLocation(location);
@@ -720,12 +1015,18 @@ public class GameController
 
         if (foundCard == null)
         {
-            _logger?.Warn($"No card found. Instead, create a new NoneCard.");
-            return new NoneCard();
+            _logger?.Error($"Card: {card.Name} is not found.");
+            throw new Exception("Card not found.");
         }
         return foundCard;
     }
 
+    /// <summary>
+    /// Retrieves a card from a location based on the provided index.
+    /// </summary>
+    /// <param name="location">The location to search for the card.</param>
+    /// <param name="index">The index of the card to retrieve.</param>
+    /// <returns>The card at the given index.</returns>
     public AbstractCard GetCardInLocation(AbstractLocation location, int index)
     {
         var cardLocationIndex = GetAllCardsInLocation(location)[index];
@@ -733,24 +1034,62 @@ public class GameController
         return cardLocationIndex;
     }
 
+    /// <summary>
+    /// Assigns card(s) to a location.
+    /// </summary>
+    /// <param name="location">The location to which the cards will be assigned.</param>
+    /// <param name="cards">The card(s) to be assigned.</param>
+    /// <returns>True if the cards were successfully assigned; otherwise, false.</returns>
     public bool AssignCardToLocation(AbstractLocation location, params AbstractCard[] cards)
     {
         _logger?.Info($"Assigning [{string.Join(", ", cards.Select(c => c.Name))}] cards to {location.Name}.");
         return location.AssignCardToLocation(cards);
     }
 
+    /// <summary>
+    /// Removes cards from a location.
+    /// </summary>
+    /// <param name="location">The location from which the cards will be removed.</param>
+    /// <param name="cards">The cards to be removed.</param>
+    /// <returns>True if the cards were successfully removed; otherwise, false.</returns>
+    public bool RemoveCardFromLocation(AbstractLocation location, params AbstractCard[] cards)
+    {
+        _logger?.Info($"Removing[{string.Join(", ", cards.Select(c => c.Name))}] from {location.Name}.");
+        return location.RemoveCardFromLocation(cards);
+    }
+
+    /// <summary>
+    /// Retrieves all cards of all players in a location.
+    /// </summary>
+    /// <param name="location">The location to search for the cards.</param>
+    /// <returns>A dictionary with players as keys and their cards in the location as values.</returns>
     public Dictionary<IPlayer, List<AbstractCard>> GetPlayerCardInLocation(AbstractLocation location)
     {
         _logger?.Info($"Getting all player cards in {location.Name}.");
         return location.GetAllPlayersCards();
     }
 
+    /// <summary>
+    /// Retrieves all cards of a player in a location.
+    /// </summary>
+    /// <param name="player">The player whose cards are to be retrieved.</param>
+    /// <param name="location">The location to search for the cards.</param>
+    /// <returns>A list of all cards of the player in the location.</returns>
     public List<AbstractCard> GetPlayerCardInLocation(IPlayer player, AbstractLocation location)
     {
         _logger?.Info($"Getting {player.Name}, id: {player.Id} card in {location.Name}...");
         return GetPlayerCardInLocation(location)[player];
     }
 
+    /// <summary>
+    /// Retrieves a card of a player from a location based on the provided card instance.
+    /// </summary>
+    /// <param name="player">The player whose card is to be retrieved.</param>
+    /// <param name="location">The location to search for the card.</param>
+    /// <param name="card">The card to be retrieved.</param>
+    /// <param name="byName">If true, search by card name; otherwise, search by card instance.</param>
+    /// <returns>The found card.</returns>
+    /// <exception cref="CardNotFoundException">Thrown when the card is not found.</exception>
     public AbstractCard GetPlayerCardInLocation(IPlayer player, AbstractLocation location,
                                                 AbstractCard card, bool byName = true)
     {
@@ -760,12 +1099,18 @@ public class GameController
         _logger?.Info($"Find {card.Name} by name : {byName} in {location.Name}.");
         if (foundCard == null)
         {
-            _logger?.Warn($"No card found. Instead, create a new NoneCard.");
-            return new NoneCard();
+            _logger?.Error($"Card: {card.Name} is not found.");
+            throw new Exception("Card not found.");
         }
         return foundCard;
     }
 
+    /// <summary>
+    /// Assigns player(s) to a location.
+    /// </summary>
+    /// <param name="location">The location to which the players will be assigned.</param>
+    /// <param name="players">The player(s) to be assigned.</param>
+    /// <returns>True if the players were successfully assigned; otherwise, false.</returns>
     public bool AssignPlayerToLocation(AbstractLocation location, params IPlayer[] players)
     {
         _logger?.Info($"Assigning [{string.Join(", ", players.Select(c => c.Name))}] to {location.Name}.");
@@ -773,18 +1118,46 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Removes player(s) from a location.
+    /// </summary>
+    /// <param name="location">The location from which the players will be removed.</param>
+    /// <param name="players">The player(s) to be removed.</param>
+    /// <returns>True if the players were successfully removed; otherwise, false.</returns>
+    public bool RemovePlayerFromLocation(AbstractLocation location, params IPlayer[] players)
+    {
+        _logger?.Info($"Removing [{string.Join(", ", players.Select(c => c.Id))}] from {location.Name}.");
+        return location.RemovePlayer(players);
+    }
+
+    /// <summary>
+    /// Retrieves the power of all players in a location.
+    /// </summary>
+    /// <param name="location">The location to search for the players' power.</param>
+    /// <returns>A dictionary with players as keys and their power in the location as values.</returns>
     public Dictionary<IPlayer, int> GetPlayerPowerInLocation(AbstractLocation location)
     {
         _logger?.Info($"Getting all players power in {location.Name}.");
         return location.GetAllPlayersPower();
     }
 
+    /// <summary>
+    /// Retrieves the power of a player in a location.
+    /// </summary>
+    /// <param name="player">The player whose power is to be retrieved.</param>
+    /// <param name="location">The location to search for the player's power.</param>
+    /// <returns>The power of the player in the location.</returns>
     public int GetPlayerPowerInLocation(IPlayer player, AbstractLocation location)
     {
         _logger?.Info($"Getting {player.Name}, id: {player.Id} power in {location.Name}...");
         return GetPlayerPowerInLocation(location)[player];
     }
 
+    /// <summary>
+    /// Assigns the total power of each player's cards 
+    /// to each location where the player has cards.
+    /// </summary>
+    /// <returns>Always returns true when the operation is completed.</returns>
     public bool AssignPlayerPowerToLocation()
     {
         var players = GetAllPlayers();
@@ -818,42 +1191,87 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Assigns power to a player in a location.
+    /// </summary>
+    /// <param name="player">The player to whom the power will be assigned.</param>
+    /// <param name="location">The location where the power will be assigned.</param>
+    /// <param name="power">The power to assign.</param>
+    /// <returns>True if the power was successfully assigned; otherwise, false.</returns>
     public bool AssignPlayerPowerToLocation(IPlayer player, AbstractLocation location, int power)
     {
         _logger?.Info($"Assigning {player.Name}, id: {player.Id} power: {power} to {location.Name}");
         return location.AssignPlayerPower(player, power);
     }
 
+    /// <summary>
+    /// Increases the power of a player in a location by 1.
+    /// </summary>
+    /// <param name="player">The player whose power is to be increased.</param>
+    /// <param name="location">The location where the power will be increased.</param>
+    /// <returns>True if the power was successfully increased; otherwise, false.</returns>
     public bool AddPlayerPowerToLocation(IPlayer player, AbstractLocation location)
     {
         _logger?.Info($"Add power of {player.Name}, id: {player.Id} to {location.Name} by one.");
         return location.AddPlayerPower(player, 1);
     }
 
+    /// <summary>
+    /// Increases the power of a player in a location by the specified value.
+    /// </summary>
+    /// <param name="player">The player whose power is to be increased.</param>
+    /// <param name="location">The location where the power will be increased.</param>
+    /// <param name="powerToAdd">The amount of power to add.</param>
+    /// <returns>True if the power was successfully increased; otherwise, false.</returns>
     public bool AddPlayerPowerToLocation(IPlayer player, AbstractLocation location, int powerToAdd)
     {
         _logger?.Info($"Add power of {player.Name}, id: {player.Id} to {location.Name} by {powerToAdd}.");
         return location.AddPlayerPower(player, powerToAdd);
     }
 
+    /// <summary>
+    /// Retrieves the status of all players in a location.
+    /// </summary>
+    /// <param name="location">The location to search for the players' status.</param>
+    /// <returns>A dictionary with players as keys and their status in the location as values.</returns>
     public Dictionary<IPlayer, PlayerStatus> GetPlayerStatusInLocation(AbstractLocation location)
     {
         _logger?.Info($"Getting all players status in {location.Name}.");
         return location.GetAllPlayerStatus();
     }
 
+    /// <summary>
+    /// Retrieves the status of a player in a location.
+    /// </summary>
+    /// <param name="player">The player whose status is to be retrieved.</param>
+    /// <param name="location">The location to search for the player's status.</param>
+    /// <returns>The status of the player in the location.</returns>
     public PlayerStatus GetPlayerStatusInLocation(IPlayer player, AbstractLocation location)
     {
         _logger?.Info($"Getting {player.Name}, id: {player.Id} status in {location.Name}.");
         return GetPlayerStatusInLocation(location)[player];
     }
 
+    /// <summary>
+    /// Sets the status of a player in a location to the specified value.
+    /// </summary>
+    /// <param name="player">The player whose status is to be set.</param>
+    /// <param name="location">The location where the status will be set.</param>
+    /// <param name="status">The status to set.</param>
+    /// <returns>True if the status was successfully set for the player; otherwise, false.</returns>
     public bool SetPlayerStatusInLocation(IPlayer player, AbstractLocation location, PlayerStatus status)
     {
         _logger?.Info($"Set {player.Name}, id: {player.Id} status in {location.Name} to {status}.");
+        OnPlayerStatusUpdate?.Invoke(player, status);
         return location.SetPlayerStatus(player, status);
     }
 
+    /// <summary>
+    /// Retrieves all players in a location based on the specified source of player information.
+    /// </summary>
+    /// <param name="location">The location to search for the players.</param>
+    /// <param name="infoSource">The source of player information. It can be from cards, power, or status.</param>
+    /// <returns>A list of all players in the location based on the specified source of player information.</returns>
     public List<IPlayer> GetAllPlayersInLocation(AbstractLocation location, PlayerInfoSource infoSource = PlayerInfoSource.FromCard)
     {
         switch (infoSource)
@@ -869,6 +1287,13 @@ public class GameController
         }
     }
 
+    /// <summary>
+    /// Retrieves a player from a location based on the provided player instance.
+    /// </summary>
+    /// <param name="location">The location to search for the player.</param>
+    /// <param name="player">The player to be retrieved.</param>
+    /// <returns>The found player.</returns>
+    /// <exception cref="PlayerNotFoundException">Thrown when the player is not found.</exception>
     public IPlayer GetPlayerInLocation(AbstractLocation location, IPlayer player)
     {
         var playersInLocation = GetAllPlayersInLocation(location);
@@ -877,25 +1302,39 @@ public class GameController
 
         if (foundPlayer == null)
         {
-            _logger?.Warn($"No found player of {player.Name} with id: {player.Id}.");
-            _logger?.Warn($"Instead, A new player create with index 0 and player name of None.");
-            return new MSPlayer(0, "None");
+            _logger?.Error($"Player: {player.Name}, id: {player.Id} is not found.");
+            throw new Exception("Player not found.");
         }
         return foundPlayer;
     }
 
+    /// <summary>
+    /// Retrieves a player from a location based on the provided index.
+    /// </summary>
+    /// <param name="location">The location to search for the player.</param>
+    /// <param name="index">The index of the player to retrieve.</param>
+    /// <returns>The player at the given index.</returns>
     public IPlayer GetPlayerInLocation(AbstractLocation location, int index)
     {
         _logger?.Info($"Getting player in {location.Name} by index: {index}...");
         return GetAllPlayersInLocation(location)[index];
     }
 
+    /// <summary>
+    /// Retrieves the maximum deployable location.
+    /// </summary>
+    /// <returns>The maximum deployable location.</returns>
     public int GetMaxLocation()
     {
         _logger?.Info($"Getting max deployable location: {_maxLocation}.");
         return _maxLocation;
     }
 
+    /// <summary>
+    /// Sets the maximum deployable location to the specified value.
+    /// </summary>
+    /// <param name="maxLocation">The maximum deployable location to set.</param>
+    /// <returns>Always returns true when the operation is completed.</returns>
     public bool SetMaxLocation(int maxLocation)
     {
         _maxLocation = maxLocation;
@@ -903,12 +1342,21 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Retrieves all default locations in the game.
+    /// </summary>
+    /// <returns>A list of all default locations in the game.</returns>
     public List<AbstractLocation> GetDefaultAllLocations()
     {
         _logger?.Info($"Get all default locations in game.");
         return _allLocations;
     }
 
+    /// <summary>
+    /// Sets the default location(s) in the game.
+    /// </summary>
+    /// <param name="locations">The location(s) to set as default.</param>
+    /// <returns>True if all locations were successfully set as default; otherwise, false.</returns>
     public bool SetDefaultAllLocations(params AbstractLocation[] locations)
     {
         _logger?.Info($"Set all default location in game: [{string.Join(", ", locations.Select(l => l.Name))}].");
@@ -923,12 +1371,21 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Retrieves all default cards in the game.
+    /// </summary>
+    /// <returns>A list of all default cards in the game.</returns>
     public List<AbstractCard> GetDefaultAllCards()
     {
         _logger?.Info($"Getting all default cards in game.");
         return _allCards;
     }
 
+    /// <summary>
+    /// Sets the default card(s) in the game.
+    /// </summary>
+    /// <param name="cards">The card(s) to set as default.</param>
+    /// <returns>True if all cards were successfully set as default; otherwise, false.</returns>
     public bool SetDefaultAllCards(params AbstractCard[] cards)
     {
         _logger?.Info($"Set all default card in game: [{string.Join(", ", cards.Select(c => c.Name))}].");
@@ -943,6 +1400,10 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Retrieves a random card from the default cards in the game.
+    /// </summary>
+    /// <returns>A random card from the default cards in the game.</returns>
     public AbstractCard GetShuffleCard()
     {
         Random random = new Random();
@@ -951,6 +1412,10 @@ public class GameController
         return _allCards[indexCard];
     }
 
+    /// <summary>
+    /// Retrieves a random location from the default locations in the game.
+    /// </summary>
+    /// <returns>A random location from the default locations in the game.</returns>
     public AbstractLocation GetShuffleLocation()
     {
         Random random = new Random();
@@ -959,6 +1424,11 @@ public class GameController
         return _allLocations[indexLocation];
     }
 
+    /// <summary>
+    /// Retrieves a random index from 0 to the specified maximum value.
+    /// </summary>
+    /// <param name="max">The maximum value for the random index.</param>
+    /// <returns>A random index from 0 to the specified maximum value.</returns>
     public int GetShuffleIndex(int max)
     {
         Random random = new Random();
@@ -966,6 +1436,13 @@ public class GameController
         return random.Next(max);
     }
 
+    /// <summary>
+    /// Assigns a card to a player in a location.
+    /// </summary>
+    /// <param name="player">The player to whom the card will be assigned.</param>
+    /// <param name="card">The card to be assigned.</param>
+    /// <param name="location">The location where the card will be assigned.</param>
+    /// <returns>True if the card was successfully assigned; otherwise, false.</returns>
     public bool AssignPlayerCardToLocation(IPlayer player, AbstractCard card,
                                             AbstractLocation location)
     {
@@ -991,6 +1468,19 @@ public class GameController
         return location.AssignPlayerCardToLocation(player, card);
     }
 
+    /// <summary>
+    /// Assigns a card to a player in a location with options to clone cards and search by name. It can also assign cards from the hand.
+    /// </summary>
+    /// <param name="player">The player to whom the card will be assigned.</param>
+    /// <param name="card">The card to be assigned.</param>
+    /// <param name="location">The location where the card will be assigned.</param>
+    /// <param name="fromHand">If true, the card will be assigned from the hand.</param>
+    /// <param name="byHandName">If true, the card will be searched in the hand by name.</param>
+    /// <param name="clone">If true, the card will be cloned before assignment.</param>
+    /// <param name="byName">If true, the card will be searched by name.</param>
+    /// <param name="registerAbility">If true, the card's ability will be registered.</param>
+    /// <param name="usingEnergy">If true, the card's cost will be checked against the player's energy.</param>
+    /// <returns>True if the card was successfully assigned; otherwise, false.</returns>
     public bool AssignPlayerCardToLocation(IPlayer player, AbstractCard card,
                                             AbstractLocation location, bool fromHand = true,
                                             bool byHandName = true, bool clone = true,
@@ -1028,6 +1518,7 @@ public class GameController
         cardInHand = fromHand ? cardInHand : card;
         var cloneCard = clone ? cardInHand.Clone() : cardInHand;
         cloneCard.SetCardStatus(CardStatus.OnHand);
+        OnCardStatusUpdate?.Invoke(cloneCard, CardStatus.OnHand);
         var status = location.AssignPlayerCardToLocation(player, cloneCard);
         _logger?.Info($"Assigning {card.Name} to {player.Name}, id: {player.Id} at {location.Name}.");
 
@@ -1040,18 +1531,30 @@ public class GameController
                 {
                     _logger?.Info($"Deploy and register {cardInLocation.Name} ability.");
                     cardInLocation.DeployCard(this, player, location);
+                    OnCardStatusUpdate?.Invoke(cardInLocation, CardStatus.OnLocation);
                 }
             }
+            cardInLocation.SetCardStatus(CardStatus.OnLocation);
+            OnCardStatusUpdate?.Invoke(cardInLocation, CardStatus.OnLocation);
         }
         return status;
     }
 
+    /// <summary>
+    /// Retrieves the player whose turn it is.
+    /// </summary>
+    /// <returns>The player whose turn it is.</returns>
     public IPlayer GetCurrentTurn()
     {
         _logger?.Info($"Get current turn: {_currentTurn}.");
         return _currentTurn;
     }
 
+    /// <summary>
+    /// Sets the turn to the specified player.
+    /// </summary>
+    /// <param name="player">The player whose turn it will be.</param>
+    /// <returns>True if the turn was successfully set to the player; otherwise, false.</returns>
     public bool NextTurn(IPlayer player)
     {
         _currentTurn = player;
@@ -1059,6 +1562,11 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Sets the turn to the player at the specified index from all players.
+    /// </summary>
+    /// <param name="index">The index of the player whose turn it will be.</param>
+    /// <returns>True if the turn was successfully set to the player; otherwise, false.</returns>
     public bool NextTurn(int index)
     {
         _currentTurn = GetAllPlayers()[index];
@@ -1066,6 +1574,10 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Advances the turn to the next player. If the current player is the last in the list, the turn is set to the first player.
+    /// </summary>
+    /// <returns>True if the turn was successfully advanced; otherwise, false.</returns>
     public bool NextTurn()
     {
         var indexCurrent = GetAllPlayers().IndexOf(GetCurrentTurn());
@@ -1078,12 +1590,21 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Retrieves the winner of the game.
+    /// </summary>
+    /// <returns>The winner of the game.</returns>
     public IPlayer GetWinner()
     {
         _logger?.Info($"Get the winner: {_winner.Name}, id: {_winner.Id}");
         return _winner;
     }
 
+    /// <summary>
+    /// Finds the winner in a location based on the player's power.
+    /// </summary>
+    /// <param name="location">The location to search for the winner.</param>
+    /// <returns>The player with the highest power in the location.</returns>
     public IPlayer FindWinnerInLocation(AbstractLocation location)
     {
         _logger?.Info($"Finding winner in {location.Name}...");
@@ -1110,10 +1631,12 @@ public class GameController
                 if (_round < 1)
                 {
                     SetPlayerStatusInLocation(player, location, PlayerStatus.None);
+                    OnPlayerStatusUpdate?.Invoke(player, PlayerStatus.None);
                 }
                 else
                 {
                     SetPlayerStatusInLocation(player, location, PlayerStatus.Draw);
+                    OnPlayerStatusUpdate?.Invoke(player, PlayerStatus.Draw);
                 }
 
             }
@@ -1127,20 +1650,26 @@ public class GameController
             if (player.Equals(winner))
             {
                 SetPlayerStatusInLocation(player, location, PlayerStatus.Win);
+                OnPlayerStatusUpdate?.Invoke(player, PlayerStatus.Win);
             }
             else if (player.Equals(loser))
             {
                 SetPlayerStatusInLocation(player, location, PlayerStatus.Lose);
+                OnPlayerStatusUpdate?.Invoke(player, PlayerStatus.Lose);
             }
             else
             {
                 SetPlayerStatusInLocation(player, location, PlayerStatus.None);
+                OnPlayerStatusUpdate?.Invoke(player, PlayerStatus.None);
             }
         }
 
         return winner;
     }
 
+    /// <summary>
+    /// Finds the winner in all deployed locations.
+    /// </summary>
     public void FindWinnerInLocation()
     {
         foreach (var location in GetAllDeployedLocations())
@@ -1149,6 +1678,10 @@ public class GameController
         }
     }
 
+    /// <summary>
+    /// Finds the overall winner of the game based on the total wins of each player.
+    /// </summary>
+    /// <returns>The player with the highest total wins.</returns>
     public IPlayer FindWinner()
     {
         _logger?.Info($"Finding winner...");
@@ -1185,16 +1718,23 @@ public class GameController
             if (player.Key == winner)
             {
                 SetPlayerStatus(player.Key, PlayerStatus.Win);
+                OnPlayerStatusUpdate?.Invoke(player.Key, PlayerStatus.Win);
             }
             else
             {
                 SetPlayerStatus(player.Key, PlayerStatus.Lose);
+                OnPlayerStatusUpdate?.Invoke(player.Key, PlayerStatus.Lose);
             }
         }
         _logger?.Info($"The winner is {winner.Name}, id: {winner.Id}");
         return winner;
     }
 
+    /// <summary>
+    /// Sets the winner of the game.
+    /// </summary>
+    /// <param name="player">The player who won the game.</param>
+    /// <returns>True if the winner was successfully set; otherwise, false.</returns>
     public bool SetWinner(IPlayer player)
     {
         _winner = player;

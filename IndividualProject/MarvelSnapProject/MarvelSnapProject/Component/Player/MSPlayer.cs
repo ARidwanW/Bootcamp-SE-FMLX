@@ -2,14 +2,21 @@ namespace MarvelSnapProject.Component.Player;
 
 public class MSPlayer : IPlayer
 {
+    /// <summary>
+/// Gets the unique identifier of the player.
+/// </summary>
     public int Id { get; private set; }
+
+    /// <summary>
+/// Gets the name of the player.
+/// </summary>
     public string Name { get; private set; }
 
     /// <summary>
-    /// Class MSPlayer implement IPlayer
-    /// </summary>
-    /// <param name="id">Assign Id of player</param>
-    /// <param name="name">Assign Name of player</param>
+/// Initializes a new instance of the MSPlayer class.
+/// </summary>
+/// <param name="id">The unique identifier to assign to the player.</param>
+/// <param name="name">The name to assign to the player.</param>
     public MSPlayer(int id, string name)
     {
         Id = id;
