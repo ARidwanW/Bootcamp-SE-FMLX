@@ -128,19 +128,14 @@ public class PlayerInfo
         int status = 0;
         foreach (var card in cards)
         {
-            // if (_handCards.Contains(card))
+            // if (_deck.Contains(card))
             // {
             //     status++;
-            //     continue;
+            //     _handCards.Add(card);
             // }
-            if (_deck.Contains(card))
-            {
-                status++;
-                _handCards.Add(card);
-            }
+            _handCards.Add(card);
         }
         return (status > 0) ? true : false;
-        // return true;
     }
 
     /// <summary>

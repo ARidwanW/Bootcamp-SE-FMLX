@@ -105,7 +105,7 @@ public class GameController
     public GameController(Logger? log = null)
     {
         _logger = log;
-        _logger?.Info("Creating Game.");
+        _logger?.Info("Creating Game...");
         _gameStatus = GameStatus.None;
         _logger?.Info("Set GameStatus to None.");
         _players = new Dictionary<IPlayer, PlayerInfo>();
@@ -120,8 +120,6 @@ public class GameController
         _logger?.Info("Set round to 0.");
         _maxRound = 6;
         _logger?.Info("Game created.");
-
-
     }
 
     public void StartGame()
@@ -144,9 +142,8 @@ public class GameController
 
     public bool SetGameStatus(GameStatus status)
     {
-        _logger?.Info($"Set GameStatus from {_gameStatus} to {status}.");
         _gameStatus = status;
-        _logger?.Info("Returning true.");
+        _logger?.Info($"Set GameStatus from {_gameStatus} to {status}.");
         return true;
     }
 
@@ -158,7 +155,6 @@ public class GameController
 
     public bool NextRound(int round)
     {
-        _logger?.Info("Next round method with round parameter has been called.");
         _gameStatus = GameStatus.Running;
         _logger?.Info($"Set GameStatus to {_gameStatus}.");
 
@@ -180,22 +176,18 @@ public class GameController
         RevealLocation(round, true);
         SetPlayerEnergy(_round);
 
-        _logger?.Info("Returning true.");
         return true;
     }
 
     public bool NextRound(int round, bool plain)
     {
-        _logger?.Info("Plain NextRound method with round parameter has been called.");
         _round = round;
         _logger?.Info($"Set round {_round} to {round}");
-        _logger?.Info("Returning true.");
         return true;
     }
 
     public bool NextRound()
     {
-        _logger?.Info("Next round method without parameter has been called.");
         _gameStatus = GameStatus.Running;
         _logger?.Info($"Set game status to {_gameStatus}");
 
@@ -217,34 +209,31 @@ public class GameController
         RevealLocation(_round);
         SetPlayerEnergy(_round);
 
-        _logger?.Info("Returning true.");
         return true;
     }
 
     public bool NextRound(bool plain)
     {
-        _logger?.Info("Plain NextRound method without parameter has been called.");
         _round += 1;
         _logger?.Info($"Add round by 1, round: {_round}");
-        _logger?.Info("Returning true.");
         return true;
     }
 
     public bool HiddenLocation(AbstractLocation location)
     {
-        _logger?.Info("HiddenLocation method has been called.");
+        _logger?.Info($"Hide location: {location.Name} with HashCode: {location.GetHashCode()}.");
         return location.SetLocationStatus(LocationStatus.Hidden);
     }
 
     public bool RevealLocation(AbstractLocation location)
     {
-        _logger?.Info("RevealLocation method has been called.");
+        _logger?.Info($"Reveal location: {location.Name}. with HashCode: {location.GetHashCode()}");
         return location.SetLocationStatus(LocationStatus.Revealed);
     }
 
     public bool RevealLocation(int index, bool isLoop = false)
     {
-        _logger?.Info("RevealLocation method with parameter has been called.");
+        _logger?.Info($"Reveal location from deployed location and register ability...");
         _logger?.Info($"With index: {index} and isLoop: {isLoop}.");
         if (index >= _maxLocation + 1)
         {
@@ -255,9 +244,11 @@ public class GameController
         if (!isLoop)
         {
             var currentLocation = GetDeployedLocation(index - 1);
+            _logger?.Info($"Reveal location from deployed location, location: {currentLocation.Name}.");
             currentLocation.SetLocationStatus(LocationStatus.Revealed);
             if (currentLocation._isOnReveal || currentLocation._isOnGoing)
             {
+                _logger?.Info($"Register ability of {currentLocation.Name}.");
                 currentLocation.RegisterAbility(this);
             }
             return true;
@@ -267,9 +258,11 @@ public class GameController
             for (int i = 0; i < index; i++)
             {
                 var currentLocation = GetDeployedLocation(i);
+                _logger?.Info($"Reveal location from deployed location, location: {currentLocation.Name}.");
                 currentLocation.SetLocationStatus(LocationStatus.Revealed);
                 if (currentLocation._isOnReveal || currentLocation._isOnGoing)
                 {
+                    _logger?.Info($"Register ability of {currentLocation.Name}.");
                     currentLocation.RegisterAbility(this);
                 }
             }
@@ -287,27 +280,29 @@ public class GameController
     {
         _logger?.Info($"Set max round from {_maxRound} to {maxround}.");
         _maxRound = maxround;
-        _logger?.Info("Returning true.");
         return true;
     }
 
     public Dictionary<IPlayer, PlayerInfo> GetAllPlayersInfo()
     {
-        _logger?.Info("GetAllPlayersInfo method has been called.");
+        _logger?.Info("Getting all players info.");
         return _players;
     }
 
     public List<IPlayer> GetAllPlayers()
     {
-        _logger?.Info("GetAllPlayers method has been called.");
+        _logger?.Info("Getting all players.");
         return _players.Keys.ToList();
     }
 
     public IPlayer GetPlayer(IPlayer player)
     {
         var foundPlayer = GetAllPlayers().Find(p => p.Id == player.Id);
+        _logger?.Info($"Find player: {player.Name} by id: {player.Id}.");
         if (foundPlayer == null)
         {
+            _logger?.Warn($"No found player of {player.Name} with id: {player.Id}.");
+            _logger?.Warn($"Instead, A new player create with index 0 and player name of None.");
             return new MSPlayer(0, "None");
         }
         return foundPlayer;
@@ -315,33 +310,43 @@ public class GameController
 
     public IPlayer GetPlayer(int index)
     {
-        return GetAllPlayers()[index];
+        var getPlayerIndex = GetAllPlayers()[index];
+        _logger?.Info($"Get player with index {index} from all players.");
+        return getPlayerIndex;
     }
 
     public PlayerInfo GetPlayerInfo(IPlayer player)
     {
-        return _players[player];
+        var getPlayerFromInfo = GetAllPlayersInfo()[player];
+        _logger?.Info($"Get player info of player id:{player.Id} from all players info.");
+        return getPlayerFromInfo;
     }
 
     public IPlayer CreatePlayer(int id, string name)
     {
+        _logger?.Info($"Creating new MSPlayer by id: {id}, name: {name}.");
         return new MSPlayer(id, name);
     }
 
     public bool AssignPlayer(params IPlayer[] players)
     {
         var newPlayers = players.Where(player => !_players.ContainsKey(player)).ToList();
+        _logger?.Info($"Searching new player from [{string.Join(", ", players.Select(p => p.Name))}].");
+        _logger?.Info($"Creating List of new player : [{string.Join(", ", newPlayers.Select(p => p.Name))}].");
         newPlayers.ForEach(player => _players.Add(player, new PlayerInfo()));
+        _logger?.Info($"Assign every new player to a game, as a key to dictionary with new player info.");
         return newPlayers.Count == players.Length;
     }
 
     public bool RemovePlayer(params IPlayer[] players)
     {
+        _logger?.Info("Removing players...");
         bool allRemoved = true;
         foreach (var player in players)
         {
             if (!_players.Remove(player))
             {
+                _logger?.Info($"Removing player: {player} from game.");
                 allRemoved = false;
             }
         }
@@ -350,7 +355,9 @@ public class GameController
 
     public List<AbstractCard> GetPlayerDeck(IPlayer player)
     {
-        return GetPlayerInfo(player).GetDeck();
+        var getPlayerDeck = GetPlayerInfo(player).GetDeck();
+        _logger?.Info($"Getting player deck.");
+        return getPlayerDeck;
     }
 
     public AbstractCard GetPlayerCardInDeck(IPlayer player, AbstractCard card, bool byName = true)
@@ -358,25 +365,33 @@ public class GameController
         var playerDeck = GetPlayerDeck(player);
         var foundCard = playerDeck.Find(c => c.Name == card.Name);
         foundCard = byName ? foundCard : playerDeck.Find(c => c == card);
+        _logger?.Info($"Find {card.Name} by name : {byName}.");
 
         if (foundCard == null)
         {
+            _logger?.Warn($"No card found. Instead, create a new NoneCard.");
             return new NoneCard();
         }
+
         return foundCard;
     }
 
     public bool AssignCardToPlayerDeck(IPlayer player, params AbstractCard[] cards)
     {
-        return GetPlayerInfo(player).AssignCardToDeck(cards);
+        var assignCardToPlayerDeck = GetPlayerInfo(player).AssignCardToDeck(cards);
+        _logger?.Info($"Assign card of [{string.Join(", ", cards.Select(c => c.Name))}] to deck player: {player.Name}, id: {player.Id}.");
+        return assignCardToPlayerDeck;
     }
 
     public bool AssignCardToPlayerDeck(IPlayer player, bool clone = true, bool byName = true, params AbstractCard[] cards)
     {
+        _logger?.Info($"Assigning card of [{string.Join(", ", cards.Select(c => c.Name))}] to deck player: {player.Name}, id: {player.Id}...");
+        _logger?.Info($"With parameter clone: {clone}, byName: {byName}.");
         bool status = false;
 
         if (!_players.ContainsKey(player))
         {
+            _logger?.Warn($"There is no player id: {player.Id} in [{_players.Keys.Select(p => p.Id)}].");
             return false;
         }
 
@@ -384,23 +399,28 @@ public class GameController
         {
             var cloneCard = clone ? card.Clone() : card;
             status = GetPlayerInfo(player).AssignCardToDeck(cloneCard);
+            _logger?.Info($"Assign card: {card.Name} to player: {player.Name}, id: {player.Id} deck.");
             if (status)
             {
                 GetPlayerCardInDeck(player, card, byName).SetCardStatus(CardStatus.OnDeck);
+                _logger?.Info($"Set card status of {card.Name} to {card.GetCardStatus()}.");
             }
         }
-
         return status;
     }
 
     public bool RetrievePlayerCardFromDeck(IPlayer player, params AbstractCard[] cards)
     {
-        return GetPlayerInfo(player).RetrieveCardFromDeck(cards);
+        var retrieveCard = GetPlayerInfo(player).RetrieveCardFromDeck(cards);
+        _logger?.Info($"Retrieve card: [{string.Join(", ", cards.Select(c => c.Name))}].");
+        return retrieveCard;
     }
 
     public List<AbstractCard> GetPlayerHand(IPlayer player)
     {
-        return GetPlayerInfo(player).GetHandCards();
+        var getHand = GetPlayerInfo(player).GetHandCards();
+        _logger?.Info($"Get card in hand player: {player.Name}, id: {player.Id}.");
+        return getHand;
     }
 
     public AbstractCard GetPlayerCardInHand(IPlayer player, AbstractCard card, bool byName = true)
@@ -408,9 +428,11 @@ public class GameController
         var playerHand = GetPlayerHand(player);
         var foundCard = playerHand.Find(c => c.Name == card.Name);
         foundCard = byName ? foundCard : playerHand.Find(c => c == card);
+        _logger?.Info($"Find {card.Name} by name : {byName} in player id:{player.Id} hand.");
 
         if (foundCard == null)
         {
+            _logger?.Warn($"No card found. Instead, create a new NoneCard.");
             return new NoneCard();
         }
         return foundCard;
@@ -418,7 +440,9 @@ public class GameController
 
     public bool AssignCardToPlayerHand(IPlayer player, params AbstractCard[] cards)
     {
-        return _players[player].AssignCardToHand(cards);
+        var assignCardtoHand = GetPlayerInfo(player).AssignCardToHand(cards);
+        _logger?.Info($"Assign card: [{string.Join(", ", cards.Select(c => c.Name))}] to player: {player.Name}, id: {player.Id} hand.");
+        return assignCardtoHand;
     }
 
     public bool AssignCardToPlayerHand(IPlayer player, bool fromDeck = true, bool byDeckName = true,
@@ -428,6 +452,7 @@ public class GameController
         bool status = false;
         if (!_players.ContainsKey(player))
         {
+            _logger?.Warn($"There is no player id: {player.Id} in [{_players.Keys.Select(p => p.Id)}].");
             return false;
         }
 
@@ -437,10 +462,12 @@ public class GameController
             var cardInDeck = GetPlayerCardInDeck(player, card, byDeckName);
             cardInDeck = fromDeck ? cardInDeck : card;
             var cloneCard = clone ? cardInDeck.Clone() : cardInDeck;
-            status = _players[player].AssignCardToHand(cardInDeck);
+            status = GetPlayerInfo(player).AssignCardToHand(cloneCard);
+            _logger?.Info($"Assign card: {cloneCard.Name} to player: {player.Name}, id: {player.Id} hand.");
             if (status)
             {
                 GetPlayerCardInHand(player, cardInDeck, byName).SetCardStatus(CardStatus.OnHand);
+                _logger?.Info($"Set card status of {card.Name} to {card.GetCardStatus()}.");
             }
 
         }
@@ -449,12 +476,16 @@ public class GameController
 
     public bool RetrievePlayerCardFromHand(IPlayer player, params AbstractCard[] cards)
     {
-        return GetPlayerInfo(player).RetrieveCardFromHand(cards);
+        var retrieveHandCard = GetPlayerInfo(player).RetrieveCardFromHand(cards);
+        _logger?.Info($"Retrieveing {player.Name}, id: {player.Id} card: [{cards.Select(c => c.Name)}] from  hand.");
+        return retrieveHandCard;
     }
 
     public int GetPlayerEnergy(IPlayer player)
     {
-        return GetPlayerInfo(player).GetEnergy();
+        var playerEnergy = GetPlayerInfo(player).GetEnergy();
+        _logger?.Info($"Get {player.Name}, id: {player.Id} energy: {playerEnergy}..");
+        return playerEnergy;
     }
 
     public bool SetPlayerEnergy(int energy)
@@ -468,7 +499,9 @@ public class GameController
 
     public bool SetPlayerEnergy(IPlayer player, int energy)
     {
-        return GetPlayerInfo(player).SetEnergy(energy);
+        var playerEnergy = GetPlayerInfo(player).SetEnergy(energy);
+        _logger?.Info($"Set {player.Name}, id: {player.Id} energy to {energy}.");
+        return playerEnergy;
     }
 
     public bool AddPlayerEnergy(IPlayer player)
@@ -483,46 +516,63 @@ public class GameController
 
     public int GetPlayerMaxDeck(IPlayer player)
     {
-        return GetPlayerInfo(player).GetMaxDeck();
+        var maxDeck = GetPlayerInfo(player).GetMaxDeck();
+        _logger?.Info($"Get {player.Name}, id: {player.Id} max deck: {maxDeck}.");
+        return maxDeck;
     }
 
     public bool SetPlayerMaxDeck(IPlayer player, int maxDeck)
     {
-        return GetPlayerInfo(player).SetMaxDeck(maxDeck);
+        var setMaxDeck = GetPlayerInfo(player).SetMaxDeck(maxDeck);
+        _logger?.Info($"Set {player.Name}, id: {player.Id} max deck to {maxDeck}.");
+        return setMaxDeck;
     }
 
     public int GetPlayerTotalWin(IPlayer player)
     {
-        return GetPlayerInfo(player).GetTotalWin();
+        var totalWin = GetPlayerInfo(player).GetTotalWin();
+        _logger?.Info($"Get {player.Name}, id: {player.Id} total win: {totalWin}.");
+        return totalWin;
     }
 
     public bool SetPlayerTotalWin(IPlayer player, int totalWin)
     {
-        return GetPlayerInfo(player).SetTotalWin(totalWin);
+        var setTotalWin = GetPlayerInfo(player).SetTotalWin(totalWin);
+        _logger?.Info($"Set {player.Name}, id: {player.Id} total win to {totalWin}.");
+        return setTotalWin;
     }
 
     public bool AddPlayerTotalWin(IPlayer player)
     {
-        return GetPlayerInfo(player).AddTotalWin();
+        var addTotalWin = GetPlayerInfo(player).AddTotalWin();
+        _logger?.Info($"Add {player.Name}, id: {player.Id} total win to by one.");
+        return addTotalWin;
     }
 
     public bool AddPlayerTotalWin(IPlayer player, int addWin)
     {
-        return GetPlayerInfo(player).AddTotalWin(addWin);
+        var addTotalWin = GetPlayerInfo(player).AddTotalWin(addWin);
+        _logger?.Info($"Add {player.Name}, id: {player.Id} total win to by {addWin}.");
+        return addTotalWin;
     }
 
     public PlayerStatus GetPlayerStatus(IPlayer player)
     {
-        return GetPlayerInfo(player).GetPlayerStatus();
+        var status = GetPlayerInfo(player).GetPlayerStatus();
+        _logger?.Info($"Get {player.Name}, id: {player.Id} status: {status}.");
+        return status;
     }
 
     public bool SetPlayerStatus(IPlayer player, PlayerStatus status)
     {
-        return GetPlayerInfo(player).SetPlayerStatus(status);
+        var setStatus = GetPlayerInfo(player).SetPlayerStatus(status);
+        _logger?.Info($"Set {player.Name}, id: {player.Id} status to {status}.");
+        return setStatus;
     }
 
     public List<AbstractLocation> GetAllDeployedLocations()
     {
+        _logger?.Info($"Get all deployed locations.");
         return _locations;
     }
 
@@ -531,8 +581,11 @@ public class GameController
         var deployedLocations = GetAllDeployedLocations();
         var foundLocation = deployedLocations.Find(loc => loc.Name == location.Name);
         foundLocation = byName ? foundLocation : deployedLocations.Find(loc => loc == location);
+        _logger?.Info($"Find {location.Name} by name : {byName}.");
+
         if (foundLocation == null)
         {
+            _logger?.Warn($"No location found. Instead, create a new NoneLocation.");
             return new NoneLocation();
         }
         return foundLocation;
@@ -540,13 +593,16 @@ public class GameController
 
     public AbstractLocation GetDeployedLocation(int index)
     {
-        return GetAllDeployedLocations()[index];
+        var deployedLocation = GetAllDeployedLocations()[index];
+        _logger?.Info($"Find location by index : {index} from all deployed locations.");
+        return deployedLocation;
     }
 
     public bool AssignLocation(params AbstractLocation[] locations)
     {
         var newLocations = locations.Where(location => !_locations.Contains(location)).ToList();
         newLocations.ForEach(location => _locations.Add(location));
+        _logger?.Info($"Assign new location of [{string.Join(", ", newLocations.Select(l => l.Name))}].");
         return newLocations.Count == locations.Length;
     }
 
@@ -560,31 +616,37 @@ public class GameController
                 allRemoved = false;
             }
         }
+        _logger?.Info($"Removing all location of [{string.Join(", ", locations.Select(l => l.Name))}]: {allRemoved}.");
         return allRemoved;
     }
 
     public LocationStatus GetLocationStatus(AbstractLocation location)
     {
+        _logger?.Info($"Getting {location.Name} status: {location.GetLocationStatus()}.");
         return location.GetLocationStatus();
     }
 
     public bool SetLocationStatus(AbstractLocation location, LocationStatus status)
     {
+        _logger?.Info($"Set {location.Name} status to {status}.");
         return location.SetLocationStatus(status);
     }
 
     public bool IsLocationValid(AbstractLocation location)
     {
+        _logger?.Info($"Check location valid: {location.IsLocationValid()}.");
         return location.IsLocationValid();
     }
 
     public bool SetLocationValid(AbstractLocation location, bool isValid)
     {
+        _logger?.Info($"Set {location.Name} valid to {isValid}.");
         return location.SetLocationValid(isValid);
     }
 
     public List<AbstractCard> GetAllCardsInLocation(AbstractLocation location)
     {
+        _logger?.Info($"Getting all cards in {location.Name}.");
         return location.GetAllCards();
     }
 
@@ -593,8 +655,11 @@ public class GameController
         var allCardsInLocation = GetAllCardsInLocation(location);
         var foundCard = allCardsInLocation.Find(c => c.Name == card.Name);
         foundCard = byName ? foundCard : allCardsInLocation.Find(c => c == card);
+        _logger?.Info($"Find {card.Name} by name : {byName} in {location.Name}.");
+
         if (foundCard == null)
         {
+            _logger?.Warn($"No card found. Instead, create a new NoneCard.");
             return new NoneCard();
         }
         return foundCard;
@@ -602,21 +667,26 @@ public class GameController
 
     public AbstractCard GetCardInLocation(AbstractLocation location, int index)
     {
-        return GetAllCardsInLocation(location)[index];
+        var cardLocationIndex = GetAllCardsInLocation(location)[index];
+        _logger?.Info($"Get card by index: {index} from {location.Name}.");
+        return cardLocationIndex;
     }
 
     public bool AssignCardToLocation(AbstractLocation location, params AbstractCard[] cards)
     {
+        _logger?.Info($"Assigning [{string.Join(", ", cards.Select(c => c.Name))}] cards to {location.Name}.");
         return location.AssignCardToLocation(cards);
     }
 
     public Dictionary<IPlayer, List<AbstractCard>> GetPlayerCardInLocation(AbstractLocation location)
     {
+        _logger?.Info($"Getting all player cards in {location.Name}.");
         return location.GetAllPlayersCards();
     }
 
     public List<AbstractCard> GetPlayerCardInLocation(IPlayer player, AbstractLocation location)
     {
+        _logger?.Info($"Getting {player.Name}, id: {player.Id} card in {location.Name}...");
         return GetPlayerCardInLocation(location)[player];
     }
 
@@ -626,8 +696,10 @@ public class GameController
         var playerCards = GetPlayerCardInLocation(player, location);
         var foundCard = playerCards.Find(c => c.Name == card.Name);
         foundCard = byName ? foundCard : playerCards.Find(c => c == card);
+        _logger?.Info($"Find {card.Name} by name : {byName} in {location.Name}.");
         if (foundCard == null)
         {
+            _logger?.Warn($"No card found. Instead, create a new NoneCard.");
             return new NoneCard();
         }
         return foundCard;
@@ -635,17 +707,20 @@ public class GameController
 
     public bool AssignPlayerToLocation(AbstractLocation location, params IPlayer[] players)
     {
+        _logger?.Info($"Assigning [{string.Join(", ", players.Select(c => c.Name))}] to {location.Name}.");
         location.AssignPlayer(players);
         return true;
     }
 
     public Dictionary<IPlayer, int> GetPlayerPowerInLocation(AbstractLocation location)
     {
+        _logger?.Info($"Getting all players power in {location.Name}.");
         return location.GetAllPlayersPower();
     }
 
     public int GetPlayerPowerInLocation(IPlayer player, AbstractLocation location)
     {
+        _logger?.Info($"Getting {player.Name}, id: {player.Id} power in {location.Name}...");
         return GetPlayerPowerInLocation(location)[player];
     }
 
@@ -684,31 +759,37 @@ public class GameController
 
     public bool AssignPlayerPowerToLocation(IPlayer player, AbstractLocation location, int power)
     {
+        _logger?.Info($"Assigning {player.Name}, id: {player.Id} power: {power} to {location.Name}");
         return location.AssignPlayerPower(player, power);
     }
 
     public bool AddPlayerPowerToLocation(IPlayer player, AbstractLocation location)
     {
+        _logger?.Info($"Add power of {player.Name}, id: {player.Id} to {location.Name} by one.");
         return location.AddPlayerPower(player, 1);
     }
 
     public bool AddPlayerPowerToLocation(IPlayer player, AbstractLocation location, int powerToAdd)
     {
+        _logger?.Info($"Add power of {player.Name}, id: {player.Id} to {location.Name} by {powerToAdd}.");
         return location.AddPlayerPower(player, powerToAdd);
     }
 
     public Dictionary<IPlayer, PlayerStatus> GetPlayerStatusInLocation(AbstractLocation location)
     {
+        _logger?.Info($"Getting all players status in {location.Name}.");
         return location.GetAllPlayerStatus();
     }
 
     public PlayerStatus GetPlayerStatusInLocation(IPlayer player, AbstractLocation location)
     {
+        _logger?.Info($"Getting {player.Name}, id: {player.Id} status in {location.Name}.");
         return GetPlayerStatusInLocation(location)[player];
     }
 
     public bool SetPlayerStatusInLocation(IPlayer player, AbstractLocation location, PlayerStatus status)
     {
+        _logger?.Info($"Set {player.Name}, id: {player.Id} status in {location.Name} to {status}.");
         return location.SetPlayerStatus(player, status);
     }
 
@@ -731,9 +812,12 @@ public class GameController
     {
         var playersInLocation = GetAllPlayersInLocation(location);
         var foundPlayer = playersInLocation.Find(p => p.Id == player.Id);
+        _logger?.Info($"Find player: {player.Name} by id: {player.Id}.");
 
         if (foundPlayer == null)
         {
+            _logger?.Warn($"No found player of {player.Name} with id: {player.Id}.");
+            _logger?.Warn($"Instead, A new player create with index 0 and player name of None.");
             return new MSPlayer(0, "None");
         }
         return foundPlayer;
@@ -741,54 +825,32 @@ public class GameController
 
     public IPlayer GetPlayerInLocation(AbstractLocation location, int index)
     {
+        _logger?.Info($"Getting player in {location.Name} by index: {index}...");
         return GetAllPlayersInLocation(location)[index];
     }
 
     public int GetMaxLocation()
     {
+        _logger?.Info($"Getting max deployable location: {_maxLocation}.");
         return _maxLocation;
     }
 
     public bool SetMaxLocation(int maxLocation)
     {
         _maxLocation = maxLocation;
+        _logger?.Info($"Set max deployable location to  {maxLocation}.");
         return true;
     }
 
     public List<AbstractLocation> GetDefaultAllLocations()
     {
+        _logger?.Info($"Get all default locations in game.");
         return _allLocations;
     }
 
-    // public bool GenerateDefaultAllLocation()
-    // {
-    //     // Asgard = 1
-    //     // Atlantis = 2
-    //     // AvengerCompound = 4
-    //     // Flooded = 6
-    //     // KunLun = 7
-    //     // NegativeZone = 8
-    //     // Ruins = 9
-    //     List<AbstractLocation> locations = new List<AbstractLocation>()
-    //     {
-    //     new Asgard(),
-    //     new Atlantis(),
-    //     new AvengersCompound(),
-    //     new Flooded(),
-    //     new KunLun(),
-    //     new NegativeZone(),
-    //     new Ruins(),
-    //     };
-
-    //     foreach (var location in locations)
-    //     {
-    //         SetDefaultAllLocations(location);
-    //     }
-    //     return true;
-    // }
-
     public bool SetDefaultAllLocations(params AbstractLocation[] locations)
     {
+        _logger?.Info($"Set all default location in game: [{string.Join(", ", locations.Select(l => l.Name))}].");
         foreach (var location in locations)
         {
             if (_allLocations.Contains(location))
@@ -802,56 +864,13 @@ public class GameController
 
     public List<AbstractCard> GetDefaultAllCards()
     {
+        _logger?.Info($"Getting all default cards in game.");
         return _allCards;
     }
 
-    // public bool GenerateDefaultAllCards()
-    // {
-    //     // Abomination = 1
-    //     // Cyclops = 2
-    //     // Howkeye = 3
-    //     // Hulk = 4
-    //     // IronMan = 5
-    //     // JessicaJones = 6
-    //     // Medusa = 7
-    //     // MisterFantastic = 8
-    //     // MistyKnight = 9
-    //     // QuickSilver = 10
-    //     // Sentinel = 11
-    //     // Spectrum = 12
-    //     // StarLord = 13
-    //     // ThePunisher = 14
-    //     // Thing = 15
-    //     // WhiteTiger = 16
-    //     List<AbstractCard> cards = new List<AbstractCard>()
-    //     {
-    //         new Abomination(),
-    //         new Cyclops(),
-    //         new Hawkeye(),
-    //         new Hulk(),
-    //         new IronMan(),
-    //         new JessicaJones(),
-    //         new Medusa(),
-    //         new MisterFantastic(),
-    //         new MistyKnight(),
-    //         new QuickSilver(),
-    //         new Sentinel(),
-    //         new Spectrum(),
-    //         new StarLord(),
-    //         new ThePunisher(),
-    //         new Thing(),
-    //         new WhiteTiger()
-    //     };
-
-    //     foreach (var card in cards)
-    //     {
-    //         SetDefaultAllCards(card);
-    //     }
-    //     return true;
-    // }
-
     public bool SetDefaultAllCards(params AbstractCard[] cards)
     {
+        _logger?.Info($"Set all default card in game: [{string.Join(", ", cards.Select(c => c.Name))}].");
         foreach (var card in cards)
         {
             if (_allCards.Contains(card))
@@ -867,6 +886,7 @@ public class GameController
     {
         Random random = new Random();
         var indexCard = random.Next(_allCards.Count);
+        _logger?.Info($"Getting shuffle card...");
         return _allCards[indexCard];
     }
 
@@ -874,12 +894,14 @@ public class GameController
     {
         Random random = new Random();
         var indexLocation = random.Next(_allLocations.Count);
+        _logger?.Info($"Getting shuffle location...");
         return _allLocations[indexLocation];
     }
 
     public int GetShuffleIndex(int max)
     {
         Random random = new Random();
+        _logger?.Info($"Getting shuffle index by max: {max}...");
         return random.Next(max);
     }
 
@@ -888,19 +910,23 @@ public class GameController
     {
         if (!_players.ContainsKey(player))
         {
+            _logger?.Warn($"There is no player id: {player.Id} in [{_players.Keys.Select(p => p.Id)}].");
             return false;
         }
 
         if (!GetAllDeployedLocations().Contains(location))
         {
+            _logger?.Warn($"There is no {location.Name} in [{GetAllDeployedLocations().Select(l => l.Name)}].");
             return false;
         }
 
         if (!location.IsLocationValid())
         {
+            _logger?.Warn($"the {location.Name} is not valid.");
             return false;
         }
 
+        _logger?.Info($"Assigning {card.Name} to {player.Name}, id: {player.Id} at {location.Name}.");
         return location.AssignPlayerCardToLocation(player, card);
     }
 
@@ -913,16 +939,19 @@ public class GameController
     {
         if (!_players.ContainsKey(player))
         {
+            _logger?.Warn($"There is no player id: {player.Id} in [{_players.Keys.Select(p => p.Id)}].");
             return false;
         }
 
         if (!GetAllDeployedLocations().Contains(location))
         {
+            _logger?.Warn($"There is no {location.Name} in [{GetAllDeployedLocations().Select(l => l.Name)}].");
             return false;
         }
 
         if (!location.IsLocationValid())
         {
+            _logger?.Warn($"the {location.Name} is not valid.");
             return false;
         }
 
@@ -939,6 +968,8 @@ public class GameController
         var cloneCard = clone ? cardInHand.Clone() : cardInHand;
         cloneCard.SetCardStatus(CardStatus.OnHand);
         var status = location.AssignPlayerCardToLocation(player, cloneCard);
+        _logger?.Info($"Assigning {card.Name} to {player.Name}, id: {player.Id} at {location.Name}.");
+
         if (status)
         {
             var cardInLocation = GetPlayerCardInLocation(player, location, cloneCard, byName);
@@ -946,28 +977,31 @@ public class GameController
             {
                 if (cardInLocation._isOnReveal || cardInLocation._isOnGoing)
                 {
+                    _logger?.Info($"Deploy and register {cardInLocation.Name} ability.");
                     cardInLocation.DeployCard(this, player, location);
                 }
             }
         }
-
         return status;
     }
 
     public IPlayer GetCurrentTurn()
     {
+        _logger?.Info($"Get current turn: {_currentTurn}.");
         return _currentTurn;
     }
 
     public bool NextTurn(IPlayer player)
     {
         _currentTurn = player;
+        _logger?.Info($"Set current turn to {player.Name}, id: {player.Id}.");
         return true;
     }
 
     public bool NextTurn(int index)
     {
         _currentTurn = GetAllPlayers()[index];
+        _logger?.Info($"Set current turn to {_currentTurn} by index: {index}");
         return true;
     }
 
@@ -985,11 +1019,13 @@ public class GameController
 
     public IPlayer GetWinner()
     {
+        _logger?.Info($"Get the winner: {_winner.Name}, id: {_winner.Id}");
         return _winner;
     }
 
     public IPlayer FindWinnerInLocation(AbstractLocation location)
     {
+        _logger?.Info($"Finding winner in {location.Name}...");
         var playersPower = GetPlayerPowerInLocation(location);
         var maxPower = playersPower.Values.Max();
         var minPower = playersPower.Values.Min();
@@ -1054,13 +1090,12 @@ public class GameController
 
     public IPlayer FindWinner()
     {
-        // Reset total win for all players
+        _logger?.Info($"Finding winner...");
         foreach (var player in _players.Keys)
         {
             SetPlayerTotalWin(player, 0);
         }
 
-        // Calculate total win for each player
         foreach (var location in _locations)
         {
             foreach (var player in GetPlayerStatusInLocation(location).Keys)
@@ -1072,7 +1107,6 @@ public class GameController
             }
         }
 
-        // Find the player with the highest total win
         IPlayer winner = new MSPlayer(0, "Draw");
         int maxTotalWin = 0;
         foreach (var player in _players.Keys)
@@ -1103,6 +1137,7 @@ public class GameController
     public bool SetWinner(IPlayer player)
     {
         _winner = player;
+        _logger?.Info($"Set winner to {player.Name}, id: {player.Id}");
         return true;
     }
 

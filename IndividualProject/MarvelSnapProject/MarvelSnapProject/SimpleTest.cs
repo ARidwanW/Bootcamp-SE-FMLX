@@ -3,6 +3,7 @@ using MarvelSnapProject.Component.Card;
 using MarvelSnapProject.Component.Location;
 using MarvelSnapProject.Component.Player;
 using MarvelSnapProject.Enum;
+using NLog;
 using Spectre.Console;
 
 namespace MarvelSnapProjectSimpleTest;
@@ -39,7 +40,7 @@ public static class SimpleTest
         MSPlayer Wawan = new(1, "Wawan");
         Hawkeye hawkeye = new();
         Abomination abomination = new();
-        AbstractCard[] twoCards = {hawkeye, abomination};
+        AbstractCard[] twoCards = { hawkeye, abomination };
         game.AssignPlayer(Wawan);
         game.AssignCardToPlayerDeck(Wawan, true, true, hawkeye, abomination);
         var wawanDeck = game.GetPlayerDeck(Wawan);
@@ -104,7 +105,20 @@ public static class SimpleTest
         MarvelSnapDisplay marvelSnapDisplay = new MarvelSnapDisplay();
 
         //* Let's Create the game
-        GameController game = new GameController();
+        GameController game;
+        if (!AnsiConsole.Confirm("Using Logger?"))
+        {
+            game = new GameController();
+        }
+        else
+        {
+            var config = new NLog.Config.LoggingConfiguration();
+            var logfile = new NLog.Targets.FileTarget("logfile") {FileName = "./log/logfile.txt"};
+            config.AddRule(LogLevel.Info, LogLevel.Fatal, logfile);
+            LogManager.Configuration = config;
+            game = new GameController(LogManager.GetCurrentClassLogger());
+        }
+
 
         Console.Clear();
         marvelSnapDisplay.Intro();
@@ -346,5 +360,7 @@ public static class SimpleTest
         {
             AnsiConsole.Write(new Markup($"\n\n\nThe Game is {winner.Name}!!\n\n\n").Centered());
         }
+
+        LogManager.Flush();
     }
 }

@@ -15,4 +15,18 @@ public class MSPlayer : IPlayer
         Id = id;
         Name = name;
     }
+
+    public override int GetHashCode()
+    {
+        return Id;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is MSPlayer player)
+        {
+            return Id == player.Id;
+        }
+        return false;
+    }
 }
