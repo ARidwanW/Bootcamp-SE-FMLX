@@ -1,3 +1,4 @@
+using System.Reflection;
 using MarvelSnapProject;
 using MarvelSnapProject.Component.Card;
 using MarvelSnapProject.Component.Location;
@@ -113,7 +114,7 @@ public static class SimpleTest
         else
         {
             var config = new NLog.Config.LoggingConfiguration();
-            var logfile = new NLog.Targets.FileTarget("logfile") {FileName = "./log/logfile.txt"};
+            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = "./log/logfile.txt" };
             config.AddRule(LogLevel.Info, LogLevel.Fatal, logfile);
             LogManager.Configuration = config;
             game = new GameController(LogManager.GetCurrentClassLogger());
@@ -359,6 +360,30 @@ public static class SimpleTest
         else
         {
             AnsiConsole.Write(new Markup($"\n\n\nThe Game is {winner.Name}!!\n\n\n").Centered());
+        }
+    }
+
+    public static void GetAllVarAndMethodGController()
+    {
+        var type = typeof(GameController); // Ganti 'YourClass' dengan nama kelas Anda
+
+        Console.WriteLine("=== Methods ===");
+        foreach (var method in type.GetMethods())
+        {
+            if (method.DeclaringType == type)
+            {
+                Console.WriteLine("Method: {0}", method.Name);
+                Console.WriteLine("Return Type: {0}", method.ReturnType);
+                Console.WriteLine("Access Modifier: {0}", method.IsPublic ? "public" : "non-public");
+            }
+        }
+
+        Console.WriteLine("\n=== Variables ===");
+        foreach (var field in type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
+        {
+            Console.WriteLine("Variable: {0}", field.Name);
+            Console.WriteLine("Type: {0}", field.FieldType);
+            Console.WriteLine("Access Modifier: {0}", field.IsPublic ? "public" : "non-public");
         }
     }
 }

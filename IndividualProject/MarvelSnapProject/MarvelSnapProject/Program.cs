@@ -15,6 +15,7 @@ class Program
         // MarvelSnapDisplay marvelSnapDisplay = new();
         // marvelSnapDisplay.Intro();
         SimpleTest.TestGame();
+        // SimpleTest.GetAllVarAndMethodGController();
 
         
 

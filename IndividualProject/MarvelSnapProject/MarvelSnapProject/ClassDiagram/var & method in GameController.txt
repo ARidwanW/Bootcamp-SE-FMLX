@@ -1,0 +1,127 @@
+public class GameController
+{
+    private readonly Logger _logger;
+    private GameStatus _gameStatus;
+    private int _round;
+    private int _maxRound;
+    private Dictionary<IPlayer, PlayerInfo> _players;
+    private List<AbstractLocation> _locations;
+    private int _maxLocation = 3;
+    private List<AbstractLocation> _allLocations;
+    private List<AbstractCard> _allCards;
+    private IPlayer _currentTurn;
+    private IPlayer _winner;
+    public Action<AbstractCard, CardStatus>? OnCardStatusUpdate;
+    public Action<AbstractLocation, LocationStatus>? OnLocationStatusUpdate;
+    public Action<IPlayer, PlayerStatus>? OnPlayerStatusUpdate;
+    public Action<AbstractLocation>? OnLocationUpdate;
+    public Action<IPlayer, PlayerInfo>? OnPlayerUpdate;
+    public event Func<GameController, bool>? OnRevealCardAbilityCall;
+    public event Func<GameController, bool>? OnRevealLocationAbilityCall;
+    public event Func<GameController, bool>? OnGoingCardAbilityCall;
+    public event Func<GameController, bool>? OnGoingLocationAbilityCall;
+    public GameController(Logger? log = null)
+    public void StartGame()
+    public void EndGame()
+    public GameStatus GetCurrentGameStatus()
+    public bool SetGameStatus(GameStatus status)
+    public int GetCurrentRound()
+    public bool NextRound(int round)
+    public bool NextRound(int round, bool plain)
+    public bool NextRound()
+    public bool NextRound(bool plain)
+    public bool HiddenLocation(AbstractLocation location)
+    public bool RevealLocation(AbstractLocation location)
+    public bool RevealLocation(int index, bool isLoop = false)
+    public int GetMaxRound()
+    public bool SetMaxRound(int maxround)
+    public Dictionary<IPlayer, PlayerInfo> GetAllPlayersInfo()
+    public List<IPlayer> GetAllPlayers()
+    public IPlayer GetPlayer(IPlayer player)
+    public IPlayer GetPlayer(int index)
+    public PlayerInfo GetPlayerInfo(IPlayer player)
+    public bool AssignPlayer(params IPlayer[] players)
+    public bool RemovePlayer(params IPlayer[] players)
+    public List<AbstractCard> GetPlayerDeck(IPlayer player)
+    public AbstractCard GetPlayerCardInDeck(IPlayer player, AbstractCard card, bool byName = true)
+    public bool AssignCardToPlayerDeck(IPlayer player, params AbstractCard[] cards)
+    public bool AssignCardToPlayerDeck(IPlayer player, bool clone = true, bool byName = true, params AbstractCard[] cards)
+    public bool RemovePlayerCardFromDeck(IPlayer player, params AbstractCard[] cards)
+    public List<AbstractCard> GetPlayerHand(IPlayer player)
+    public AbstractCard GetPlayerCardInHand(IPlayer player, AbstractCard card, bool byName = true)
+    public bool AssignCardToPlayerHand(IPlayer player, params AbstractCard[] cards)
+    public bool AssignCardToPlayerHand(IPlayer player, bool fromDeck = true, bool byDeckName = true,
+                                        bool clone = true, bool byName = true,
+                                        params AbstractCard[] cards)
+    public bool RemovePlayerCardFromHand(IPlayer player, params AbstractCard[] cards)
+    public int GetPlayerEnergy(IPlayer player)
+    public bool SetPlayerEnergy(int energy)
+    public bool SetPlayerEnergy(IPlayer player, int energy)
+    public bool AddPlayerEnergy(IPlayer player)
+    public bool AddPlayerEnergy(IPlayer player, int addEnergy)
+    public int GetPlayerMaxDeck(IPlayer player)
+    public bool SetPlayerMaxDeck(IPlayer player, int maxDeck)
+    public int GetPlayerTotalWin(IPlayer player)
+    public bool SetPlayerTotalWin(IPlayer player, int totalWin)
+    public bool AddPlayerTotalWin(IPlayer player)
+    public bool AddPlayerTotalWin(IPlayer player, int addWin)
+    public PlayerStatus GetPlayerStatus(IPlayer player)
+    public bool SetPlayerStatus(IPlayer player, PlayerStatus status)
+    public List<AbstractLocation> GetAllDeployedLocations()
+    public AbstractLocation GetDeployedLocation(AbstractLocation location, bool byName = true)
+    public AbstractLocation GetDeployedLocation(int index)
+    public bool AssignLocation(params AbstractLocation[] locations)
+    public bool RemoveLocation(params AbstractLocation[] locations)
+    public LocationStatus GetLocationStatus(AbstractLocation location)
+    public bool SetLocationStatus(AbstractLocation location, LocationStatus status)
+    public bool IsLocationValid(AbstractLocation location)
+    public bool SetLocationValid(AbstractLocation location, bool isValid)
+    public List<AbstractCard> GetAllCardsInLocation(AbstractLocation location)
+    public AbstractCard GetCardInLocation(AbstractLocation location, AbstractCard card, bool byName = true)
+    public AbstractCard GetCardInLocation(AbstractLocation location, int index)
+    public bool AssignCardToLocation(AbstractLocation location, params AbstractCard[] cards)
+    public bool RemoveCardFromLocation(AbstractLocation location, params AbstractCard[] cards)
+    public Dictionary<IPlayer, List<AbstractCard>> GetPlayerCardInLocation(AbstractLocation location)
+    public List<AbstractCard> GetPlayerCardInLocation(IPlayer player, AbstractLocation location)
+    public AbstractCard GetPlayerCardInLocation(IPlayer player, AbstractLocation location,
+    public bool AssignPlayerToLocation(AbstractLocation location, params IPlayer[] players)
+    public bool RemovePlayerFromLocation(AbstractLocation location, params IPlayer[] players)
+    public Dictionary<IPlayer, int> GetPlayerPowerInLocation(AbstractLocation location)
+    public int GetPlayerPowerInLocation(IPlayer player, AbstractLocation location)
+    public bool AssignPlayerPowerToLocation()
+    public bool AssignPlayerPowerToLocation(IPlayer player, AbstractLocation location, int power)
+    public bool AddPlayerPowerToLocation(IPlayer player, AbstractLocation location)
+    public bool AddPlayerPowerToLocation(IPlayer player, AbstractLocation location, int powerToAdd)
+    public Dictionary<IPlayer, PlayerStatus> GetPlayerStatusInLocation(AbstractLocation location)
+    public PlayerStatus GetPlayerStatusInLocation(IPlayer player, AbstractLocation location)
+    public bool SetPlayerStatusInLocation(IPlayer player, AbstractLocation location, PlayerStatus status)
+    public List<IPlayer> GetAllPlayersInLocation(AbstractLocation location, PlayerInfoSource infoSource = PlayerInfoSource.FromCard)
+    public IPlayer GetPlayerInLocation(AbstractLocation location, IPlayer player)
+    public IPlayer GetPlayerInLocation(AbstractLocation location, int index)
+    public int GetMaxLocation()
+    public bool SetMaxLocation(int maxLocation)
+    public List<AbstractLocation> GetDefaultAllLocations()
+    public bool SetDefaultAllLocations(params AbstractLocation[] locations)
+    public List<AbstractCard> GetDefaultAllCards()
+    public bool SetDefaultAllCards(params AbstractCard[] cards)
+    public AbstractCard GetShuffleCard()
+    public AbstractLocation GetShuffleLocation()
+    public int GetShuffleIndex(int max)
+    public bool AssignPlayerCardToLocation(IPlayer player, AbstractCard card,
+                                            AbstractLocation location)
+    public bool AssignPlayerCardToLocation(IPlayer player, AbstractCard card,
+                                            AbstractLocation location, bool fromHand = true,
+                                            bool byHandName = true, bool clone = true,
+                                            bool byName = true,
+                                            bool registerAbility = false,
+                                            bool usingEnergy = true)
+    public IPlayer GetCurrentTurn()
+    public bool NextTurn(IPlayer player)
+    public bool NextTurn(int index)
+    public bool NextTurn()
+    public IPlayer GetWinner()
+    public IPlayer FindWinnerInLocation(AbstractLocation location)
+    public void FindWinnerInLocation()
+    public IPlayer FindWinner()
+    public bool SetWinner(IPlayer player)
+}
