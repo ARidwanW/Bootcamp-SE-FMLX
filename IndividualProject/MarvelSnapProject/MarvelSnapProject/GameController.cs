@@ -1,11 +1,8 @@
-using System.CodeDom.Compiler;
-using System.Diagnostics;
 using MarvelSnapProject.Component.Card;
 using MarvelSnapProject.Component.Location;
 using MarvelSnapProject.Component.Player;
 using MarvelSnapProject.Enum;
 using NLog;
-using NLog.LayoutRenderers;
 using Spectre.Console;
 
 namespace MarvelSnapProject;
@@ -122,24 +119,39 @@ public class GameController
         _logger?.Info("Game created.");
     }
 
+    /// <summary>
+    /// Set game status to Running. enum GameStatus [None, Running, Finished].
+    /// </summary>
     public void StartGame()
     {
         _logger?.Info("StartGame method has been called.");
         SetGameStatus(GameStatus.Running);
     }
 
+    /// <summary>
+    /// Set game status to Finished. enum GameStatus [None, Running, Finished].
+    /// </summary>
     public void EndGame()
     {
         _logger?.Info("EndGame method has been called.");
         SetGameStatus(GameStatus.Finished);
     }
 
+    /// <summary>
+    /// Get the current game status from enum GameStatus.
+    /// </summary>
+    /// <returns>Enum GameStatus [None, Running, Finished]</returns>
     public GameStatus GetCurrentGameStatus()
     {
         _logger?.Info($"Get current GameStatus: {_gameStatus}.");
         return _gameStatus;
     }
 
+    /// <summary>
+    /// Set the current game status to enum GameStatus.
+    /// </summary>
+    /// <param name="status">Enum GameStatus [None, Running, Finished]</param>
+    /// <returns>true if successfully set the current game status; otherwise, throw error</returns>
     public bool SetGameStatus(GameStatus status)
     {
         _gameStatus = status;
@@ -147,12 +159,26 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Get the current round of the game.
+    /// </summary>
+    /// <returns>Int _round</returns>
     public int GetCurrentRound()
     {
         _logger?.Info($"Get current round: {_round}.");
         return _round;
     }
 
+    /// <summary>
+    /// Next round by set the current round to any given integer argument.
+    /// This method will set the game status to Running, 
+    /// invoke all card and location special ability,
+    /// assign player power to location, find winner in every location, 
+    /// reveal all location by index below given round argument, 
+    /// and set player enegy by given round argument.
+    /// </summary>
+    /// <param name="round">Int round that will be set</param>
+    /// <returns>true if successfully next round; otherwise, throw error</returns>
     public bool NextRound(int round)
     {
         _gameStatus = GameStatus.Running;
@@ -179,6 +205,13 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Next round by given integer round argument.
+    /// This method only reassign current round by the given argument.
+    /// </summary>
+    /// <param name="round">Integer round to be set</param>
+    /// <param name="plain">Boolean plain, set true of false to use this overloading method</param>
+    /// <returns>true if successfully set the round; otherwise, throw error</returns>
     public bool NextRound(int round, bool plain)
     {
         _round = round;
@@ -186,6 +219,11 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Next round by +1 and automatically call the game flow.
+    /// Use this if you want to automatically call the game flow.
+    /// </summary>
+    /// <returns>true if successfully next round; otherwise, throw error</returns>
     public bool NextRound()
     {
         _gameStatus = GameStatus.Running;
@@ -212,6 +250,13 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Next round by +1.
+    /// This method only add the current round by 1,
+    /// without call any game flow.
+    /// </summary>
+    /// <param name="plain">Boolean plain, set true of false to use this overloading method</param>
+    /// <returns></returns>
     public bool NextRound(bool plain)
     {
         _round += 1;
@@ -219,18 +264,34 @@ public class GameController
         return true;
     }
 
+    /// <summary>
+    /// Hide the given location argument.
+    /// </summary>
+    /// <param name="location">AbstractLocation of location that want to be hide</param>
+    /// <returns>true if successfully hide the location; otherwise, throw error</returns>
     public bool HiddenLocation(AbstractLocation location)
     {
         _logger?.Info($"Hide location: {location.Name} with HashCode: {location.GetHashCode()}.");
         return location.SetLocationStatus(LocationStatus.Hidden);
     }
 
+    /// <summary>
+    /// Reveal the givel location argument.
+    /// </summary>
+    /// <param name="location">AbstractLocation of location that want to be reveal</param>
+    /// <returns>true if successfully reveal the location; otherwise, throw error</returns>
     public bool RevealLocation(AbstractLocation location)
     {
         _logger?.Info($"Reveal location: {location.Name}. with HashCode: {location.GetHashCode()}");
         return location.SetLocationStatus(LocationStatus.Revealed);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="isLoop"></param>
+    /// <returns></returns>
     public bool RevealLocation(int index, bool isLoop = false)
     {
         _logger?.Info($"Reveal location from deployed location and register ability...");
