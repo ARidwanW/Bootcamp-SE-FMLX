@@ -10,10 +10,10 @@ In this Marvel Snap Game Project is to build a back end clone of Marvel Snap.
 ### Class Diagram
 * Old Class Diagram, Created by: Deni Achmad
 
-![old](MarvelSnapProject\ClassDiagram\Old_MarvelSnap-2023-12-17-234405.svg)
+![old](MarvelSnapProject\ClassDiagram\Old_MarvelSnap.svg)
 
 * New Class Diagram, by: ARW
 
-![new](MarvelSnapProject\ClassDiagram\New-Marvel Snap-2023-12-17-234400.svg)
+![new](MarvelSnapProject\ClassDiagram\New-Marvel-Snap.svg)
 
 
