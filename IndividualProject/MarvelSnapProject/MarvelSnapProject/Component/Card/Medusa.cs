@@ -48,6 +48,7 @@ public class Medusa : AbstractCard
 
             if (isLocationMid)
             {
+                // game.OnRevealCardAbilityCall -= SpecialAbilityOnReveal;
                 return this.SetPower(this.GetPower() + 3);
             }
         }

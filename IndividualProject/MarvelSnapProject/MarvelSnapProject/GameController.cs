@@ -1,3 +1,4 @@
+using System.Reflection;
 using MarvelSnapProject.Component.Card;
 using MarvelSnapProject.Component.Location;
 using MarvelSnapProject.Component.Player;
@@ -98,25 +99,25 @@ public class GameController
     /// Event to handle the reveal of a card's ability. 
     /// Invoked by default in the NextRound() method.
     /// </summary>
-    public event Func<GameController, AbstractCard>? OnRevealCardAbilityCall;
+    public event Func<GameController, bool>? OnRevealCardAbilityCall;
 
     /// <summary>
     /// Event to handle the reveal of a location's ability. 
     /// Invoked by default in the NextRound() method.
     /// </summary>
-    public event Func<GameController, AbstractLocation>? OnRevealLocationAbilityCall;
+    public event Func<GameController, bool>? OnRevealLocationAbilityCall;
 
     /// <summary>
     /// Event to handle ongoing card abilities. 
     /// Invoked by default in the NextRound() method.
     /// </summary>
-    public event Func<GameController, AbstractCard>? OnGoingCardAbilityCall;
+    public event Func<GameController, bool>? OnGoingCardAbilityCall;
 
     /// <summary>
     /// Event to handle ongoing location abilities. 
     /// Invoked by default in the NextRound() method.
     /// </summary>
-    public event Func<GameController, AbstractLocation>? OnGoingLocationAbilityCall;
+    public event Func<GameController, bool>? OnGoingLocationAbilityCall;
 
 
     /// <summary>
@@ -225,6 +226,50 @@ public class GameController
     }
 
     /// <summary>
+    /// Gets the names of the target instances of a delegate's invocation list.
+    /// </summary>
+    /// <param name="delegate">The delegate whose invocation list will be checked.</param>
+    /// <param name="type">The type of the target instances to be checked.</param>
+    /// <returns>A list of names of the target instances of the delegate's invocation list that are of the specified type.</returns>
+    public List<string> GetTargetInvoke<T>(Delegate? @delegate)
+    {
+        _logger?.Info("Delegate type: {delegateType}", @delegate?.GetType());
+        List<string> nameTarget = new();
+        foreach (var handler in @delegate?.GetInvocationList() ?? Enumerable.Empty<Delegate>())
+        {
+            if (handler.Target != null)
+            {
+                // var instance = handler.Target;
+                // var nameProperty = type.GetProperty("Name");
+                // if (nameProperty != null)
+                // {
+                //     var name = nameProperty.GetValue(instance) as string;
+                //     if (name != null)
+                //     {
+                //         nameTarget.Add(name);
+                //     }
+                // }
+                var instance = (T)handler.Target;
+                if (instance != null)
+                {
+                    var nameProperty = typeof(T).GetProperty("Name");
+                    if (nameProperty != null)
+                    {
+                        var name = nameProperty.GetValue(instance) as string;
+                        if (name != null)
+                        {
+                            nameTarget.Add(name);
+                        }
+                    }
+                }
+            }
+        }
+        // _logger?.Info("Method to be invoked: {methodNmae}", @delegate?.Method.Name);
+        _logger?.Info("Target name: {nameTarget}", nameTarget);
+        return nameTarget;
+    }
+
+    /// <summary>
     /// Advances the game to the specified round. 
     /// This method sets the game status to Running, 
     /// invokes all card and location special abilities, 
@@ -242,11 +287,13 @@ public class GameController
         _gameStatus = GameStatus.Running;
 
         OnRevealLocationAbilityCall?.Invoke(this);
-        //?? what location?
+        // GetTargetInvoke(OnRevealLocationAbilityCall, typeof(AbstractLocation));
         OnGoingLocationAbilityCall?.Invoke(this);
+        // GetTargetInvoke(OnGoingLocationAbilityCall, typeof(AbstractLocation));
         OnRevealCardAbilityCall?.Invoke(this);
-        //?? what card?
+        // GetTargetInvoke(OnRevealCardAbilityCall, typeof(AbstractCard));
         OnGoingCardAbilityCall?.Invoke(this);
+        // GetTargetInvoke(OnGoingCardAbilityCall, typeof(AbstractCard));
 
         AssignPlayerPowerToLocation();
         FindWinnerInLocation();
@@ -256,7 +303,7 @@ public class GameController
         SetPlayerEnergy(_round);
 
         _logger?.Info("Game Status: {status}, call location ability on reveal: {onRevealLocCall}, call location ability on going: {onGoingLocCall}",
-                        _gameStatus);   //TODO: return AbstractCard & AbstractLocation for delegate
+                        _gameStatus);   //TODO: getinvocationlist
         _logger?.Info("Current round: {round}", _round);
         return true;
     }
@@ -289,11 +336,13 @@ public class GameController
         _gameStatus = GameStatus.Running;
 
         OnRevealLocationAbilityCall?.Invoke(this);
-        //?? what location?
+        GetTargetInvoke<AbstractLocation>(OnRevealLocationAbilityCall);
         OnGoingLocationAbilityCall?.Invoke(this);
+        GetTargetInvoke<AbstractLocation>(OnGoingLocationAbilityCall);
         OnRevealCardAbilityCall?.Invoke(this);
-        //?? what card?
+        GetTargetInvoke<AbstractCard>(OnRevealCardAbilityCall);
         OnGoingCardAbilityCall?.Invoke(this);
+        GetTargetInvoke<AbstractCard>(OnGoingCardAbilityCall);
 
         AssignPlayerPowerToLocation();
         FindWinnerInLocation();

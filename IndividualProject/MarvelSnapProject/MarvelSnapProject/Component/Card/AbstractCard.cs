@@ -99,7 +99,7 @@ public abstract class AbstractCard
     /// <param name="game">The game controller instance.</param>
     /// <returns>True if the ongoing ability was successfully executed; 
     /// otherwise false.</returns>
-    public abstract AbstractCard SpecialAbilityOnGoing(GameController game);
+    public abstract bool SpecialAbilityOnGoing(GameController game);
 
     /// <summary>
     /// Executes the on reveal special ability of the card.
@@ -107,7 +107,7 @@ public abstract class AbstractCard
     /// <param name="game">The game controller instance.</param>
     /// <returns>True if the on reveal ability was successfully executed; 
     /// otherwise false.</returns>
-    public abstract AbstractCard SpecialAbilityOnReveal(GameController game);
+    public abstract bool SpecialAbilityOnReveal(GameController game);
 
     /// <summary>
     /// Gets the current status of the card.
