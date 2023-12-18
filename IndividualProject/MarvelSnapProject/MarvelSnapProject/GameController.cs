@@ -239,16 +239,6 @@ public class GameController
         {
             if (handler.Target != null)
             {
-                // var instance = handler.Target;
-                // var nameProperty = type.GetProperty("Name");
-                // if (nameProperty != null)
-                // {
-                //     var name = nameProperty.GetValue(instance) as string;
-                //     if (name != null)
-                //     {
-                //         nameTarget.Add(name);
-                //     }
-                // }
                 var instance = (T)handler.Target;
                 if (instance != null)
                 {
