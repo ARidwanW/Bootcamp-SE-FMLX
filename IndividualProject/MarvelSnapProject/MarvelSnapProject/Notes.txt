@@ -73,3 +73,16 @@ negative zone??
 - get player card in location parameter clone or not
 
 ironman dan next round saling assign
+
+
+//!!
+implement location only this round or only when card move, next round is not --> need cooldown
+---
+ada action di game controller (futurecall) akan di clear setiap invoke di next round atau di next turn
+---
+ILogger, structured logging OK
+method built in using async if have many iteration.
+event di action. --> OK
+constructor game controller yang terima semua parameter --> OK
+invoke location and card yang kena
+is on going dan is on reveal pada card atau location dibuat prop
