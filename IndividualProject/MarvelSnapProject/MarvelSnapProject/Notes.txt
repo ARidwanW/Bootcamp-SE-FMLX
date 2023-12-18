@@ -86,3 +86,5 @@ event di action. --> OK
 constructor game controller yang terima semua parameter --> OK
 invoke location and card yang kena
 is on going dan is on reveal pada card atau location dibuat prop
+
+return abstractcard dan abstract location for knowing who get invoked

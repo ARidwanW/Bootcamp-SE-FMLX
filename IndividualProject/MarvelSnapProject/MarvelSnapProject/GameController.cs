@@ -12,7 +12,7 @@ public class GameController
     /// <summary>
     /// Instance of GameController logger.
     /// </summary>
-    private readonly Logger _logger;
+    private readonly ILogger _logger;
 
     /// <summary>
     /// Game status (None, Running, Finished).
@@ -44,9 +44,10 @@ public class GameController
     private List<AbstractLocation> _locations;
 
     /// <summary>
-    /// Maximum number of deployable locations. Default is 3.
+    /// Maximum number of deployable locations. 
+    /// Default is 3 deployable locations when the game is created.
     /// </summary>
-    private int _maxLocation = 3;
+    private int _maxLocation;
 
     /// <summary>
     /// List of all locations in the game.
@@ -71,75 +72,104 @@ public class GameController
     /// <summary>
     /// Action to handle updates to the status of a card.
     /// </summary>
-    public Action<AbstractCard, CardStatus>? OnCardStatusUpdate;
+    public event Action<AbstractCard, CardStatus>? OnCardStatusUpdate;
 
     /// <summary>
     /// Action to handle updates to the status of a location.
     /// </summary>
-    public Action<AbstractLocation, LocationStatus>? OnLocationStatusUpdate;
+    public event Action<AbstractLocation, LocationStatus>? OnLocationStatusUpdate;
 
     /// <summary>
     /// Action to handle updates to the status of a player.
     /// </summary>
-    public Action<IPlayer, PlayerStatus>? OnPlayerStatusUpdate;
+    public event Action<IPlayer, PlayerStatus>? OnPlayerStatusUpdate;
 
     /// <summary>
     /// Action to handle updates to a location.
     /// </summary>
-    public Action<AbstractLocation>? OnLocationUpdate;
+    public event Action<AbstractLocation>? OnLocationUpdate;
 
     /// <summary>
     /// Action to handle updates to a player's information.
     /// </summary>
-    public Action<IPlayer, PlayerInfo>? OnPlayerUpdate;
+    public event Action<IPlayer, PlayerInfo>? OnPlayerUpdate;
 
     /// <summary>
     /// Event to handle the reveal of a card's ability. 
     /// Invoked by default in the NextRound() method.
     /// </summary>
-    public event Func<GameController, bool>? OnRevealCardAbilityCall;
+    public event Func<GameController, AbstractCard>? OnRevealCardAbilityCall;
 
     /// <summary>
     /// Event to handle the reveal of a location's ability. 
     /// Invoked by default in the NextRound() method.
     /// </summary>
-    public event Func<GameController, bool>? OnRevealLocationAbilityCall;
+    public event Func<GameController, AbstractLocation>? OnRevealLocationAbilityCall;
 
     /// <summary>
     /// Event to handle ongoing card abilities. 
     /// Invoked by default in the NextRound() method.
     /// </summary>
-    public event Func<GameController, bool>? OnGoingCardAbilityCall;
+    public event Func<GameController, AbstractCard>? OnGoingCardAbilityCall;
 
     /// <summary>
     /// Event to handle ongoing location abilities. 
     /// Invoked by default in the NextRound() method.
     /// </summary>
-    public event Func<GameController, bool>? OnGoingLocationAbilityCall;
+    public event Func<GameController, AbstractLocation>? OnGoingLocationAbilityCall;
 
 
     /// <summary>
     /// Constructor for GameController. Initializes default parameters.
     /// </summary>
     /// <param name="log">Instance of Logger, such as NLog.</param>
-    public GameController(Logger? log = null)
+    public GameController(ILogger? log = null)
     {
         _logger = log;
         _logger?.Info("Creating Game...");
         _gameStatus = GameStatus.None;
-        _logger?.Info("Set GameStatus to None.");
         _players = new Dictionary<IPlayer, PlayerInfo>();
-        _logger?.Info("Create new Dictionary of _players.");
         _locations = new List<AbstractLocation>();
-        _logger?.Info("Create new List of _locations.");
         _allLocations = new List<AbstractLocation>();
-        _logger?.Info("Create new List of _allLocations.");
         _allCards = new List<AbstractCard>();
-        _logger?.Info("Create new List of _allCards.");
         _round = 0;
-        _logger?.Info("Set round to 0.");
         _maxRound = 6;
-        _logger?.Info("Game created.");
+        _maxLocation = 3;
+        _logger?.Info("Game status: {status}, current round: {round}, max round: {maxRound}, max location: {maxLocation}",
+                        _gameStatus, _round, _maxRound, _maxLocation);
+        _logger?.Info("Players: {players}, deployed locations: {locations}",
+                        _players, _locations);
+        _logger?.Info("default locations: {allLocations}, default cards: {allCards}",
+                        _allLocations, _allCards);
+        _logger?.Info("Current turn: {turn}", _currentTurn);
+
+
+    }
+
+    //* gamecontroller to assign all variable overloading
+    public GameController(GameStatus gameStatus, int round, int maxRound, int maxLocation,
+                        Dictionary<IPlayer, PlayerInfo> players, List<AbstractLocation> locations,
+                        List<AbstractLocation> allLocations, List<AbstractCard> allCards, IPlayer currentTurn,
+                        ILogger? log = null)
+    {
+        _logger = log;
+        _logger?.Info("Creating Game...");
+        _gameStatus = gameStatus;
+        _round = round;
+        _maxRound = maxRound;
+        _maxLocation = maxLocation;
+        _players = players;
+        _locations = locations;
+        _allLocations = allLocations;
+        _allCards = allCards;
+        _currentTurn = currentTurn;
+        _logger?.Info("Game status: {status}, current round: {round}, max round: {maxRound}, max location: {maxLocation}.",
+                        _gameStatus, _round, _maxRound, _maxLocation);
+        _logger?.Info("Players: {players}, deployed locations: {locations}.",
+                        _players, _locations);
+        _logger?.Info("default locations: {allLocations}, default cards: {allCards}.",
+                        _allLocations, _allCards);
+        _logger?.Info("Current turn: {turn}.", _currentTurn);
     }
 
     /// <summary>
@@ -147,7 +177,7 @@ public class GameController
     /// </summary>
     public void StartGame()
     {
-        _logger?.Info("StartGame method has been called.");
+        _logger?.Info("Game status: {status}.", GameStatus.Running);
         SetGameStatus(GameStatus.Running);
     }
 
@@ -156,7 +186,7 @@ public class GameController
     /// </summary>
     public void EndGame()
     {
-        _logger?.Info("EndGame method has been called.");
+        _logger?.Info("Game status: {status}.", GameStatus.Finished);
         SetGameStatus(GameStatus.Finished);
     }
 
@@ -166,7 +196,7 @@ public class GameController
     /// <returns>Current game status.</returns>
     public GameStatus GetCurrentGameStatus()
     {
-        _logger?.Info($"Get current GameStatus: {_gameStatus}.");
+        _logger?.Info("Get game status: {status}.", _gameStatus);
         return _gameStatus;
     }
 
@@ -178,8 +208,9 @@ public class GameController
     /// otherwise, an error is thrown.</returns>
     public bool SetGameStatus(GameStatus status)
     {
+        _logger?.Info("Set game status from {status} to {newStatus}.", _gameStatus, status);
         _gameStatus = status;
-        _logger?.Info($"Set GameStatus from {_gameStatus} to {status}.");
+        _logger?.Info("Game status: {status}", _gameStatus);
         return true;
     }
 
@@ -189,7 +220,7 @@ public class GameController
     /// <returns>The current round as an integer.</returns>
     public int GetCurrentRound()
     {
-        _logger?.Info($"Get current round: {_round}.");
+        _logger?.Info("Get current round: {round}.", _round);
         return _round;
     }
 
@@ -207,27 +238,26 @@ public class GameController
     /// otherwise, an error is thrown.</returns>
     public bool NextRound(int round)
     {
+        _logger?.Info("Next round from round {round} to {newRound}", _round, round);
         _gameStatus = GameStatus.Running;
-        _logger?.Info($"Set GameStatus to {_gameStatus}.");
 
         OnRevealLocationAbilityCall?.Invoke(this);
-        _logger?.Info("On reveal location ability has been invoked.");
+        //?? what location?
         OnGoingLocationAbilityCall?.Invoke(this);
-        _logger?.Info("On going location ability has been invoked.");
         OnRevealCardAbilityCall?.Invoke(this);
-        _logger?.Info("On reveal card ability has been invoked.");
+        //?? what card?
         OnGoingCardAbilityCall?.Invoke(this);
-        _logger?.Info("On going card ability has been invoked.");
-
 
         AssignPlayerPowerToLocation();
         FindWinnerInLocation();
 
         _round = round;
-        _logger?.Info($"Set round {_round} to {round}.");
         RevealLocation(round, true);
         SetPlayerEnergy(_round);
 
+        _logger?.Info("Game Status: {status}, call location ability on reveal: {onRevealLocCall}, call location ability on going: {onGoingLocCall}",
+                        _gameStatus);   //TODO: return AbstractCard & AbstractLocation for delegate
+        _logger?.Info("Current round: {round}", _round);
         return true;
     }
 
@@ -241,8 +271,9 @@ public class GameController
     /// otherwise, an error is thrown.</returns>
     public bool NextRound(int round, bool plain)
     {
+        _logger?.Info("Next round from round {round} to {newRound}", _round, round);
         _round = round;
-        _logger?.Info($"Set round {_round} to {round}");
+        _logger?.Info("Current round: {round}", _round);
         return true;
     }
 
@@ -254,26 +285,26 @@ public class GameController
     /// otherwise, an error is thrown.</returns>
     public bool NextRound()
     {
+        _logger?.Info("Next round from round {round} to {newRound}", _round, _round + 1);
         _gameStatus = GameStatus.Running;
-        _logger?.Info($"Set game status to {_gameStatus}");
 
         OnRevealLocationAbilityCall?.Invoke(this);
-        _logger?.Info("On reveal location ability has been invoked.");
+        //?? what location?
         OnGoingLocationAbilityCall?.Invoke(this);
-        _logger?.Info("On going location ability has been invoked.");
         OnRevealCardAbilityCall?.Invoke(this);
-        _logger?.Info("On reveal card ability has been invoked.");
+        //?? what card?
         OnGoingCardAbilityCall?.Invoke(this);
-        _logger?.Info("On going card ability has been invoked.");
-
 
         AssignPlayerPowerToLocation();
         FindWinnerInLocation();
 
         _round += 1;
-        _logger?.Info($"Add round by 1, round: {_round}");
         RevealLocation(_round);
         SetPlayerEnergy(_round);
+
+        _logger?.Info("Game Status: {status}, call location ability on reveal: {onRevealLocCall}, call location ability on going: {onGoingLocCall}",
+                        _gameStatus);   //TODO: return AbstractCard & AbstractLocation for delegate
+        _logger?.Info("Current round: {round}", _round);
 
         return true;
     }
@@ -287,8 +318,9 @@ public class GameController
     /// otherwise, an error is thrown.</returns>
     public bool NextRound(bool plain)
     {
+        _logger?.Info("Next round from round {round} to {newRound}", _round, _round + 1);
         _round += 1;
-        _logger?.Info($"Add round by 1, round: {_round}");
+        _logger?.Info("Current round: {round}", _round);
         return true;
     }
 
@@ -300,8 +332,9 @@ public class GameController
     /// otherwise, an error is thrown.</returns>
     public bool HiddenLocation(AbstractLocation location)
     {
-        _logger?.Info($"Hide location: {location.Name} with HashCode: {location.GetHashCode()}.");
+        _logger?.Info("Hide location: {location}, hash code: {hashCode}, status: {status}", location, location.GetHashCode(), location.GetLocationStatus());
         OnLocationStatusUpdate?.Invoke(location, LocationStatus.Hidden);
+        _logger?.Info("Invoke update location: {location}, hash code: {hashCode}, status: {status}.", location, location.GetHashCode(), LocationStatus.Hidden);
         return location.SetLocationStatus(LocationStatus.Hidden);
     }
 
@@ -313,8 +346,9 @@ public class GameController
     /// otherwise, an error is thrown.</returns>
     public bool RevealLocation(AbstractLocation location)
     {
-        _logger?.Info($"Reveal location: {location.Name}. with HashCode: {location.GetHashCode()}");
+        _logger?.Info("Reveal location: {location}, hash code: {hashCode}, status: {status}", location, location.GetHashCode(), location.GetLocationStatus());
         OnLocationStatusUpdate?.Invoke(location, LocationStatus.Revealed);
+        _logger?.Info("Invoke update location: {location}, hash code: {hashCode}, status: {status}.", location, location.GetHashCode(), LocationStatus.Revealed);
         return location.SetLocationStatus(LocationStatus.Revealed);
     }
 
@@ -330,23 +364,20 @@ public class GameController
     /// <returns>True if the location was successfully revealed; otherwise, false.</returns>
     public bool RevealLocation(int index, bool isLoop = false)
     {
-        _logger?.Info($"Reveal location from deployed location and register ability...");
-        _logger?.Info($"With index: {index} and isLoop: {isLoop}.");
+        _logger?.Info("Reveal location with or to index: {index}, isLoop: {isLoop}", index, isLoop);
         if (index > _maxLocation)
         {
-            _logger?.Warn("Index for reveal location is out of maximum deployable locations.");
+            _logger?.Warn("Index: {index} is out of maximum deployable locations.", index);
             return false;
         }
 
         if (!isLoop)
         {
             var currentLocation = GetDeployedLocation(index - 1);
-            _logger?.Info($"Reveal location from deployed location, location: {currentLocation.Name}.");
-            currentLocation.SetLocationStatus(LocationStatus.Revealed);
-            OnLocationStatusUpdate?.Invoke(currentLocation, LocationStatus.Revealed);
+            RevealLocation(currentLocation);
             if (currentLocation._isOnReveal || currentLocation._isOnGoing)
             {
-                _logger?.Info($"Register ability of {currentLocation.Name}.");
+                _logger?.Info("Register ability of {location}.", currentLocation);
                 currentLocation.RegisterAbility(this);
             }
             return true;
@@ -356,12 +387,10 @@ public class GameController
             for (int i = 0; i < index; i++)
             {
                 var currentLocation = GetDeployedLocation(i);
-                _logger?.Info($"Reveal location from deployed location, location: {currentLocation.Name}.");
-                currentLocation.SetLocationStatus(LocationStatus.Revealed);
-                OnLocationStatusUpdate?.Invoke(currentLocation, LocationStatus.Revealed);
+                RevealLocation(currentLocation);
                 if (currentLocation._isOnReveal || currentLocation._isOnGoing)
                 {
-                    _logger?.Info($"Register ability of {currentLocation.Name}.");
+                    _logger?.Info("Register ability of {location}.", currentLocation);
                     currentLocation.RegisterAbility(this);
                 }
             }
@@ -920,6 +949,8 @@ public class GameController
         _logger?.Info($"Assign new location of [{string.Join(", ", newLocations.Select(l => l.Name))}].");
         return newLocations.Count == locations.Length;
     }
+
+    //TODO: Async await: foreach, tolist, find, and so on
 
     /// <summary>
     /// Removes location(s) from the game.

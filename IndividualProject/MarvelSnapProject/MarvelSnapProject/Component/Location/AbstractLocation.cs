@@ -104,14 +104,14 @@ public abstract class AbstractLocation
     /// </summary>
     /// <param name="game">The game controller instance.</param>
     /// <returns>True if the ongoing ability was successfully executed.</returns>
-    public abstract bool SpecialAbilityOnGoing(GameController game);
+    public abstract AbstractLocation SpecialAbilityOnGoing(GameController game);
 
     /// <summary>
     /// Executes the on reveal special ability of the location.
     /// </summary>
     /// <param name="game">The game controller instance.</param>
     /// <returns>True if the on reveal ability was successfully executed.</returns>
-    public abstract bool SpecialAbilityOnReveal(GameController game);
+    public abstract AbstractLocation SpecialAbilityOnReveal(GameController game);
 
     /// <summary>
     /// Registers the abilities of the location.
