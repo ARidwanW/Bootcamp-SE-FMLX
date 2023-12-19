@@ -414,6 +414,11 @@ public class GameController
         return location.SetLocationStatus(LocationStatus.Revealed);
     }
 
+    /// <summary>
+    /// Reveals the location at the specified index.
+    /// </summary>
+    /// <param name="index">The index of the location to be revealed.</param>
+    /// <returns>A boolean value indicating the success of the operation.</returns>
     public bool RevealLocation(int index)
     {
         var currentLocation = GetDeployedLocation(index);
@@ -584,7 +589,7 @@ public class GameController
     {
         var canRemovePlayer = players.Where(player => _players.ContainsKey(player)).ToList();
         _logger?.Info("Remove player: {player}", canRemovePlayer);
-        Parallel.ForEach(canRemovePlayer,player =>
+        Parallel.ForEach(canRemovePlayer, player =>
         {
             _players.Remove(player);
         });
