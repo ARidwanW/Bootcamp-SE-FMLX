@@ -21,7 +21,7 @@ public static class SimpleTest
         Abomination abomination = new();
         game.AssignPlayer(Wawan);
         game.AssignCardToPlayerDeck(Wawan, true, true, hawkeyeCard);
-        var wawanDeck = game.GetPlayerDeck(Wawan);
+        var wawanDeck = game.GetDeck(Wawan);
         foreach (var card in wawanDeck)
         {
             Console.WriteLine(card.Name + card.GetCardStatus());
@@ -44,7 +44,7 @@ public static class SimpleTest
         AbstractCard[] twoCards = { hawkeye, abomination };
         game.AssignPlayer(Wawan);
         game.AssignCardToPlayerDeck(Wawan, true, true, hawkeye, abomination);
-        var wawanDeck = game.GetPlayerDeck(Wawan);
+        var wawanDeck = game.GetDeck(Wawan);
         foreach (var card in wawanDeck)
         {
             Console.WriteLine(card.Name + card.GetCardStatus());
@@ -146,7 +146,7 @@ public static class SimpleTest
         game.AssignPlayer(player2);
 
         //* list player
-        List<IPlayer> listPlayers = game.GetAllPlayers();
+        List<IPlayer> listPlayers = game.GetPlayer();
 
         AnsiConsole.Write(new Markup($"\n[bold yellow]Welcome[/] [bold blue]{player1.Name}[/] [bold yellow]and[/] [bold red]{player2.Name}[/] !" +
                                     "\n[bold green]Lets Play !![/] \n").Centered());
@@ -164,46 +164,32 @@ public static class SimpleTest
         Hawkeye hawkeye = new();
         Hulk hulk = new();
         IronMan ironMan = new();
-        JessicaJones jessicaJones = new();
         Medusa medusa = new();
-        MisterFantastic misterFantastic = new();
-        MistyKnight mistyKnight = new();
         QuickSilver quickSilver = new();
-        Spectrum spectrum = new();
-        StarLord starLord = new();
-        ThePunisher thePunisher = new();
         Thing thing = new();
-        WhiteTiger whiteTiger = new();
 
         //* list of cards
         List<AbstractCard> listCards = new List<AbstractCard>()
         {
             // 1 energi
             hawkeye,
-            // mistyKnight,
             quickSilver,
 
             // 2 energi
             medusa,
-            // starLord,
 
             //3 energi
             cyclops,
-            // misterFantastic,
-            // thePunisher,
 
             //4 energi
             thing,
-            // jessicaJones,
 
             //5 energi
             abomination,
             ironMan,
-            // whiteTiger,
 
             //6 energi
             hulk,
-            // spectrum
         };
 
         //* assign card to player deck
@@ -216,8 +202,8 @@ public static class SimpleTest
         }
 
         //* list player card deck
-        List<AbstractCard> deckPlayer1 = game.GetPlayerDeck(player1);
-        List<AbstractCard> deckPlayer2 = game.GetPlayerDeck(player2);
+        List<AbstractCard> deckPlayer1 = game.GetDeck(player1);
+        List<AbstractCard> deckPlayer2 = game.GetDeck(player2);
 
         //* assign card to player hand
         game.AssignCardToPlayerHand(player1, true, cards: listCards.ToArray());
@@ -266,10 +252,10 @@ public static class SimpleTest
 
         game.StartGame();
         game.NextTurn(player2);
-        while (game.GetCurrentGameStatus() == GameStatus.Running)
+        while (game.GetGameStatus() == GameStatus.Running)
         {
 
-            if (game.GetCurrentTurn() == game.GetPlayer(game.GetAllPlayers().Count - 1))
+            if (game.GetCurrentTurn() == game.GetPlayer(game.GetPlayer().Count - 1))
             {
                 game.NextRound();
             }
