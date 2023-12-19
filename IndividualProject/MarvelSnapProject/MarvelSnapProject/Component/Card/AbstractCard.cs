@@ -175,7 +175,7 @@ public abstract class AbstractCard
     /// <returns>True if the card is deployed; otherwise false.</returns>
     public bool IsDeployed()
     {
-        if (GetCardStatus() > CardStatus.OnLocation)
+        if (GetCardStatus() >= CardStatus.OnLocation)
         {
             return true;
         }

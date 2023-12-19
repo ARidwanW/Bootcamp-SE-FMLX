@@ -288,15 +288,6 @@ public class GameController
     }
 
     /// <summary>
-    /// Nullifies the specified delegate.
-    /// </summary>
-    /// <param name="delegate">The delegate to be nullified.</param>
-    public void NullAbilityInvoker(ref Delegate? @delegate)
-    {
-        @delegate = null;
-    }
-
-    /// <summary>
     /// Advances the game to the specified round. 
     /// This method sets the game status to Running, 
     /// invokes all card and location special abilities, 
@@ -557,7 +548,7 @@ public class GameController
     /// <returns>The player at the given index.</returns>
     public IPlayer GetPlayer(int index)
     {
-        _logger?.Info("Get player wtih index: {index}", index);
+        _logger?.Info("Get player with index: {index}", index);
         var playerFromIndex = GetPlayer()[index];
         _logger?.Info("Player found: {playerName}, Id: {}", playerFromIndex.Name, playerFromIndex.Id);
         return playerFromIndex;
@@ -1678,8 +1669,11 @@ public class GameController
                     OnCardStatusUpdate?.Invoke(cardInLocation, CardStatus.OnLocation);
                 }
             }
+            else
+            {
             cardInLocation.SetCardStatus(CardStatus.OnLocation);
             OnCardStatusUpdate?.Invoke(cardInLocation, CardStatus.OnLocation);
+            }
         }
         return status;
     }
