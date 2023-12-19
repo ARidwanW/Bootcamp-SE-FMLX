@@ -989,7 +989,7 @@ public class GameController
         return newLocations.Count == locations.Length;
     }
 
-    //TODO: Async await: foreach, tolist, find, and so on
+    //TODO: Async await: foreach(Parallel.ForEach), tolist, find, and so on
 
     /// <summary>
     /// Removes location(s) from the game.
