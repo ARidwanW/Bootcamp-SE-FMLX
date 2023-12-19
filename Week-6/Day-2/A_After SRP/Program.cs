@@ -7,7 +7,9 @@ public class Program
 {
 	public static void Main(string[] args)
 	{
+		//* class Employee tersendiri
 		var employee = new Employee(1, "John");
+		//* class Task tersendiri
 		var taskManager = new TaskManager();
 
 		taskManager.AddTask(employee.Id, "Task 1");

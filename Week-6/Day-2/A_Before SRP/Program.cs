@@ -5,6 +5,9 @@ public class Program
 {
 	public static void Main(string[] args)
 	{
+		//* class employee seharusnya menampung data employe saja,
+		//* sedangkan task dapat tersendiri
+		//* dan display dapat sendiri
 		var employee = new Employee(1, "John");
 		employee.AddTask("Task 1");
 		employee.AddTask("Task 2");
