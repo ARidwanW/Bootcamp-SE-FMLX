@@ -90,3 +90,5 @@ is on going dan is on reveal pada card atau location dibuat prop
 return abstractcard dan abstract location for knowing who get invoked --> using getinvocationlist
 
 using null to clear all delegate.
+
+create invoker...
