@@ -80,11 +80,13 @@ implement location only this round or only when card move, next round is not -->
 ---
 ada action di game controller (futurecall) akan di clear setiap invoke di next round atau di next turn
 ---
-ILogger, structured logging OK
+ILogger, structured logging --> OK
 method built in using async if have many iteration.
 event di action. --> OK
 constructor game controller yang terima semua parameter --> OK
-invoke location and card yang kena
+invoke location and card yang kena --> getinvocationlist
 is on going dan is on reveal pada card atau location dibuat prop
 
-return abstractcard dan abstract location for knowing who get invoked
+return abstractcard dan abstract location for knowing who get invoked --> using getinvocationlist
+
+using null to clear all delegate.
