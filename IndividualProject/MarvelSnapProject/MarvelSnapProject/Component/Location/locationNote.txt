@@ -11,3 +11,5 @@ Ruins = 9
 // Not implement:
 - Attilan
 - Central Park
+
+//!! change all card to _player cards

@@ -92,3 +92,5 @@ return abstractcard dan abstract location for knowing who get invoked --> using 
 using null to clear all delegate.
 
 create invoker...
+
+//!! location ability on going just one

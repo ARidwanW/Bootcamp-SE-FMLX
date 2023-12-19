@@ -174,7 +174,7 @@ public abstract class AbstractLocation
     /// <returns>A list of all the cards associated with the location.</returns>
     public List<AbstractCard> GetAllCards()
     {
-        return _allCards;
+        return _playersCards.SelectMany(pair => pair.Value).ToList();
     }
 
     /// <summary>

@@ -14,7 +14,11 @@ public class NegativeZone : AbstractLocation
         {
             foreach (var card in GetPlayerCards(player.Key))
             {
-                card.SetPower(card.GetPower() - 3);
+                if (card.GetCardStatus() != CardStatus.OnReveal)
+                {
+                    card.SetPower(card.GetPower() - 3);
+                    card.SetCardStatus(CardStatus.OnReveal);
+                }
             }
         }
         return true;

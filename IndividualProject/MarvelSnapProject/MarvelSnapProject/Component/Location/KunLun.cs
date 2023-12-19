@@ -16,7 +16,11 @@ public class KunLun : AbstractLocation
         {
             foreach (var card in GetPlayerCards(player.Key))
             {
-                card.SetPower(card.GetPower() + 2);
+                if (card.GetCardStatus() != CardStatus.OnReveal)
+                {
+                    card.SetPower(card.GetPower() + 2);
+                    card.SetCardStatus(CardStatus.OnReveal);
+                }
             }
         }
         return true;
