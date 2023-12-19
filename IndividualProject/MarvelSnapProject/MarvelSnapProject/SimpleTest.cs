@@ -20,15 +20,15 @@ public static class SimpleTest
         var hawkeyeCard = hawkeye.Clone();
         Abomination abomination = new();
         game.AssignPlayer(Wawan);
-        game.AssignCardToPlayerDeck(Wawan, true, true, hawkeyeCard);
+        game.AssignDeckCard(Wawan, true, true, hawkeyeCard);
         var wawanDeck = game.GetDeck(Wawan);
         foreach (var card in wawanDeck)
         {
             Console.WriteLine(card.Name + card.GetCardStatus());
         }
-        var assignCardToWawan = game.AssignCardToPlayerHand(Wawan, true, cards: hawkeyeCard);
+        var assignCardToWawan = game.AssignHandCard(Wawan, true, cards: hawkeyeCard);
         Console.WriteLine(assignCardToWawan);
-        foreach (var card in game.GetPlayerHand(Wawan))
+        foreach (var card in game.GetHand(Wawan))
         {
             Console.WriteLine(card.Name + card.GetCardStatus());
         }
@@ -43,15 +43,15 @@ public static class SimpleTest
         Abomination abomination = new();
         AbstractCard[] twoCards = { hawkeye, abomination };
         game.AssignPlayer(Wawan);
-        game.AssignCardToPlayerDeck(Wawan, true, true, hawkeye, abomination);
+        game.AssignDeckCard(Wawan, true, true, hawkeye, abomination);
         var wawanDeck = game.GetDeck(Wawan);
         foreach (var card in wawanDeck)
         {
             Console.WriteLine(card.Name + card.GetCardStatus());
         }
-        var assignCardToWawan = game.AssignCardToPlayerHand(Wawan, true, cards: twoCards);
+        var assignCardToWawan = game.AssignHandCard(Wawan, true, cards: twoCards);
         Console.WriteLine(assignCardToWawan);
-        foreach (var card in game.GetPlayerHand(Wawan))
+        foreach (var card in game.GetHand(Wawan))
         {
             Console.WriteLine(card.Name + card.GetCardStatus());
         }
@@ -80,24 +80,6 @@ public static class SimpleTest
         {
             Console.WriteLine(card.Name);
         }
-    }
-
-    public static void SimpleTestGetLocation()
-    {
-        //* test GetLocation(AbstractLocation) to get item from List<AbstractLocation> in GameController
-        GameController game = new();
-        Asgard asgard = new();
-        Atlantis atlantis = new();
-        Attilan attilan = new();
-        Flooded flooded = new();
-        game.AssignLocation(asgard, atlantis, attilan);
-        var location = game.GetDeployedLocation(flooded);
-        var locations = game.GetDefaultAllLocations();
-        foreach (var item in locations)
-        {
-            Console.WriteLine(item);
-        }
-        Console.WriteLine(location.Name);
     }
 
     public static void TestGame()
@@ -197,7 +179,7 @@ public static class SimpleTest
         {
             foreach (var card in listCards)
             {
-                game.AssignCardToPlayerDeck(player, true, true, card);
+                game.AssignDeckCard(player, true, true, card);
             }
         }
 
@@ -206,8 +188,8 @@ public static class SimpleTest
         List<AbstractCard> deckPlayer2 = game.GetDeck(player2);
 
         //* assign card to player hand
-        game.AssignCardToPlayerHand(player1, true, cards: listCards.ToArray());
-        game.AssignCardToPlayerHand(player2, true, cards: listCards.ToArray());
+        game.AssignHandCard(player1, true, cards: listCards.ToArray());
+        game.AssignHandCard(player2, true, cards: listCards.ToArray());
 
 
         //* locations
@@ -298,12 +280,12 @@ public static class SimpleTest
                 .Validate(index =>
                 {
 
-                    if (index < 0 || index > game.GetPlayerHand(currentTurn).Count)
+                    if (index < 0 || index > game.GetHand(currentTurn).Count)
                     {
                         return ValidationResult.Error("[red]The card index must be within the range of your hand[/]");
                     }
 
-                    choosedCard = game.GetPlayerHand(currentTurn)[index - 1];
+                    choosedCard = game.GetHand(currentTurn)[index - 1];
                     if (choosedCard.GetCost() > currentEnergy)
                     {
                         return ValidationResult.Error("[red]The cost of the card cannot exceed the player's energy[/]");
@@ -322,7 +304,7 @@ public static class SimpleTest
                     return ValidationResult.Success();
                 }));
 
-            choosedCard = game.GetPlayerHand(currentTurn)[cardIndex - 1];
+            choosedCard = game.GetHand(currentTurn)[cardIndex - 1];
             choosedLocation = game.GetDeployedLocation(locationIndex - 1);
 
             game.AssignPlayerCardToLocation(currentTurn, choosedCard, choosedLocation, byName: false, registerAbility: true);

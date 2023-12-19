@@ -120,7 +120,7 @@ public class MarvelSnapDisplay
         .AddColumn(new TableColumn("Cost"))
         .AddColumn(new TableColumn("Power"));
 
-        var cards = game.GetPlayerHand(player);
+        var cards = game.GetHand(player);
         var cardsClone = cards.Select(card => card.Clone()).ToList();
         for (int i = 0; i < cardsClone.Count; i++)
         {

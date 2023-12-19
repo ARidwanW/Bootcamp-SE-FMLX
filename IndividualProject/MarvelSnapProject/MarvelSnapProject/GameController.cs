@@ -421,7 +421,9 @@ public class GameController
     /// <returns>A boolean value indicating the success of the operation.</returns>
     public bool RevealLocation(int index)
     {
+        _logger?.Info("Reveal location by index: {index}", index);
         var currentLocation = GetDeployedLocation(index);
+        _logger?.Info("Reveal location: {locations}", currentLocation);
         return RevealLocation(currentLocation);
     }
 
@@ -432,13 +434,13 @@ public class GameController
     /// through all indexes below the given index or not.
     /// This method will register ability of the location
     /// </summary>
-    /// <param name="index">The index-1 of the location in the deployed locations.</param>
+    /// <param name="index">The index - 1 of the location in the deployed locations.</param>
     /// <param name="isLoop">Determines whether 
     /// to loop through all indexes below the given index or not.</param>
     /// <returns>True if the location was successfully revealed; otherwise, false.</returns>
     public bool RevealLocation(int index, bool isLoop = false)
     {
-        _logger?.Info("Reveal location with or to index: {index}, isLoop: {isLoop}", index, isLoop);
+        _logger?.Info("Reveal location with or to index: {index}, with loop: {isLoop}", index, isLoop);
         if (index > _maxLocation)
         {
             _logger?.Warn("Index: {index} is out of maximum deployable locations.", index);
@@ -492,6 +494,7 @@ public class GameController
     {
         _logger?.Info("Set max round from {maxRound} to {newMaxround}.", _maxRound, maxround);
         _maxRound = maxround;
+        _logger?.Info("Max round: {round}", _maxRound);
         return true;
     }
 
@@ -543,7 +546,7 @@ public class GameController
             _logger?.Error("Player: {playerName}, id: {playerId} is not found.", player.Name, player.Id);
             throw new Exception("Player not found.");
         }
-        _logger?.Info("Player found: {player}", foundPlayer);
+        _logger?.Info("Player found: {playerName}, id: {playerId}", foundPlayer.Name, foundPlayer.Id);
         return foundPlayer;
     }
 
@@ -556,7 +559,7 @@ public class GameController
     {
         _logger?.Info("Get player wtih index: {index}", index);
         var playerFromIndex = GetPlayer()[index];
-        _logger?.Info("Player found: {player}", playerFromIndex);
+        _logger?.Info("Player found: {playerName}, Id: {}", playerFromIndex.Name, playerFromIndex.Id);
         return playerFromIndex;
     }
 
@@ -604,9 +607,9 @@ public class GameController
     /// <returns>The deck of the player.</returns>
     public List<AbstractCard> GetDeck(IPlayer player)
     {
-        _logger?.Info("Get deck of player: {player} ", player);
+        _logger?.Info("Get deck of player: {playerName}, id: {playerId} ", player.Name, player.Id);
         var playerDeck = GetPlayerInfo(player).GetDeck();
-        _logger?.Info("Deck {player}: {playerDeck}", player, playerDeck);
+        _logger?.Info("Deck {playerName}, id: {playerId} : {playerDeck}", player.Name, player.Id, playerDeck);
         return playerDeck;
     }
 
@@ -621,13 +624,13 @@ public class GameController
     /// <exception cref="CardNotFoundException">Thrown when the card is not found.</exception>
     public AbstractCard GetDeckCard(IPlayer player, AbstractCard card, bool byName = true)
     {
-        _logger?.Info("Get card: {card} in deck player: {player} by name: {byName}", card, player, byName);
+        _logger?.Info("Get card: {card} in deck player: {playerName}, id: {playerId} by name: {byName}", card, player.Name, player.Id, byName);
         var playerDeck = GetDeck(player);
         var foundCard = playerDeck.Find(c => c.Name == card.Name);
         foundCard = byName ? foundCard : playerDeck.Find(c => c == card);
         if (foundCard == null)
         {
-            _logger?.Error("Card: {card} is not found in deck player: {player}.", card, player);
+            _logger?.Error("Card: {card} is not found in deck player: {playerName}, id: {playerId}.", card, player.Name, player.Id);
             throw new Exception("Card not found.");
         }
         _logger?.Info("Card found: {card}", foundCard);
@@ -642,8 +645,9 @@ public class GameController
     /// <returns>True if the cards were successfully assigned; otherwise, false.</returns>
     public bool AssignDeckCard(IPlayer player, params AbstractCard[] cards)
     {
+        _logger?.Info("Assign card: {card} to deck player: {playerName}, id: {playerId}", cards, player.Name, player.Id);
         var assignCardToPlayerDeck = GetPlayerInfo(player).AssignCardToDeck(cards);
-        _logger?.Info($"Assign card of [{string.Join(", ", cards.Select(c => c.Name))}] to deck player: {player.Name}, id: {player.Id}.");
+        _logger?.Info("Card: {card} assigned to deck player: {playerName}, id: {playerId}", cards, player.Name, player.Id);
         return assignCardToPlayerDeck;
     }
 
@@ -656,31 +660,41 @@ public class GameController
     /// <param name="byName">If true, the cards will be searched by name.</param>
     /// <param name="cards">The card(s) to be assigned.</param>
     /// <returns>True if the cards were successfully assigned; otherwise, false.</returns>
-    public bool AssignCardToPlayerDeck(IPlayer player, bool clone = true, bool byName = true, params AbstractCard[] cards)
+    public bool AssignDeckCard(IPlayer player, bool clone = true, bool byName = true, params AbstractCard[] cards)
     {
-        _logger?.Info($"Assigning card of [{string.Join(", ", cards.Select(c => c.Name))}] to deck player: {player.Name}, id: {player.Id}...");
-        _logger?.Info($"With parameter clone: {clone}, byName: {byName}.");
+        _logger?.Info("Assign card: {card} to deck player: {playerName}, id: {playerId}, by clone: {clone}, by name: {byName}", cards, player.Name, player.Id, clone, byName);
         bool status = false;
 
         if (!_players.ContainsKey(player))
         {
-            _logger?.Warn($"There is no player id: {player.Id} in [{_players.Keys.Select(p => p.Id)}].");
+            _logger?.Warn("Not contain Player: {playerName}, id: {playerId} in game.", player.Name, player.Id);
             return false;
         }
 
         foreach (var card in cards)
         {
             var cloneCard = clone ? card.Clone() : card;
-            status = GetPlayerInfo(player).AssignCardToDeck(cloneCard);
-            _logger?.Info($"Assign card: {card.Name} to player: {player.Name}, id: {player.Id} deck.");
+            status = AssignDeckCard(player, cards);
             if (status)
             {
                 GetDeckCard(player, cloneCard, byName).SetCardStatus(CardStatus.OnDeck);
                 OnCardStatusUpdate?.Invoke(cloneCard, CardStatus.OnDeck);
-                _logger?.Info($"Set card status of {card.Name} to {card.GetCardStatus()}.");
+                _logger?.Info("Set card: {card} status to {status}", cloneCard, cloneCard.GetCardStatus());
             }
         }
         return status;
+    }
+
+    /// <summary>
+    /// Assigns a deck of cards to a player.
+    /// </summary>
+    /// <param name="player">The player to whom the cards are to be assigned.</param>
+    /// <param name="clone">A boolean value indicating whether to clone the cards.</param>
+    /// <param name="cards">The cards to be assigned to the player.</param>
+    /// <returns>A boolean value indicating the success of the operation.</returns>
+    public bool AssignDeckCard(IPlayer player, bool clone = true, params AbstractCard[] cards)
+    {
+        return AssignDeckCard(player, clone: clone, true, cards: cards);
     }
 
     /// <summary>
@@ -689,11 +703,12 @@ public class GameController
     /// <param name="player">The player whose deck will be searched.</param>
     /// <param name="cards">The card(s) to be removed.</param>
     /// <returns>True if the cards were successfully Removed; otherwise, false.</returns>
-    public bool RemovePlayerCardFromDeck(IPlayer player, params AbstractCard[] cards)
+    public bool RemoveDeckCard(IPlayer player, params AbstractCard[] cards)
     {
-        var retrieveCard = GetPlayerInfo(player).RemoveCardFromDeck(cards);
-        _logger?.Info($"Retrieve card: [{string.Join(", ", cards.Select(c => c.Name))}].");
-        return retrieveCard;
+        _logger?.Info("Remove card: {card} from deck player: {playerName}, id: {playerId}.", cards, player.Name, player.Id);
+        var removeCard = GetPlayerInfo(player).RemoveCardFromDeck(cards);
+        _logger?.Info("card: {card} removed from deck player: {playerName}, id: {playerId}.", cards, player.Name, player.Id);
+        return removeCard;
     }
 
     /// <summary>
@@ -701,11 +716,12 @@ public class GameController
     /// </summary>
     /// <param name="player">The player whose hand will be retrieved.</param>
     /// <returns>A list of cards in the player's hand.</returns>
-    public List<AbstractCard> GetPlayerHand(IPlayer player)
+    public List<AbstractCard> GetHand(IPlayer player)
     {
-        var getHand = GetPlayerInfo(player).GetHandCards();
-        _logger?.Info($"Get card in hand player: {player.Name}, id: {player.Id}.");
-        return getHand;
+        _logger?.Info("Get hand of player: {playerName}, id: {playerId} ", player.Name, player.Id);
+        var playerHand = GetPlayerInfo(player).GetHandCards();
+        _logger?.Info("Hand {playerName}, id: {playerId} : {playerHand}", player.Name, player.Id, playerHand);
+        return playerHand;
     }
 
     /// <summary>
@@ -716,18 +732,18 @@ public class GameController
     /// <param name="byName">If true, the card will be searched by name.</param>
     /// <returns>The found card.</returns>
     /// <exception cref="CardNotFoundException">Thrown when the card is not found.</exception>
-    public AbstractCard GetPlayerCardInHand(IPlayer player, AbstractCard card, bool byName = true)
+    public AbstractCard GetHandCard(IPlayer player, AbstractCard card, bool byName = true)
     {
-        var playerHand = GetPlayerHand(player);
+        _logger?.Info("Get card: {card} in hand player: {playerName}, id: {playerId} by name: {byName}", card, player.Name, player.Id, byName);
+        var playerHand = GetHand(player);
         var foundCard = playerHand.Find(c => c.Name == card.Name);
         foundCard = byName ? foundCard : playerHand.Find(c => c == card);
-        _logger?.Info($"Find {card.Name} by name : {byName} in player id:{player.Id} hand.");
-
         if (foundCard == null)
         {
-            _logger?.Error($"Card: {card.Name} is not found");
+            _logger?.Error("Card: {card} is not found in hand player: {playerName}, id: {playerId}.", card, player.Name, player.Id);
             throw new Exception("Card not found.");
         }
+        _logger?.Info("Card found: {card}", foundCard);
         return foundCard;
     }
 
@@ -738,10 +754,11 @@ public class GameController
     /// <param name="cards">The card(s) to be assigned.</param>
     /// <returns>True if the cards were successfully assigned; 
     /// otherwise, false.</returns>
-    public bool AssignCardToPlayerHand(IPlayer player, params AbstractCard[] cards)
+    public bool AssignHandCard(IPlayer player, params AbstractCard[] cards)
     {
+        _logger?.Info("Assign card: {card} to hand player: {playerName}, id: {playerId}", cards, player.Name, player.Id);
         var assignCardtoHand = GetPlayerInfo(player).AssignCardToHand(cards);
-        _logger?.Info($"Assign card: [{string.Join(", ", cards.Select(c => c.Name))}] to player: {player.Name}, id: {player.Id} hand.");
+        _logger?.Info("Card: {card} Assigned to hand player: {playerName}, id: {playerId}", cards, player.Name, player.Id);
         return assignCardtoHand;
     }
 
@@ -756,10 +773,12 @@ public class GameController
     /// <param name="byName">If true, the cards will be searched by name.</param>
     /// <param name="cards">The card(s) to be assigned.</param>
     /// <returns>True if the cards were successfully assigned; otherwise, false.</returns>
-    public bool AssignCardToPlayerHand(IPlayer player, bool fromDeck = true, bool byDeckName = true,
+    public bool AssignHandCard(IPlayer player, bool fromDeck = true, bool byDeckName = true,
                                         bool clone = true, bool byName = true,
                                         params AbstractCard[] cards)
     {
+        _logger?.Info("Assign card: {card} to hand player: {playerName}, id: {playerId}", cards, player.Name, player.Id);
+        _logger?.Info("From deck: {deck}, by deck name: {deckName}, by clone: {clone} by name: {byName}", fromDeck, byDeckName, clone, byName);
         bool status = false;
         if (!_players.ContainsKey(player))
         {
@@ -773,17 +792,41 @@ public class GameController
             var cardInDeck = GetDeckCard(player, card, byDeckName);
             cardInDeck = fromDeck ? cardInDeck : card;
             var cloneCard = clone ? cardInDeck.Clone() : cardInDeck;
-            status = GetPlayerInfo(player).AssignCardToHand(cloneCard);
-            _logger?.Info($"Assign card: {cloneCard.Name} to player: {player.Name}, id: {player.Id} hand.");
+            status = AssignHandCard(player, cloneCard);
             if (status)
             {
-                GetPlayerCardInHand(player, cloneCard, byName).SetCardStatus(CardStatus.OnHand);
+                GetHandCard(player, cloneCard, byName).SetCardStatus(CardStatus.OnHand);
                 OnCardStatusUpdate?.Invoke(cloneCard, CardStatus.OnHand);
-                _logger?.Info($"Set card status of {card.Name} to {card.GetCardStatus()}.");
+                _logger?.Info("Set card: {card} status to {status}", cloneCard, cloneCard.GetCardStatus());
             }
 
         }
         return status;
+    }
+
+    /// <summary>
+    /// Assigns cards to a player's hand. Can be from deck and clone.
+    /// </summary>
+    /// <param name="player">The player to whom the cards are to be assigned.</param>
+    /// <param name="fromDeck">A boolean value indicating whether the cards are from the deck.</param>
+    /// <param name="clone">A boolean value indicating whether to clone the cards.</param>
+    /// <param name="cards">The cards to be assigned to the player.</param>
+    /// <returns>A boolean value indicating the success of the operation.</returns>
+    public bool AssignHandCard(IPlayer player, bool fromDeck, bool clone, params AbstractCard[] cards)
+    {
+        return AssignHandCard(player, fromDeck, true, clone, true, cards);
+    }
+
+    /// <summary>
+    /// Assigns cards to a player's hand. Can be from deck.
+    /// </summary>
+    /// <param name="player">The player to whom the cards are to be assigned.</param>
+    /// <param name="fromDeck">A boolean value indicating whether the cards are from the deck.</param>
+    /// <param name="cards">The cards to be assigned to the player.</param>
+    /// <returns>A boolean value indicating the success of the operation.</returns>
+    public bool AssignHandCard(IPlayer player, bool fromDeck, params AbstractCard[] cards)
+    {
+        return AssignHandCard(player, fromDeck, true, cards);
     }
 
     /// <summary>
@@ -792,10 +835,10 @@ public class GameController
     /// <param name="player">The player whose hand the cards will be removed from.</param>
     /// <param name="cards">The card(s) to be removed.</param>
     /// <returns>True if the cards were successfully removed; otherwise, false.</returns>
-    public bool RemovePlayerCardFromHand(IPlayer player, params AbstractCard[] cards)
+    public bool RemoveHandCard(IPlayer player, params AbstractCard[] cards)
     {
+        _logger?.Info("Remove card: {card} from hand player: {player.Name}, id: {player.Id}", cards, player.Name, player.Id);
         var RemoveHandCard = GetPlayerInfo(player).RetrieveCardFromHand(cards);
-        _logger?.Info($"Retrieveing {player.Name}, id: {player.Id} card: [{cards.Select(c => c.Name)}] from  hand.");
         return RemoveHandCard;
     }
 
@@ -1615,7 +1658,7 @@ public class GameController
             }
         }
 
-        var cardInHand = GetPlayerCardInHand(player, card, byHandName);
+        var cardInHand = GetHandCard(player, card, byHandName);
         cardInHand = fromHand ? cardInHand : card;
         var cloneCard = clone ? cardInHand.Clone() : cardInHand;
         cloneCard.SetCardStatus(CardStatus.OnHand);
