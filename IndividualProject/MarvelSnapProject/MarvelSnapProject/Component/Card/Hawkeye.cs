@@ -40,10 +40,8 @@ public class Hawkeye : AbstractCard
             bool anotherCard = location.GetPlayerCards(_deployer).Count > 1;
             if (anotherCard)
             {
-                game.OnRevealCardAbilityCall -= SpecialAbilityOnGoing;
                 return this.SetPower(this.GetPower() + 3);
             }
-            game.OnRevealCardAbilityCall -= SpecialAbilityOnGoing;
         }
         return false;
     }

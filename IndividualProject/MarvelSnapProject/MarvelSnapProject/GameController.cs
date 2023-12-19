@@ -342,7 +342,7 @@ public class GameController
         SetPlayerEnergy(_round);
 
         _logger?.Info("Game Status: {status}, call location ability on reveal: {onRevealLocCall}, call location ability on going: {onGoingLocCall}",
-                        _gameStatus);   //TODO: return AbstractCard & AbstractLocation for delegate
+                        _gameStatus);   //TODO: Get invocation list
         _logger?.Info("Current round: {round}", _round);
 
         return true;
