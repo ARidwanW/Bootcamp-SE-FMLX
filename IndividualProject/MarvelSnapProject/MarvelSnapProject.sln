@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarvelSnapProject", "MarvelSnapProject\MarvelSnapProject.csproj", "{11086C05-D512-4E3C-8F35-9E62C7E1F64C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarvelSnapProject.Test", "MarvelSnapProject.Test\MarvelSnapProject.Test.csproj", "{24BFE573-A9FA-4134-B7E2-455CBAE18844}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{11086C05-D512-4E3C-8F35-9E62C7E1F64C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11086C05-D512-4E3C-8F35-9E62C7E1F64C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11086C05-D512-4E3C-8F35-9E62C7E1F64C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24BFE573-A9FA-4134-B7E2-455CBAE18844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24BFE573-A9FA-4134-B7E2-455CBAE18844}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24BFE573-A9FA-4134-B7E2-455CBAE18844}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24BFE573-A9FA-4134-B7E2-455CBAE18844}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
