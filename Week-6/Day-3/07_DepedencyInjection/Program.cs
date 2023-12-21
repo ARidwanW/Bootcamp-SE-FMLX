@@ -1,9 +1,24 @@
-﻿
+﻿//* add package Microsoft.Extensions.DependencyInjection
+//* add package Microsoft.Extensions.Logging
+using Microsoft.Extensions.DependencyInjection;
+
 class Program
 {
     static void Main()
     {
-        
+        //* di setting sebelum runtime
+        //* data diambil dari semisal json file / config file
+        IServiceCollection serviceCollection = new ServiceCollection();
+        serviceCollection.AddSingleton<IBoard>(board => new Board(2, 3));
+        serviceCollection.AddTransient<GameController>();
+
+        IServiceProvider services = serviceCollection.BuildServiceProvider();
+
+        // Board board = new Board();
+        GameController game = services.GetRequiredService<GameController>();
+        Console.WriteLine(game.GetBoard());
+        Console.WriteLine(game.GetSizeX());
+        Console.WriteLine(game.GetSizeY());
     }
 }
 
@@ -20,33 +35,42 @@ class GameController
     {
         return _board;
     }
+
+    public int GetSizeX()
+    {
+        return _board.X;
+    }
+    public int GetSizeY()
+    {
+        return _board.Y;
+    }
 }
 
 interface IBoard
 {
-    int x { get; }
-    int y { get; }
+    int X { get; }
+    int Y { get; }
 }
 
 class Board : IBoard
 {
-    public int x {get; private set;}
+    public int X {get; private set;}
 
-    public int y {get; private set;}
+    public int Y {get; private set;}
 
-    public Board()
+    public Board(int x, int y)
     {
-        x = 5;
-        y = 6;
+        X = x;
+        Y = y;
     }
 
     public void SetX(int x)
     {
-        this.x = x;
+        this.X = x;
     }
 
     public void SetY(int y)
     {
-        this.y = y;
+        this.Y = y;
     }
 }
