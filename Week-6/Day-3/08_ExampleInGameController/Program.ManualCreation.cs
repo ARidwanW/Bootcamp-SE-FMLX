@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
+using NLog.Extensions.Logging;
 
 namespace _08_ExampleInGameController;
 
@@ -7,7 +8,7 @@ partial class Program
 {
     IPlayer player = new Player("player1");
     IBoard Board = new Board(2);
-    VariantType loggerFactory = LoggerFactory.Create(builder =>
+    var loggerFactory = LoggerFactory.Create(builder =>
     {
         builder.ClearProviders();
         builder.SetMinimumLevel(LogLevel.Trace);
