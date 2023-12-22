@@ -8,7 +8,7 @@ partial class Program
 {
     IPlayer player = new Player("player1");
     IBoard Board = new Board(2);
-    var loggerFactory = LoggerFactory.Create(builder =>
+    ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
     {
         builder.ClearProviders();
         builder.SetMinimumLevel(LogLevel.Trace);
