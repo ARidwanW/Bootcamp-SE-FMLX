@@ -1,4 +1,4 @@
-﻿using _08_ExampleInGameController;
+﻿namespace _08_ExampleInGameController;
 
 partial class Program
 {
