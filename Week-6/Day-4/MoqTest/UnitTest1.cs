@@ -1,4 +1,6 @@
-﻿using System;
+namespace MoqTest;
+
+using System;
 using NUnit.Framework;
 using Moq;
 
