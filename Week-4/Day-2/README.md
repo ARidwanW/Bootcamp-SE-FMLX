@@ -1,5 +1,5 @@
 # What is Week-4 Day-2
-Hello hello, Welcome back in week 4. This is the second day of week 4. Coz in Week 3 and day 1 of week 4, we have exam and individual project. For individual project we create a class diagram of random games (board games) and I got the Othello game. You can see my Othello Class Diagram [here] at the second page.(https://github.com/ARidwanW/Bootcamp-SE-FMLX/blob/main/IndividualProject/ClassDiagram/class_diagram_othello.pdf).
+Hello hello, Welcome back in week 4. This is the second day of week 4. Coz in Week 3 and day 1 of week 4, we have exam and individual project. For individual project we create a class diagram of random games (board games) and I got the Othello game. You can see my Othello Class Diagram [here](https://github.com/ARidwanW/Bootcamp-SE-FMLX/blob/main/IndividualProject/ClassDiagram/class_diagram_othello.pdf) at the second page.
 
 Also, in this day 2 of week 4, we learn the different between string and StringBuilder. Let's take a look.
 
