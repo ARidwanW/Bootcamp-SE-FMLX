@@ -64,3 +64,43 @@ In Day 4 of Week 4, We learn conditional compilation as we look a bit in day 3, 
     External-->Log4Net;
     External-->I[JLog for Java];
     ```
+
+5. **Debug & Trace**
+    * They're log level for development purpose.
+    * Any External Logging Framework has all loglevel.
+    * But internal or Microsoft only has them.
+    * We only can see the output in Debug Console or if you are using TextWriterTraceListener, it can be write to a file.
+    * And You must run it from Debug, NOT dotnet run or dotnet build
+
+        ```mermaid
+        graph TD;
+        Debug-->A[Debug.WriteLine];
+        Trace-->B[Trace.WriteLine];
+        Trace-->C[ConsoleTraceListener];
+        Trace-->C[TextWriterTraceListener];
+        ```
+
+        * **ConsoleTraceListener**
+
+        ```
+            ConsoleTraceListener consoleTraceListener = new ConsoleTraceListener();
+            Trace.Listeners.Add(consoleTraceListener);
+        ```
+
+        * **TextWriterTraceListener**
+
+        ```
+            Trace.Listeners.Clear();
+			using(TextWriterTraceListener traceListener = new TextWriterTraceListener("myTraceOutput.txt")) 
+			{
+				Trace.Listeners.Add(traceListener);
+			
+				Trace.Assert(true, "This is a trace false.");
+				Debug.Assert(false, "This is a DEBUG FALSE.");
+				Trace.WriteLine("This is a trace statement.");
+			
+				traceListener.Flush();
+				traceListener.Close();
+			}
+        ```
+
