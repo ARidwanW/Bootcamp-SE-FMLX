@@ -65,3 +65,73 @@ Ok, after yesterday we learn about string and StringBuilder. Now in day 3 we lea
             }
         }
       ```
+
+2. Garbage Collector
+    * Call Factor : 
+      1. How much garbage?
+      2. Memory near full
+      3. Time from last collection
+    * Will automatically mark, sweep, compact the unuse of managed resource
+
+      ```mermaid
+      mindmap
+      root((Memory))
+        Stack
+          Value Type variable
+            Integer
+            Char
+            Float
+            Decimal
+            Double
+            Boolean
+          Automatically clear when the variable outside of it's scope
+          StackOverflowException
+        Heap
+          Reference Type variable
+            Class
+            Object
+            String
+            StringBuilder
+            Array
+            List
+          Managed Heap - Internal
+            Class
+            String
+            Array
+            And so on
+          Unmanaged Heap - External
+            File
+            API
+            Http Request
+            Databases
+            SMTP
+      ```
+
+    * For Unmanaged resource must be dispose by Dispose()
+
+3. Finalizers
+    * Or we can call it Destructor, the opposite of constructor.
+    * using tilde `~`.
+    * have no parameter
+    * have no access modifier
+    * name of finalizers same as name of class
+
+      ```
+        class Car
+        {
+          // Constructor
+          public Car()
+          {
+
+          }
+
+          // Destructor
+          ~ Car()
+          {
+
+          }
+        }
+      ```
+
+    * If a class have finalizers:
+      * Object --> GC Mark --> Finalizer list --> sweep
