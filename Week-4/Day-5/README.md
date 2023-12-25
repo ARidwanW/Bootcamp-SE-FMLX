@@ -47,3 +47,29 @@ Wuuuihhh, This day is the most busy day, Coz we learn MultiThreading, Async Awai
         merge ThreadA tag:"2ms"
         commit tag:"2ms"
     ```
+
+2. **Without Thread**
+    * The program will run synchronously
+    * One by One
+    * Other processes will wait for other processes
+
+      ```
+        DoTaskOne();
+		    DoTaskTwo();
+      ```
+
+3. **With Thread**
+    * The program will run Asynchronously
+    * Kind of parallel
+    * Other processes will run asynchrounously with other process
+
+      ```
+        Thread thread1 = new Thread(DoTaskOne);
+        Thread thread2 = new Thread(DoTaskTwo);
+        
+        thread1.Start(); //undeterministic
+        thread2.Start();
+
+        thread1.Join();
+        thread2.Join();
+      ```
