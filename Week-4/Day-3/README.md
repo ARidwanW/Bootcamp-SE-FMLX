@@ -31,7 +31,7 @@ Ok, after yesterday we learn about string and StringBuilder. Now in day 3 we lea
       // #define RELEASE 
     ```
 
-        event if you define RELEASE before DEBUG, it will also run DEBUG because, it's default. If you want to run only Release, u can do this below:
+      event if you define RELEASE before DEBUG, it will also run DEBUG because, it's default. If you want to run only Release, u can do this below:
     
     * To Run:
 
