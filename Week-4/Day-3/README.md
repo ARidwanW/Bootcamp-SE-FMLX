@@ -117,7 +117,12 @@ Ok, after yesterday we learn about string and StringBuilder. Now in day 3 we lea
       id3 -- Yes from gen 2 --> id10[[Clear all Gen<br>alive var still in Gen 2]];
       ```
 
-3. Finalizers
+3. LOH
+    * Large Object Heap
+    * New allocation memory for instance that have more than 81kb.
+    * Will be clear or remove when Gen 2 is being checked.
+
+4. Finalizers
     * Or we can call it Destructor, the opposite of constructor.
     * using tilde `~`.
     * have no parameter
@@ -141,5 +146,37 @@ Ok, after yesterday we learn about string and StringBuilder. Now in day 3 we lea
         }
       ```
 
+    * Undetermine instance
+    * Can release unmanage resource
+    * In Finalizer list the object is unreferenced
+    * The Object will be hold a bit in Finalizer list
+    * and Randomly Sweep
+
     * If a class have finalizers:
-      * Object --> GC Mark --> Finalizer list --> sweep
+      * Object --> GC Mark --> Finalizer list --> GC Sweep (random)
+      
+    * If a class doesn't have finalizers:
+      * Object --> GC Sweep
+
+>[!WARNING]
+>There's a method `GC.Collect()` to force call the GC to mark, but still randomly sweep who and when. But, this must be avoided, Because it will take time and performances of your code (freeze).
+
+>[!NOTE]
+>There's also a method to execute the finalizer without waiting the GC to comes. it is `GC.WaitForPendingFinalizers()`.
+
+>[!NOTE]
+>Also Finalizers be avoided, due to performance issues. Instead, we can use `Dispose()` to release unmanaged resource.
+
+5. Dispose
+    * Release Unmanaged resource
+    * from IDisposeable --> void Dispose();
+    * commonly use in try catch finally (especially in finally)
+    * But we can replace it with `using` rather than try finally,
+
+      ```
+        using(FileStream file = new FileStream(path, mode, access))
+        {
+          //...
+        }
+      ```
+      
