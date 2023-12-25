@@ -9,6 +9,6 @@ In Day 4 of Week 4, We learn conditional compilation as we look a bit in day 3, 
 
 ## In Detail
 1. **Conditional Compilation**
-    * A bit fresh of what it is [here](https://raw.githubusercontent.com/ARidwanW/Bootcamp-SE-FMLX/main/Week-4/Day-3/README.md#:~:text=1.%20Conditional%20Compilation)
+    * A bit fresh of what it is [here](https://github.com/ARidwanW/Bootcamp-SE-FMLX/tree/main/Week-4/Day-3#:~:text=In%20Detail-,Conditional%20Compilation,-it%27s%20define%20what)
     * Assign `<DefineConstant>` on the .csproj inside `<PropertyGroup>`
     * Assign using `#define`
