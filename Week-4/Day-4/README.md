@@ -77,7 +77,7 @@ In Day 4 of Week 4, We learn conditional compilation as we look a bit in day 3, 
         Debug-->A[Debug.WriteLine];
         Trace-->B[Trace.WriteLine];
         Trace-->C[ConsoleTraceListener];
-        Trace-->C[TextWriterTraceListener];
+        Trace-->D[TextWriterTraceListener];
         ```
 
         * **ConsoleTraceListener**
