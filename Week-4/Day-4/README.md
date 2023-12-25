@@ -25,7 +25,7 @@ In Day 4 of Week 4, We learn conditional compilation as we look a bit in day 3, 
             dotnet watch run
         ```
     
-3. Error
+3. **Error**
 
     ```mermaid
     graph TD;
@@ -37,4 +37,30 @@ In Day 4 of Week 4, We learn conditional compilation as we look a bit in day 3, 
     Debugger-->E[Console.WriteLine];
     Debugger-->F[Log];
     ```
-    
+
+4. **LOG**
+
+    ```mermaid
+    graph TD;
+    Log-->A[Log Level<br>Severity];
+    Log-->B[Internal<br>Microsoft];
+    Log-->External;
+    A-->C[Critical/Fatal];
+    C-->CRASH;
+    A-->Error;
+    Error-->D[TRY & CATCH];
+    A-->Warning;
+    Warning-->F[Possibility of Error / even Fatal];
+    A-->Info;
+    Info-->G[As required / as expected / normal];
+    A-->Debug;
+    Debug-->H[Development Purpose];
+    A-->Trace;
+    Trace-->H;
+    A-->None;
+    B-->Debug;
+    B-->Trace;
+    External-->NLog;
+    External-->Log4Net;
+    External-->I[JLog for Java];
+    ```
