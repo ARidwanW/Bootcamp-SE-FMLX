@@ -11,3 +11,39 @@ Wuuuihhh, This day is the most busy day, Coz we learn MultiThreading, Async Awai
 </picture>
 
 ## In Detail
+1. **What is MultiThreading**
+    * First we must know what the diff between process and thread.
+
+    | Process | Thread |
+    |---|---|
+    | Different App, Different Process | Unit of process |
+    | In general, Isolated | Multiple Thread |
+
+    * It's like the process is the fabric, while the thread is the yarn.
+
+    * Ability of a program to execute multiple tasks simultaneously is called Concurrency.
+
+    * **Case**: Your computer only have 1 Core CPU and wanna using 4 thread. You can use it by something we called Time Slacing
+
+    ```mermaid
+    %%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': true,'showCommitLabel': false}} }%%
+      gitGraph
+        commit tag:"1ms"
+        commit tag:"1ms"
+        branch ThreadA
+        commit tag:"3ms"
+        branch ThreadB
+        commit tag:"2ms"
+        branch ThreadC
+        commit tag:"4ms"
+        checkout main
+        merge ThreadC tag:"1ms"
+        commit tag:"5ms"
+        checkout ThreadB
+        merge main tag:"2ms"
+        checkout ThreadA
+        merge ThreadB tag:"3ms"
+        checkout ThreadC
+        merge ThreadA tag:"2ms"
+        commit tag:"2ms"
+    ```
