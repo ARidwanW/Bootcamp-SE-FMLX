@@ -12,3 +12,29 @@ In Day 4 of Week 4, We learn conditional compilation as we look a bit in day 3, 
     * A bit fresh of what it is [here](https://github.com/ARidwanW/Bootcamp-SE-FMLX/tree/main/Week-4/Day-3#:~:text=In%20Detail-,Conditional%20Compilation,-it%27s%20define%20what)
     * Assign `<DefineConstant>` on the .csproj inside `<PropertyGroup>`
     * Assign using `#define`
+
+2. **Hot Reload**
+    * A feature that .NET has for see update real time when the codes is changed. 
+    * To use, you can run below command:
+
+        ```
+            dotnet watch
+
+            or
+
+            dotnet watch run
+        ```
+    
+3. Error
+
+    ```mermaid
+    graph TD;
+    Error-->A[Logical Error];
+    Error-->B[Compilation Error];
+    Error-->C[Runtime Error];
+    A-->Debugger;
+    Debugger-->D[Tool Debugger];
+    Debugger-->E[Console.WriteLine];
+    Debugger-->F[Log];
+    ```
+    
