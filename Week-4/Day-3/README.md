@@ -11,3 +11,8 @@ Ok, after yesterday we learn about string and StringBuilder. Now in day 3 we lea
 </picture>
 
 ## In Detail
+1. Conditional Compilation
+
+  ```
+    
+  ```
