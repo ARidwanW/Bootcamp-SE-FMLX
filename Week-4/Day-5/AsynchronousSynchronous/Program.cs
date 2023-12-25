@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 class Program
 {
-    static async void Main()
+    static async Task Main()
     {
         Console.WriteLine("Synchronous execution:");
         SynchronousExample();
