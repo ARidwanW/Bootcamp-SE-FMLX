@@ -88,6 +88,16 @@ Ok, after yesterday we learn about string and StringBuilder. Now in day 3 we lea
       ```
 
     * For Unmanaged resource must be dispose by Dispose()
+    
+    ```mermaid
+    graph TD;
+      GarbageCollector-->Mark;
+      GarbageCollector-->Sweep;
+      GarbageCollector-->Compact;
+      Mark-->A[mark the alive instance];
+      Sweep-->B[shifts the memory boundary forward, <br>so that alive data will enter the next Gen <br>while dead data will be deleted in the previous Gen.];
+      Compact-->C[shifts data forward to fill in gaps <br>and prevent fragmentation]
+    ```
 
 3. Managed Heap
     ```mermaid
