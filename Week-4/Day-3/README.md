@@ -35,33 +35,33 @@ Ok, after yesterday we learn about string and StringBuilder. Now in day 3 we lea
     
     * To Run:
 
-    ```
-      dotnet build -c RELEASE 
+      ```
+        dotnet build -c RELEASE 
 
-      or 
+        or 
 
-      dotnet run -c RELEASE
-    ```
+        dotnet run -c RELEASE
+      ```
 
     * This is a simple example (will run code below the GAMETESTER condition (not the else) and after endif):
 
-    ```
-      #define GAMETESTER
+      ```
+        #define GAMETESTER
 
-      class Program
-      {
-          static void Main()
-          {
-              #if GAMERUNNER
-              Console.WriteLine("GameRunner.");
+        class Program
+        {
+            static void Main()
+            {
+                #if GAMERUNNER
+                Console.WriteLine("GameRunner.");
 
-              #elif GAMETESTER
-              Console.WriteLine("GameTester.");
+                #elif GAMETESTER
+                Console.WriteLine("GameTester.");
 
-              #else 
-              Console.WriteLine("Not Anything.");
-              #endif
-              Console.WriteLine("Finish");
-          }
-      }
-    ```
+                #else 
+                Console.WriteLine("Not Anything.");
+                #endif
+                Console.WriteLine("Finish");
+            }
+        }
+      ```
