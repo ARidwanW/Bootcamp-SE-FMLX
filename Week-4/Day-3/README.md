@@ -74,37 +74,17 @@ Ok, after yesterday we learn about string and StringBuilder. Now in day 3 we lea
     * Will automatically mark, sweep, compact the unuse of managed resource
 
       ```mermaid
-      mindmap
-      root((Memory))
-        Stack
-          Value Type variable
-            Integer
-            Char
-            Float
-            Decimal
-            Double
-            Boolean
-          Automatically clear when the variable outside of it's scope
-          StackOverflowException
-        Heap
-          Reference Type variable
-            Class
-            Object
-            String
-            StringBuilder
-            Array
-            List
-          Managed Heap - Internal
-            Class
-            String
-            Array
-            And so on
-          Unmanaged Heap - External
-            File
-            API
-            Http Request
-            Databases
-            SMTP
+      graph TD;
+        Memory-->Stack;
+        Memory-->Heap;
+        Heap-->Managed;
+        Heap-->Unmanaged;
+        Managed-->class;
+        Managed-->string;
+        Managed-->Internal;
+        Unmanaged-->File;
+        Unmanaged-->API;
+        Unmanaged-->External;
       ```
 
     * For Unmanaged resource must be dispose by Dispose()
