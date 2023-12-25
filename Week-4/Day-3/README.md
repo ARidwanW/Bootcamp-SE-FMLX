@@ -89,6 +89,24 @@ Ok, after yesterday we learn about string and StringBuilder. Now in day 3 we lea
 
     * For Unmanaged resource must be dispose by Dispose()
 
+3. Managed Heap
+    ```mermaid
+      flowchart TD;
+      id1([Start]) --> id2[(Gen 0 <br>Short Live Object</br>New Allocation)];
+      id2 --> id3{Is variable <br>alive?};
+      id3 -- Yes --> id4[[GC Mark]];
+      id4 --> id5[[GC Sweep]];
+      id5 -- from gen 0 --> id6[(Gen 1)];
+      id6 --> id7[[GC Clear Gen 0]];
+      id3 -- No from gen 0 --> id2;
+      id6 --> id3;
+      id5 -- from gen 1 --> id8[(Gen 2 <br>Long Live Object</br>Must be avoid)];
+      id8 --> id7;
+      id8 --> id9[[GC clear Gen 1]];
+      id8 --> id3;
+      id3 -- Yes from gen 2 --> id10[[Clear all Gen<br>alive var still in Gen 2]];
+      ```
+
 3. Finalizers
     * Or we can call it Destructor, the opposite of constructor.
     * using tilde `~`.
