@@ -12,7 +12,56 @@ Ok, after yesterday we learn about string and StringBuilder. Now in day 3 we lea
 
 ## In Detail
 1. Conditional Compilation
+    * it's define what part of code that will be compiled.
+    * There's some state to use conditional compilation:
+      1. `#define` --> will choose what condition
+      2. `#if`
+      3. `#elif`
+      4. `#else`
+      5. `endif`
+      6. `#warning`
+      7. `#error` --> commonly use for give sign that there's a critical code that not yet developed.
+      8. `#region`
 
-  ```
+    * if you define two condition:
+
+    ```
+      // #define DEBUG // first come first serve
+                      // and DEBUG is default
+      // #define RELEASE 
+    ```
+
+        event if you define RELEASE before DEBUG, it will also run DEBUG because, it's default. If you want to run only Release, u can do this below:
     
-  ```
+    * To Run:
+
+    ```
+      dotnet build -c RELEASE 
+
+      or 
+
+      dotnet run -c RELEASE
+    ```
+
+    * This is a simple example (will run code below the GAMETESTER condition (not the else) and after endif):
+
+    ```
+      #define GAMETESTER
+
+      class Program
+      {
+          static void Main()
+          {
+              #if GAMERUNNER
+              Console.WriteLine("GameRunner.");
+
+              #elif GAMETESTER
+              Console.WriteLine("GameTester.");
+
+              #else 
+              Console.WriteLine("Not Anything.");
+              #endif
+              Console.WriteLine("Finish");
+          }
+      }
+    ```
