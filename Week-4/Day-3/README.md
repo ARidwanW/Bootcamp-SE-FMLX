@@ -75,16 +75,16 @@ Ok, after yesterday we learn about string and StringBuilder. Now in day 3 we lea
 
       ```mermaid
       graph TD;
-        Memory-->Stack;
-        Memory-->Heap;
-        Heap-->Managed;
-        Heap-->Unmanaged;
-        Managed-->class;
-        Managed-->string;
-        Managed-->Internal;
-        Unmanaged-->File;
-        Unmanaged-->API;
-        Unmanaged-->External;
+      Memory-->Stack;
+      Memory-->Heap;
+      Heap-->Managed;
+      Heap-->Unmanaged;
+      Managed-->A[class];
+      Managed-->string;
+      Managed-->Internal;
+      Unmanaged-->File;
+      Unmanaged-->API;
+      Unmanaged-->External;
       ```
 
     * For Unmanaged resource must be dispose by Dispose()
