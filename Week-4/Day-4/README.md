@@ -104,3 +104,20 @@ In Day 4 of Week 4, We learn conditional compilation as we look a bit in day 3, 
 			}
         ```
 
+6. **XML Documentation**
+    * When you hover a variable or a method or a class, there will be a summary of the variable, method, or class.
+    * To give them summary, we can use XML Documentation.
+
+        ```
+            /// <summary>
+            /// Adds two numbers together and returns the result.
+            /// </summary>
+            /// <param name="a">The first number to add.</param>
+            /// <param name="b">The second number to add.</param>
+            /// <returns>The sum of a and b</returns>
+            public static double Add(double a, double b)
+            {
+                return a + b;
+            }
+        ```
+
