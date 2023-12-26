@@ -437,6 +437,11 @@ public class GameController
             _logger?.Warn("Index: {index} is out of maximum deployable locations.", index);
             return false;
         }
+        if (index > GetAllDeployedLocations().Count - 1)
+        {
+            _logger?.Warn("Index: {index} is out of deployable locations range.", index);
+            return false;
+        }
 
         if (!isLoop)
         {
@@ -840,8 +845,9 @@ public class GameController
     /// <returns>The energy of the player.</returns>
     public int GetPlayerEnergy(IPlayer player)
     {
+        _logger?.Info("Getting energy player: {playerName}, id: {playerId}", player.Name, player.Id);
         var playerEnergy = GetPlayerInfo(player).GetEnergy();
-        _logger?.Info($"Get {player.Name}, id: {player.Id} energy: {playerEnergy}..");
+        _logger?.Info("Energy player: {playerName}, id: {playerId} is {energy}", player.Name, player.Id, playerEnergy);
         return playerEnergy;
     }
 
@@ -851,6 +857,7 @@ public class GameController
     /// <param name="energy">The energy to set.</param>
     public bool SetPlayerEnergy(int energy)
     {
+        _logger?.Info("Set all player energy to {energy}", energy);
         foreach (var player in GetPlayer())
         {
             SetPlayerEnergy(player, energy);
@@ -866,8 +873,9 @@ public class GameController
     /// <returns>True if the energy was successfully set for the player.</returns>
     public bool SetPlayerEnergy(IPlayer player, int energy)
     {
+        _logger?.Info("Set energy player: {playerName}, id: {playerId} to {energy}", player.Name, player.Id, energy);
         var playerEnergy = GetPlayerInfo(player).SetEnergy(energy);
-        _logger?.Info($"Set {player.Name}, id: {player.Id} energy to {energy}.");
+        _logger?.Info("Is Successfully set energy: {status} of player: {playerName}, id: {playerId}", playerEnergy, player.Name, player.Id);
         return playerEnergy;
     }
 
@@ -899,8 +907,9 @@ public class GameController
     /// <returns>The maximum deck size of the player.</returns>
     public int GetPlayerMaxDeck(IPlayer player)
     {
+        _logger?.Info("Getting max deck of player: {playerName}, id: {playerId}", player.Name, player.Id);
         var maxDeck = GetPlayerInfo(player).GetMaxDeck();
-        _logger?.Info($"Get {player.Name}, id: {player.Id} max deck: {maxDeck}.");
+        _logger?.Info("Player: {playerName}, id: {playerId} max deck is {maxDeck}", player.Name, player.Id, maxDeck);
         return maxDeck;
     }
 
@@ -912,8 +921,9 @@ public class GameController
     /// <returns>True if the maximum deck size was successfully set for the player.</returns>
     public bool SetPlayerMaxDeck(IPlayer player, int maxDeck)
     {
+        _logger?.Info("Set max deck player: {playerName}, id: {playerId} to {maxDeck}", player.Name, player.Id, maxDeck);
         var setMaxDeck = GetPlayerInfo(player).SetMaxDeck(maxDeck);
-        _logger?.Info($"Set {player.Name}, id: {player.Id} max deck to {maxDeck}.");
+        _logger?.Info("Is Successfully set max deck: {status} of player: {playerName}, id: {playerId}", setMaxDeck, player.Name, player.Id);
         return setMaxDeck;
     }
 
@@ -924,8 +934,9 @@ public class GameController
     /// <returns>The total wins of the player.</returns>
     public int GetPlayerTotalWin(IPlayer player)
     {
+        _logger?.Info("Getting total win of player: {playerName}, id: {playerId}", player.Name, player.Id);
         var totalWin = GetPlayerInfo(player).GetTotalWin();
-        _logger?.Info($"Get {player.Name}, id: {player.Id} total win: {totalWin}.");
+        _logger?.Info("Total win of player: {playerName}, id: {playerId} is {totalWin}", player.Name, player.Id, totalWin);
         return totalWin;
     }
 
@@ -937,8 +948,9 @@ public class GameController
     /// <returns>True if the total wins were successfully set for the player.</returns>
     public bool SetPlayerTotalWin(IPlayer player, int totalWin)
     {
+        _logger?.Info("Set total win of player: {playerName}, id: {playerId} to {totalWin}", player.Name, player.Id, totalWin);
         var setTotalWin = GetPlayerInfo(player).SetTotalWin(totalWin);
-        _logger?.Info($"Set {player.Name}, id: {player.Id} total win to {totalWin}.");
+        _logger?.Info("Is Successfully set total win: {status} of player: {playerName}, id: {playerId}", setTotalWin, player.Name, player.Id);
         return setTotalWin;
     }
 
@@ -1032,6 +1044,11 @@ public class GameController
     /// <returns>The location at the given index.</returns>
     public AbstractLocation GetDeployedLocation(int index)
     {
+        if (index > GetAllDeployedLocations().Count - 1)
+        {
+            _logger?.Error("Index: {index} is out of range.", index);
+            throw new IndexOutOfRangeException("Index is out of range.");
+        }
         var deployedLocation = GetAllDeployedLocations()[index];
         _logger?.Info($"Find location by index : {index} from all deployed locations.");
         return deployedLocation;
@@ -1297,6 +1314,14 @@ public class GameController
     {
         var players = GetPlayer();
         var locations = GetAllDeployedLocations();
+        if (players.Count < 1)
+        {
+            return false;
+        }
+        if (locations.Count < 1)
+        {
+            return false;
+        }
         foreach (var location in locations)
         {
             foreach (var player in players)
@@ -1671,8 +1696,8 @@ public class GameController
             }
             else
             {
-            cardInLocation.SetCardStatus(CardStatus.OnLocation);
-            OnCardStatusUpdate?.Invoke(cardInLocation, CardStatus.OnLocation);
+                cardInLocation.SetCardStatus(CardStatus.OnLocation);
+                OnCardStatusUpdate?.Invoke(cardInLocation, CardStatus.OnLocation);
             }
         }
         return status;
