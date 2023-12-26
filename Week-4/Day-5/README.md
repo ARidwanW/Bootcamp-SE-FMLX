@@ -73,3 +73,18 @@ Wuuuihhh, This day is the most busy day, Coz we learn MultiThreading, Async Awai
         thread1.Join();
         thread2.Join();
       ```
+
+4. **How to get return method from other Thread?**
+
+    ```
+      int result; //nampung
+      int x = 3; //kirim
+      int y = 4; //kirim
+      Thread myThread = new Thread(() =>
+      {
+        result = Add(x, y);
+      });
+      myThread.Start();
+    ```
+
+5. 
