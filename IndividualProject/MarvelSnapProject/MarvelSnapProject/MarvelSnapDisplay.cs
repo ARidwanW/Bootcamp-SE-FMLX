@@ -18,7 +18,7 @@ public class MarvelSnapDisplay
         ruleHead.Style = Style.Parse("rapidblink cyan1");
 
         string description = "This is a Marvel Snap game clone\n(Education Purpose Only)\n" +
-                            "No More Card & Location Overpower :sad_but_relieved_face:";
+                            "No More Card & Location Overpower :crying_face:";
         string author = "By: ARidwanW";
         // $"[bold yellow]{description}[/]"
         AnsiConsole.Write(new Markup("[bold yellow]Welcome to the game![/]").Centered());
