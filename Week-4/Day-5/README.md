@@ -106,4 +106,56 @@ Wuuuihhh, This day is the most busy day, Coz we learn MultiThreading, Async Awai
         }
       ```
 
-6. 
+6. Remember when we create a thread, **is there any other way to create a thread?**
+
+  * **Simple version**
+
+    ```
+      Thread t0 = new Thread(DoWorkSimple);
+		  t0.Start();
+    ```
+
+  * **Using "new ThreadStart()"**
+
+    ```
+      Thread t1 = new Thread(new ThreadStart(DoWorkSimple));
+		  t1.Start();
+    ```
+
+  * **Using "new ParameterizedThreadStart()"**
+
+    ```
+      Thread t2 = new Thread(new ParameterizedThreadStart(DoWorkWithParameter));
+		  t2.Start("parameter");
+    ```
+
+  * **With additional Stack max size**
+
+    ```
+      Thread t3 = new Thread(new ThreadStart(DoWorkSimple), 1024 * 1024 ); // 1 MB stack size
+		  t3.Start();
+    ```
+
+  * **With additional set the thread name**
+
+    ```
+      Thread t4 = new Thread(new ThreadStart(DoWorkSimple));
+      t4.Name = "Named Thread";
+      t4.Start();
+    ```
+
+  * **Using lambda expression**
+
+    ```
+      Thread t5 = new Thread(() => DoWorkWithParameter("parameter2"));  // lambda expression
+      t5.Start();
+    ```
+
+  * **Start with parameter**
+
+    ```
+      Thread t6 = new Thread(DoWorkWithParameter);
+      t6.Start("Parameter2");
+    ```
+
+7. 
