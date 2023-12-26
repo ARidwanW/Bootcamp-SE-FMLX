@@ -87,4 +87,23 @@ Wuuuihhh, This day is the most busy day, Coz we learn MultiThreading, Async Awai
       myThread.Start();
     ```
 
-5. 
+5. **If there's so many thread how we can search for a thread?**
+    * We can set the Thread Name.
+
+      ```
+        Thread thread = new Thread(DoWork);
+        Thread secondThread = new Thread(DoWork);
+
+
+        thread.Name = "Worker Thread";
+        secondThread.Name = "Second Worker Thread";
+
+        static void DoWork()
+        {
+          Console.WriteLine($"Thread {Thread.CurrentThread.Name} started.");
+          Thread.Sleep(2000);
+          Console.WriteLine($"Thread {Thread.CurrentThread.Name} finished.");
+        }
+      ```
+
+6. 
