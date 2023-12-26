@@ -17,11 +17,12 @@ public class MyDatabase : DbContext
         {
             category.HasKey(c => c.CategoryId);
             category.Property(c => c.CategoryName).IsRequired().HasMaxLength(20);
-            category.Property(c => c.Description).HasMaxLength(100);
+            category.Property(c => c.Description).IsRequired(false).HasMaxLength(100);
             // category.HasMany(c => c.Products);
             category.HasMany(c => c.Products).WithOne(p => p.Category);
         });
 
+        //! Max length not supported in sqlite
         // model.Entity<Category>().Property(c => c.CategoryName).HasMaxLength(20).IsRequired();
 
         model.Entity<Product>(product =>

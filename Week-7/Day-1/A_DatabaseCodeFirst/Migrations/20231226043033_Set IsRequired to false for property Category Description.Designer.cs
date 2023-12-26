@@ -2,6 +2,7 @@
 using A_DatabaseCodeFirst;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace A_DatabaseCodeFirst.Migrations
 {
     [DbContext(typeof(MyDatabase))]
-    partial class MyDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20231226043033_Set IsRequired to false for property Category Description")]
+    partial class SetIsRequiredtofalseforpropertyCategoryDescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
