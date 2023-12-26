@@ -961,8 +961,9 @@ public class GameController
     /// <returns>True if the total wins were successfully increased for the player.</returns>
     public bool AddPlayerTotalWin(IPlayer player)
     {
+        _logger?.Info("Adding total win player: {playerName}, id: {playerId} by one.", player.Name, player.Id);
         var addTotalWin = GetPlayerInfo(player).AddTotalWin();
-        _logger?.Info($"Add {player.Name}, id: {player.Id} total win to by one.");
+        _logger?.Info("Add total win player: {playerName}, id: {playerId} by one is {status}", player.Name, player.Id, addTotalWin);
         return addTotalWin;
     }
 
@@ -974,8 +975,9 @@ public class GameController
     /// <returns>True if the total wins were successfully increased for the player.</returns>
     public bool AddPlayerTotalWin(IPlayer player, int addWin)
     {
+        _logger?.Info("Adding total win player: {playerName}, id: {playerId} by {add}.", player.Name, player.Id, addWin);
         var addTotalWin = GetPlayerInfo(player).AddTotalWin(addWin);
-        _logger?.Info($"Add {player.Name}, id: {player.Id} total win to by {addWin}.");
+        _logger?.Info("Add total win player: {playerName}, id: {playerId} by one is {status}", player.Name, player.Id, addTotalWin);
         return addTotalWin;
     }
 
@@ -987,7 +989,7 @@ public class GameController
     public PlayerStatus GetPlayerStatus(IPlayer player)
     {
         var status = GetPlayerInfo(player).GetPlayerStatus();
-        _logger?.Info($"Get {player.Name}, id: {player.Id} status: {status}.");
+        _logger?.Info("Status player: {playerName}, id: {playerId} is {status}", player.Name, player.Id, status);
         return status;
     }
 
@@ -999,9 +1001,10 @@ public class GameController
     /// <returns>True if the status was successfully set for the player.</returns>
     public bool SetPlayerStatus(IPlayer player, PlayerStatus status)
     {
+        _logger?.Info("Set status player: {playerName}, id: {playerId} to {playerStatus}", player.Name, player.Id, status);
         var setStatus = GetPlayerInfo(player).SetPlayerStatus(status);
         OnPlayerStatusUpdate?.Invoke(player, status);
-        _logger?.Info($"Set {player.Name}, id: {player.Id} status to {status}.");
+        _logger?.Info("Is successfully set status: {status} to {playerStatus} of player: {playerName}, id: {playerId}", setStatus, status, player.Name, player.Id, status);
         return setStatus;
     }
 
