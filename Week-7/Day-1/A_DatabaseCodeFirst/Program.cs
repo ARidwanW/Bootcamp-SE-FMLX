@@ -31,10 +31,13 @@ class Program
             // Product product1 = await db.Products.FindAsync(1);
             // product1.ProductName = "RadioFM";
             // await db.SaveChangesAsync();
+            // Category category1 = await db.Categories.FindAsync(3);
+            // category1.CategoryName = "TestMaxLengthTestMaxLengthTest";
+            // await db.SaveChangesAsync();
 
             //* Delete
-            // Category category1 = await db.Categories.FirstOrDefaultAsync(c => c.CategoryName == "Furniture");
-            // db.Categories.Remove(category1);
+            // Category category2 = await db.Categories.FirstOrDefaultAsync(c => c.CategoryName == "Furniture");
+            // db.Categories.Remove(category2);
             // await db.SaveChangesAsync();
 
 
