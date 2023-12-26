@@ -437,7 +437,7 @@ public class GameController
             _logger?.Warn("Index: {index} is out of maximum deployable locations.", index);
             return false;
         }
-        if (index > GetAllDeployedLocations().Count - 1)
+        if (index > GetAllDeployedLocations().Count)
         {
             _logger?.Warn("Index: {index} is out of deployable locations range.", index);
             return false;
@@ -1044,11 +1044,6 @@ public class GameController
     /// <returns>The location at the given index.</returns>
     public AbstractLocation GetDeployedLocation(int index)
     {
-        if (index > GetAllDeployedLocations().Count - 1)
-        {
-            _logger?.Error("Index: {index} is out of range.", index);
-            throw new IndexOutOfRangeException("Index is out of range.");
-        }
         var deployedLocation = GetAllDeployedLocations()[index];
         _logger?.Info($"Find location by index : {index} from all deployed locations.");
         return deployedLocation;
