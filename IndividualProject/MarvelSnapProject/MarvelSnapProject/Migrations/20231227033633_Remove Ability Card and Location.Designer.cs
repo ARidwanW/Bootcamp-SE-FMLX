@@ -2,6 +2,7 @@
 using MarvelSnapProject.Component.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarvelSnapProject.Migrations
 {
     [DbContext(typeof(MarvelSnapDatabase))]
-    partial class MarvelSnapDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20231227033633_Remove Ability Card and Location")]
+    partial class RemoveAbilityCardandLocation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
