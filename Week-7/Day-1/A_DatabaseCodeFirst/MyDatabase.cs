@@ -59,6 +59,8 @@ public class MyDatabase : DbContext
                 CategoryName = "Fruit",
                 Description = "This is a Fruit."
             }
+
+            // in postgree it will return exception
             // new Category()
             // {
             //     CategoryId = 3,
