@@ -14,7 +14,7 @@ In this Marvel Snap Game Project is to build a back end clone of Marvel Snap.
 
 * New Class Diagram, by: ARW
 
-![new](https://github.com/ARidwanW/Bootcamp-SE-FMLX/blob/main/IndividualProject/MarvelSnapProject/MarvelSnapProject/ClassDiagram/New-Marvel-Snap.svg)
+![new](https://github.com/ARidwanW/Bootcamp-SE-FMLX/blob/main/IndividualProject/MarvelSnapProject/MarvelSnapProject/ClassDiagram/New-Marvel-Snap2.svg)
 
 ### Demo
 ![Demo](https://github.com/ARidwanW/Bootcamp-SE-FMLX/blob/main/IndividualProject/MarvelSnapProject/Demo/MarvelSnapDemo.mp4)
