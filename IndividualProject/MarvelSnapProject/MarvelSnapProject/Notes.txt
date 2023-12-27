@@ -76,7 +76,7 @@ ironman dan next round saling assign
 
 
 //!!
-implement location only this round or only when card move, next round is not --> need cooldown
+implement location only this round or only when card move, next round is not --> OK
 ---
 ada action di game controller (futurecall) akan di clear setiap invoke di next round atau di next turn --> Not Use, Change to enum card status
 ---
