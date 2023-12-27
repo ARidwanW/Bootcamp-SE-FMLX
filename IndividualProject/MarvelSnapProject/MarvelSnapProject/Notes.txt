@@ -92,3 +92,7 @@ return abstractcard dan abstract location for knowing who get invoked --> using 
 using null to clear all delegate. --> not use, change to enum card
 
 //!! location ability on going just one time --> OK
+
+// coba database
+// negative case test
+
