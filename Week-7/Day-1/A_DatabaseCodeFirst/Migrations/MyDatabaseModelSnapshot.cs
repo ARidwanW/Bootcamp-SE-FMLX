@@ -41,6 +41,20 @@ namespace A_DatabaseCodeFirst.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Electronic",
+                            Description = "This is Electronic."
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Fruit",
+                            Description = "This is a Fruit."
+                        });
                 });
 
             modelBuilder.Entity("A_DatabaseCodeFirst.Product", b =>
@@ -68,6 +82,22 @@ namespace A_DatabaseCodeFirst.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            CategoryId = 1,
+                            Cost = 0m,
+                            ProductName = "Radio"
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            CategoryId = 1,
+                            Cost = 0m,
+                            ProductName = "TV"
+                        });
                 });
 
             modelBuilder.Entity("A_DatabaseCodeFirst.Product", b =>

@@ -3,10 +3,12 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace A_DatabaseCodeFirst.Migrations
 {
     /// <inheritdoc />
-    public partial class InitPostgreeMigrations : Migration
+    public partial class InitPostgreeDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -44,6 +46,24 @@ namespace A_DatabaseCodeFirst.Migrations
                         principalTable: "Categories",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryId", "CategoryName", "Description" },
+                values: new object[,]
+                {
+                    { 1, "Electronic", "This is Electronic." },
+                    { 2, "Fruit", "This is a Fruit." }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "ProductId", "CategoryId", "ProductPrice", "ProductName" },
+                values: new object[,]
+                {
+                    { 1, 1, 0m, "Radio" },
+                    { 2, 1, 0m, "TV" }
                 });
 
             migrationBuilder.CreateIndex(

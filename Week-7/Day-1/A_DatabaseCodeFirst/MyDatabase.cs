@@ -46,40 +46,40 @@ public class MyDatabase : DbContext
         });
 
         //* Seeding
-        // model.Entity<Category>().HasData(
-        //     new Category()
-        //     {
-        //         CategoryId = 1,
-        //         CategoryName = "Electronic",
-        //         Description = "This is Electronic."
-        //     },
-        //     new Category()
-        //     {
-        //         CategoryId = 2,
-        //         CategoryName = "Fruit",
-        //         Description = "This is a Fruit."
-        //     }
-        //     // new Category()
-        //     // {
-        //     //     CategoryId = 3,
-        //     //     CategoryName = "TestMaxLengthTestMaxLengthTestMaxLengthTestMaxLengthTestMaxLengthTestMaxLength",
-        //     //     Description = "This is a Fruit."
-        //     // }
-        // );
+        model.Entity<Category>().HasData(
+            new Category()
+            {
+                CategoryId = 1,
+                CategoryName = "Electronic",
+                Description = "This is Electronic."
+            },
+            new Category()
+            {
+                CategoryId = 2,
+                CategoryName = "Fruit",
+                Description = "This is a Fruit."
+            }
+            // new Category()
+            // {
+            //     CategoryId = 3,
+            //     CategoryName = "TestMaxLengthTestMaxLengthTestMaxLengthTestMaxLengthTestMaxLengthTestMaxLength",
+            //     Description = "This is a Fruit."
+            // }
+        );
 
-        // model.Entity<Product>().HasData(
-        //     new Product()
-        //     {
-        //         ProductId = 1,
-        //         ProductName = "Radio",
-        //         CategoryId = 1
-        //     },
-        //     new Product()
-        //     {
-        //         ProductId = 2,
-        //         ProductName = "TV",
-        //         CategoryId = 1
-        //     }
-        // );
+        model.Entity<Product>().HasData(
+            new Product()
+            {
+                ProductId = 1,
+                ProductName = "Radio",
+                CategoryId = 1
+            },
+            new Product()
+            {
+                ProductId = 2,
+                ProductName = "TV",
+                CategoryId = 1
+            }
+        );
     }
 }
