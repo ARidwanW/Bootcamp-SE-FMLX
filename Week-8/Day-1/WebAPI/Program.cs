@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 //* Depedency Injections
 builder.Services.AddControllers();      //* Semua controller yang terdaftar akan ditambahkan
-builder.Services.AddAutoMapper(typeof(MapperProfile))
+builder.Services.AddAutoMapper(typeof(MapperProfile));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddDbContext<MyDatabase>(options =>
 {
