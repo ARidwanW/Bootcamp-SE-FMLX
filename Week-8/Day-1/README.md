@@ -61,7 +61,7 @@ class UserResponse
 }
 ```
 
-AUTOMAPPER
+## AUTOMAPPER
 1. Install NuGet Package
     1. Automapper
     2. Automapper.DependencyInjection
@@ -73,3 +73,14 @@ AUTOMAPPER
 7. Example to use
     1. `Category category = _map.Map<Category>(datasSource);`
     2. `List<Category> categories = _map.Map<List<Category>>(dataSource);`
+
+## Clean Architecture (N-Tier)
+### Project:
+1. API project = dotnet new webapi (webAPI)
+2. Application project = dotnet new classlib (React, Vue, Vanilla)
+3. Model project = dotnet new classlib (Model, Entity, DTOs)
+4. Persistence project = dotnet new classlib (DbContext)
+5. Utilities project = dotnet new classlib (Mapper, Extension Method)
+
+API --> Application, Utilities, Persistence, Model
+Persistence --> Model

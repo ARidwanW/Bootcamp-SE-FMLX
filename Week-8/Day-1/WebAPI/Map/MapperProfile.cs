@@ -10,6 +10,7 @@ public class MapperProfile : Profile
     public MapperProfile()
     {
         CreateMap<Category,CategoryResponse>();
+        // CreateMap<Category,CategoryResponse>().ReverseMap();
         CreateMap<CategoryRequest, Category>();
     }
 }

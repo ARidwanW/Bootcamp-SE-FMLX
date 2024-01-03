@@ -63,6 +63,7 @@ public class CategoryController : ControllerBase
         {
             return NotFound();
         }
+        // CategoryResponse categoryMapping = _map<CategoryResponse>();
         return Ok(category);
     }
 
@@ -106,6 +107,7 @@ public class CategoryController : ControllerBase
         }
         category.CategoryName = request.CategoryName;
         category.Description = request.Description;
+        // category = _map.Map<Category>(request);
         _db.Categories.Update(category);
         await _db.SaveChangesAsync();
         return Ok(category);
