@@ -31,14 +31,14 @@ public class CategoryController : ControllerBase
     //     }
     //     List<CategoryResponse> response = new();
     //     foreach(var category in categories) 
-	// 	{
-	// 		response.Add(new CategoryResponse()
-	// 		{
-	// 			CategoryId = category.CategoryId,
-	// 			CategoryName = category.CategoryName,
-	// 			Description = category.Description
-	// 		});
-	// 	}
+    // 	{
+    // 		response.Add(new CategoryResponse()
+    // 		{
+    // 			CategoryId = category.CategoryId,
+    // 			CategoryName = category.CategoryName,
+    // 			Description = category.Description
+    // 		});
+    // 	}
     //     return Ok(response);
     // }
 
@@ -63,8 +63,9 @@ public class CategoryController : ControllerBase
         {
             return NotFound();
         }
-        // CategoryResponse categoryMapping = _map<CategoryResponse>();
-        return Ok(category);
+        CategoryResponse response = _map.Map<CategoryResponse>(category);
+        // return Ok(category);
+        return Ok(response);
     }
 
     // [HttpPost]
@@ -107,11 +108,27 @@ public class CategoryController : ControllerBase
         }
         category.CategoryName = request.CategoryName;
         category.Description = request.Description;
-        // category = _map.Map<Category>(request);
+        var response = _map.Map<CategoryResponse>(category);
         _db.Categories.Update(category);
         await _db.SaveChangesAsync();
-        return Ok(category);
+        return Ok(response);
     }
+
+    //! error
+    // [HttpPut]   //* localhost:port/api/category/{id} body: CategoryResponse
+    // [Route("{id}")]
+    // public async Task<IActionResult> UpdateCategory([FromRoute] int id, [FromBody] Category cat)
+    // {
+    //     Category category = await _db.Categories.FindAsync(id);
+    //     if (category == null)
+    //     {
+    //         return NotFound();
+    //     }
+    //     category = _map.Map<Category>(cat);
+    //     _db.Categories.Update(category);
+    //     await _db.SaveChangesAsync();
+    //     return Ok(category);
+    // }
 
     [HttpDelete]
     [Route("{id}")]
