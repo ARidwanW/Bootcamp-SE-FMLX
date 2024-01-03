@@ -67,9 +67,9 @@ AUTOMAPPER
     2. Automapper.DependencyInjection
 2. Create class inheri from Profile
 3. Create the constructor
-4. Fill it with CreateMap"<"TSource,TTarget">";
+4. Fill it with `CreateMap<TSource,TTarget>`;
 5. Controller make private variable of composisition of IMapper with its contructor
-6. Inject from Program.cs - builder.Services.AddAutoMapper(typeof(NameofClassAutoMapper))
+6. Inject from Program.cs - `builder.Services.AddAutoMapper(typeof(NameofClassAutoMapper));`
 7. Example to use
-    1. Category category = _map.Map"<"Category">"(datasSource);
-    2. List"<"Category">" categories = _map.Map"<"List"<"Category">"">"(dataSource);
+    1. `Category category = _map.Map<Category>(datasSource);`
+    2. `List<Category> categories = _map.Map<List<Category>>(dataSource);`
