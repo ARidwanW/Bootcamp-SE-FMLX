@@ -1,0 +1,2 @@
+## MVC:
+`dotnet new mvc`
