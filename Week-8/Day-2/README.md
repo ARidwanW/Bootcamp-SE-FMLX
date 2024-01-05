@@ -25,3 +25,9 @@ Persistence --> Model
 
 * **In Persistence folder**
 `dotnet ef migrations add "Message" -s ../WebMVC`
+
+## Scaffolding Area
+`dotnet tool install --global dotnet-aspnet-codegenerator`
+package= `Microsoft.VisualStudio.Web.CodeGeneration.Design`
+`dotnet aspnet-codegenerator area Admin`
+`dotnet aspnet-codegenerator area Customer`

@@ -2,21 +2,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebMVC.Data;
 using WebMVC.Models;
+using WebMVC.Persistence.Repository;
 
 namespace WebMVC.Controllers;
 
 public class CategoryController : Controller
 {
-    private readonly ApplicationDbContext _db;
-    public CategoryController(ApplicationDbContext context)
+    private readonly ICategoryRepository _category;
+    public CategoryController(ICategoryRepository context)
     {
-        _db = context;
+        _category = context;
     }
 
     public async Task<IActionResult> Index()
     {
-        var category = await _db.Categories.ToListAsync();
-        return View(category);
+        var category = await _category.GetAll();
+        return View(category.ToList());
     }
 
     [HttpGet]
@@ -28,47 +29,52 @@ public class CategoryController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(Category category)
     {
-        if(!ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
+            TempData["Error"] = $"Create {category.CategoryName} is Failed";
             return View(category);
         }
-        _db.Categories.Add(category);
-        await _db.SaveChangesAsync();
+        _category.Add(category);
+        await _category.SaveAsync();
+        TempData["Success"] = $"Create {category.CategoryName} is success";
         return RedirectToAction(nameof(Index), nameof(category));
     }
 
     [HttpGet]
     public async Task<IActionResult> Update(Guid id)
     {
-        var category = await _db.Categories.FindAsync(id);
+        var category = await _category.Get(id);
         return View(category);
     }
 
     [HttpPost]
     public async Task<IActionResult> Update(Category category)
     {
-        if(!ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
+            TempData["Error"] = $"Update {category.CategoryName} is Failed";
             return View(category);
         }
 
-        _db.Categories.Update(category);
-        await _db.SaveChangesAsync();
+        _category.Update(category);
+        await _category.SaveAsync();
+        TempData["Success"] = $"Update {category.CategoryName} is success";
         return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var category = await _db.Categories.FindAsync(id);
+        var category = await _category.Get(id);
         return View(category);
     }
 
     [HttpPost]
     public async Task<IActionResult> Delete(Category category)
     {
-        _db.Categories.Remove(category);
-        await _db.SaveChangesAsync();
+        _category.Remove(category);
+        await _category.SaveAsync();
+        TempData["Success"] = $"Delete success";
         return RedirectToAction(nameof(Index));
     }
 
