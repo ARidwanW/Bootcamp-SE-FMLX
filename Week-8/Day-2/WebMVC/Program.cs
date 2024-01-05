@@ -32,7 +32,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=customer}/{controller=Home}/{action=Index}/{id?}");
     //* http://localhost:5245/Home/Index
 
 app.Run();

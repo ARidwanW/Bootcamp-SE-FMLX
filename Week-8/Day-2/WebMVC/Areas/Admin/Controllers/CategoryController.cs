@@ -1,3 +1,4 @@
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebMVC.Data;
@@ -5,7 +6,7 @@ using WebMVC.Models;
 using WebMVC.Persistence.Repository;
 
 namespace WebMVC.Controllers;
-
+[Area("Admin")]
 public class CategoryController : Controller
 {
     private readonly ICategoryRepository _category;
@@ -16,8 +17,8 @@ public class CategoryController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var category = await _category.GetAll();
-        return View(category.ToList());
+        var categories = await _category.GetAll();
+        return View(categories.ToList());
     }
 
     [HttpGet]
@@ -44,6 +45,11 @@ public class CategoryController : Controller
     public async Task<IActionResult> Update(Guid id)
     {
         var category = await _category.Get(id);
+        if(category == null)
+        {
+            TempData["Error"] = "No category found";
+            return RedirectToAction(nameof(Index));
+        }
         return View(category);
     }
 
@@ -75,7 +81,7 @@ public class CategoryController : Controller
         _category.Remove(category);
         await _category.SaveAsync();
         TempData["Success"] = $"Delete success";
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Index), nameof(Category));
     }
 
 

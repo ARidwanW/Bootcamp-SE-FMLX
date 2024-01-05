@@ -31,3 +31,6 @@ Persistence --> Model
 package= `Microsoft.VisualStudio.Web.CodeGeneration.Design`
 `dotnet aspnet-codegenerator area Admin`
 `dotnet aspnet-codegenerator area Customer`
+
+## if Using Area:
+pattern: {area=customer}/{controller=Home}/{action=Index}/{id?}
