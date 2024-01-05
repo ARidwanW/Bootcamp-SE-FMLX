@@ -24,9 +24,16 @@ public class Repository<T> : IRepository<T> where T : class
         return await _set.FindAsync(id);
     }
 
-    public async Task<IEnumerable<T>> GetAll()
+    public async Task<IEnumerable<T>> GetAll(string include = null)
     {
-        return await _set.ToListAsync();
+        IQueryable<T> entities;
+        if(!string.IsNullOrEmpty(include)) {
+            entities = _set.Include(include);
+        }
+        else {
+            entities = _set;
+        }
+        return await entities.ToListAsync();
     }
 
     public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> expression, string include = null)

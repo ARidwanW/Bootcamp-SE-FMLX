@@ -1,15 +1,18 @@
-@model IEnumerable<Category>
+@model IEnumerable<Product>
+
 <partial name="_Notification"></partial>
-<h1>Categories</h1>
+<h1>Product</h1>
 <div>
-    <a class="btn btn-primary" asp-action="Create" asp-controller="Category">Create</a>
+    <a class="btn btn-primary" asp-action="Create" asp-controller="Product">Create</a>
 </div>
 <div>
     <table class="table">
         <thead>
             <tr>
-                <th>Category Name</th>
+                <th>Product Name</th>
                 <th>Description</th>
+                <th>Price</th>
+                <th>Category</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -17,15 +20,17 @@
             @foreach(var item in Model)
             {
                 <tr>
-                    <td>@item.CategoryName</td>
+                    <td>@item.ProductName</td>
                     <td>@item.Description</td>
+                    <td>@item.Price</td>
+                    <td>@item.Category.CategoryName</td>
                     <td>
                         <a class="btn btn-warning" asp-action="Update" 
-                        asp-route-id="@item.CategoryId" asp-controller="Category">
+                        asp-route-id="@item.ProductId" asp-controller="Product">
                         Update
                         </a>
                         <a class="btn btn-danger" asp-action="Delete" 
-                        asp-route-id="@item.CategoryId" asp-controller="Category">
+                        asp-route-id="@item.ProductId" asp-controller="Product">
                         Delete
                         </a>
                         
@@ -35,3 +40,4 @@
         </tbody>
     </table>
 </div>
+
